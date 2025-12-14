@@ -3,20 +3,39 @@ import React from 'react';
 const Hero: React.FC = () => {
   return (
     <section className="relative">
-      <div 
+      <div
         className="flex min-h-[400px] md:min-h-[500px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-8 text-center"
         aria-label="A serene spa room with massage beds and soft lighting"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEa_lidpiiv45-1Ll8Sl0-gIY6eU4CPN9lciue6JyG8uP5mU8buAGx4ohTW1Bbi6ULmIeOuXbpwrtA7bncUvxbUN_53k8cQpLyb-OxQorYWtuesunhmfGWeaPCke3OyT2AjWBupjzuOniBxP479e4eeJVj93FP4I7QASEzzk88ePCVzXlbO9gAinZ0aL3U30chqTg5GycblRLj0Gjj6etWvY4bNM_go7cvnOEp6zPaYXoQC1aFlPHWiN3mzYN75tTi5CE39oQ_eECF")'
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("/background.png")'
         }}
       >
-        <div className="flex flex-col gap-4 max-w-2xl">
-          <h1 className="font-serif text-4xl font-bold leading-tight text-white md:text-6xl">
-            Hear From Our Guests
+        <div className="flex flex-col gap-4 max-w-2xl mt-16 md:mt-20">
+          <h1 className="font-serif font-bold leading-tight text-white">
+            <span className="hidden md:block text-3xl md:text-4xl mb-2 opacity-90">J<span style={{ position: 'relative', top: '-0.15em' }}>.</span>J Thai Spa</span>
+            <span className="block text-4xl md:text-6xl">Bridgewater</span>
           </h1>
           <p className="text-base font-normal leading-normal text-white/90 md:text-lg">
-            Discover why our guests love the Serenity Spa experience through their own words.
+            Restorative massage, stretching, and bodywork to restore balance and ease tension. Book your appointment today!
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
+            <a
+              href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-colors shadow-lg"
+            >
+              Book Now
+            </a>
+            <a
+              href="https://app.squareup.com/gift/MLW48R10CJHXH/order"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-full transition-colors backdrop-blur-sm border border-white/30"
+            >
+              Buy e-Gift Card
+            </a>
+          </div>
         </div>
       </div>
     </section>

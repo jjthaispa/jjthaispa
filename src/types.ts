@@ -8,6 +8,21 @@ export interface Review {
   source: 'Verified Client' | 'Google';
 }
 
+export interface ApiReview {
+  author_name: string;
+  profile_photo_url?: string;
+  rating: number;
+  relative_time_description: string;
+  date: string;
+  text: string;
+}
+
+export interface ApiReviewsResponse {
+  reviews: ApiReview[];
+  totalReviewCount: number;
+  averageRating: string;
+}
+
 export interface RatingStat {
   stars: number;
   count: number;

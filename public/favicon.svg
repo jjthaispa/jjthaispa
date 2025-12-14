@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
   <!-- Bottom curved base -->
-  <path d="M8 38 Q24 32 40 38" stroke="#A3B18A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M8 38 Q24 32 40 38" stroke="#788E6E" stroke-width="3" fill="none" stroke-linecap="round"/>
   
   <!-- Left petal -->
-  <path d="M12 36 Q10 28 12 20 Q14 24 16 28 Q18 32 16 36 Z" fill="#A3B18A"/>
+  <path d="M12 36 Q10 28 12 20 Q14 24 16 28 Q18 32 16 36 Z" fill="#788E6E"/>
   
   <!-- Center petal -->
-  <path d="M20 36 Q18 24 20 12 Q22 20 24 28 Q26 20 28 12 Q30 24 28 36 Z" fill="#A3B18A"/>
+  <path d="M20 36 Q18 24 20 12 Q22 20 24 28 Q26 20 28 12 Q30 24 28 36 Z" fill="#788E6E"/>
   
   <!-- Right petal -->
-  <path d="M32 36 Q30 32 32 28 Q34 24 36 20 Q38 28 36 36 Z" fill="#A3B18A"/>
+  <path d="M32 36 Q30 32 32 28 Q34 24 36 20 Q38 28 36 36 Z" fill="#788E6E"/>
 </svg>

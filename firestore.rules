@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow server-side (admin SDK) access from Firebase Functions
+    // The admin SDK bypasses these rules, but we need open rules for initial setup
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

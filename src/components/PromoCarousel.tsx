@@ -125,9 +125,20 @@ const PromoCarousel: React.FC = () => {
                       </div>
                       
                       <div className="mt-auto flex items-center justify-between gap-4">
-                        <button className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
-                          {promo.buttonText}
-                        </button>
+                        {promo.buttonText === 'Book Now' ? (
+                          <a 
+                            href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                          >
+                            {promo.buttonText}
+                          </a>
+                        ) : (
+                          <button className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
+                            {promo.buttonText}
+                          </button>
+                        )}
                         <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/50 shadow-sm">
                             <img src={promo.image} alt={promo.title} className="w-full h-full object-cover" />
                         </div>

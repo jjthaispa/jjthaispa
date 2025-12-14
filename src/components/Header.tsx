@@ -47,7 +47,7 @@ const Header: React.FC = () => {
           <img
             src={logoSrc}
             alt="J.J Thai Spa Logo"
-            className="h-12 w-auto object-contain transition-opacity duration-300"
+            className="h-12 w-12 object-contain transition-opacity duration-300 mt-1"
           />
           <h2 className={`font-serif text-xl font-bold tracking-tight header-title ${textClass}`}>
             J<span style={{ position: 'relative', top: '-0.15em' }}>.</span>J Thai Spa
@@ -67,9 +67,14 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          <button className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors">
+          <a 
+            href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors"
+          >
             <span className="truncate">Book Now</span>
-          </button>
+          </a>
           <button
             className={`md:hidden menu-button ${textClass}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

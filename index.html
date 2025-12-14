@@ -10,14 +10,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@700;900&amp;display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#A3B18A",
+                        "primary": "#788E6E",
                         "accent": "#C0A172",
                         "background-light": "#F9F6F2",
                         "background-dark": "#1F1D1B",
@@ -52,6 +52,28 @@
 }
 </script>
     <link rel="stylesheet" href="/index.css">
+    
+    <!-- Google Analytics - Consent Mode -->
+    <script>
+        // Initialize dataLayer and gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        
+        // Set default consent to denied
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+    </script>
+    <!-- Replace G-BY2P2E98NJ with your actual GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BY2P2E98NJ"></script>
+    <script>
+        gtag('js', new Date());
+        gtag('config', 'G-BY2P2E98NJ');
+    </script>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">

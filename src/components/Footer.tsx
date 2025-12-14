@@ -4,8 +4,8 @@ import { NAV_LINKS } from '../constants';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-background-dark text-white border-t border-border-dark pt-16 pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12 px-4 lg:px-8">
           {/* Brand & About */}
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-2">
@@ -47,9 +47,17 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors text-sm">
+                <a href="/privacy-policy" className="text-white/70 hover:text-primary transition-colors text-sm">
                   Privacy Policy
                 </a>
+              </li>
+              <li>
+                <button 
+                  onClick={() => (window as any).openCookieSettings?.()}
+                  className="text-white/70 hover:text-primary transition-colors text-sm text-left"
+                >
+                  Cookie Settings
+                </button>
               </li>
             </ul>
           </div>
@@ -84,41 +92,33 @@ const Footer: React.FC = () => {
                 </a>
               </li>
             </ul>
-          </div>
-
-          {/* Hours of Operation */}
-          <div>
-            <h4 className="font-serif text-lg font-bold mb-6 text-accent">Opening Hours</h4>
-            <ul className="flex flex-col gap-3">
-              <li className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
-                <span className="text-white/90">Monday - Friday</span>
-                <span className="text-white/60">10:00 AM - 8:00 PM</span>
-              </li>
-              <li className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
-                <span className="text-white/90">Saturday</span>
-                <span className="text-white/60">10:00 AM - 6:00 PM</span>
-              </li>
-              <li className="flex justify-between items-center text-sm pb-2">
-                <span className="text-white/90">Sunday</span>
-                <span className="text-white/60">10:00 AM - 6:00 PM</span>
-              </li>
-            </ul>
             <div className="mt-6">
-              <button className="w-full h-10 rounded bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors">
+              <a 
+                href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block h-10 px-6 rounded bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors leading-10"
+              >
                 Book an Appointment
-              </button>
+              </a>
             </div>
           </div>
+
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 px-4 lg:px-8">
           <p className="text-white/40 text-xs">
             © {new Date().getFullYear()} JJ Thai Spa LLC. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 flex-wrap justify-center md:justify-end">
             <a href="#" className="text-white/40 hover:text-white text-xs transition-colors">Terms of Service</a>
-            <a href="#" className="text-white/40 hover:text-white text-xs transition-colors">Privacy Policy</a>
-            <a href="#" className="text-white/40 hover:text-white text-xs transition-colors">Cookie Policy</a>
+            <a href="/privacy-policy" className="text-white/40 hover:text-white text-xs transition-colors">Privacy Policy</a>
+            <button 
+              onClick={() => (window as any).openCookieSettings?.()}
+              className="text-white/40 hover:text-white text-xs transition-colors"
+            >
+              Cookie Settings
+            </button>
           </div>
         </div>
       </div>
