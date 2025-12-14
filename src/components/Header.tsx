@@ -67,11 +67,11 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          <a 
+          <a
             href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors"
+            className="hidden md:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors"
           >
             <span className="truncate">Book Now</span>
           </a>

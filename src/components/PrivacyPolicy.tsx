@@ -6,8 +6,8 @@ const PrivacyPolicy: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         {/* Header */}
         <div className="mb-12">
-          <a 
-            href="/" 
+          <a
+            href="/"
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-6"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -39,7 +39,7 @@ const PrivacyPolicy: React.FC = () => {
             <h2 className="font-serif text-2xl font-bold text-text-light dark:text-text-dark mb-4">
               Information We Collect
             </h2>
-            
+
             <h3 className="font-semibold text-lg text-text-light dark:text-text-dark mb-3 mt-6">
               Personal Information
             </h3>
@@ -74,7 +74,7 @@ const PrivacyPolicy: React.FC = () => {
             <p className="text-text-light/80 dark:text-text-dark/80 leading-relaxed mb-4">
               We use cookies and similar tracking technologies to enhance your experience. Our cookies fall into three categories:
             </p>
-            
+
             <div className="bg-card-light dark:bg-card-dark rounded-lg p-6 mb-4 border border-border-light dark:border-border-dark">
               <h4 className="font-semibold text-text-light dark:text-text-dark mb-2 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">lock</span>
@@ -179,7 +179,7 @@ const PrivacyPolicy: React.FC = () => {
             <div className="bg-card-light dark:bg-card-dark rounded-lg p-6 border border-border-light dark:border-border-dark">
               <p className="text-text-light dark:text-text-dark font-semibold mb-2">J.J Thai Spa</p>
               <p className="text-text-light/70 dark:text-text-dark/70 text-sm">
-                180 Winter Street Unit D<br />
+                180 Winter St. Unit D<br />
                 Bridgewater, MA 02324<br />
                 Phone: (508) 807-0141<br />
                 Email: contact@jjthaispa.com

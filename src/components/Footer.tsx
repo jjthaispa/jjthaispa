@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => (window as any).openCookieSettings?.()}
                   className="text-white/70 hover:text-primary transition-colors text-sm text-left"
                 >
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
               <li className="flex items-start gap-3">
                 <span className="material-symbols-outlined text-primary mt-0.5">location_on</span>
                 <span className="text-white/70 text-sm leading-relaxed">
-                  180 Winter Street Unit D,<br />
+                  180 Winter St. Unit D<br />
                   Bridgewater, MA 02324
                 </span>
               </li>
@@ -93,7 +93,7 @@ const Footer: React.FC = () => {
               </li>
             </ul>
             <div className="mt-6">
-              <a 
+              <a
                 href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
           <div className="flex gap-6 flex-wrap justify-center md:justify-end">
             <a href="#" className="text-white/40 hover:text-white text-xs transition-colors">Terms of Service</a>
             <a href="/privacy-policy" className="text-white/40 hover:text-white text-xs transition-colors">Privacy Policy</a>
-            <button 
+            <button
               onClick={() => (window as any).openCookieSettings?.()}
               className="text-white/40 hover:text-white text-xs transition-colors"
             >

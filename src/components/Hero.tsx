@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
               rel="noopener noreferrer"
               className="px-8 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-full transition-all duration-150 backdrop-blur-sm border border-white/30 hover:border-white/40 hover:scale-[1.02]"
             >
-              Buy e-Gift Card
+              Buy eGift Card
             </a>
           </div>
         </div>

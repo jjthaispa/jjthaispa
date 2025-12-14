@@ -9,7 +9,8 @@ const PROMOS = [
     buttonText: "Buy Gift Card",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXVB7ngmlYERntCcZwZgpZzEbsZTFmOxQryYjMxLGIoFBJ4fAP9JCwEraVvoGrXIUT3Q_DwYzza4m0GHfIl-601nJuWj9F6MIUqubhJCGiFTsTpagojZzaSu6O0BMV11gvxSy6DvD6STiJP4qS_mYrgbyBE28Tu-zRqOk4V3zwyDvNSeCEleROjWawUpkVD9RuVcXZNi1qyuyoPT3JOSa3nC8fnrnVBF4Cpk4r0Qaq_B_3iZEzb18biOaRY_O32PKKERedzIOuDva9",
     bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
-    btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white"
+    btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
+    enabled: true
   },
   {
     id: 2,
@@ -18,8 +19,9 @@ const PROMOS = [
     description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
     buttonText: "View Offer",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDdpaj2pTQA-5-qy1Vz10fsLao79nMfGRDdL62KnQ5226QQxJ1co59tOBr3DelJiQ3IKuJz3fJ2kEv4I1uFlyLKsF8FIqj5L151jk6XW6ImeQNFBZgXgOVtJLnv1LdegdCusWQnYoQKwX3b7HHka3zd3mOeaH_EW7K8EyafJANZJTBk7mHU8FzqXZVTI27mXACDfb8vVsZ2awXn8IoW4OnnuWlHrtY5LVCNkfEF9KBCFZekmnsexf5JvDt6Eq1aTGhrZ33CSSgbJ0zx",
-    bgColor: "bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
-    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white"
+    bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
+    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
+    enabled: true
   },
   {
     id: 3,
@@ -29,7 +31,8 @@ const PROMOS = [
     buttonText: "Learn More",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7miWWKtjWPn3v8nFIkI3FDS5omYuPaDPjAKXqdwiEvUc-DsYBUff-b4xO0EyRUG11eL2Q9IHWywVwWn_iYaSmkD3Mx3Elb26xb88D6DSX0CCAPvRTjMbjzu4imIM2TiJoSOPH0AovSlRwgvM9W0-HYbO9y95CnI2mvry5zcmvmRgrilVDdT_RMo9WqJ39UUHTXbfEkcjq-2efJw-7pLuJKvH9DIG_JdzXctHi7eRrydiWpaetnxZiAq0bDoByhWCbq2c0EwPsUicV",
     bgColor: "bg-[#F0EFF4] dark:bg-[#26242E]", // Light Lavender / Dark Purple
-    btnColor: "bg-[#8A84A3] hover:bg-[#746e8c] text-white"
+    btnColor: "bg-[#8A84A3] hover:bg-[#746e8c] text-white",
+    enabled: true
   },
   {
     id: 4,
@@ -39,7 +42,8 @@ const PROMOS = [
     buttonText: "Book Now",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOncWFuAx3uTVoPgQUfovP0CJJFl65sMykMlMo9ljZ2NLII38pnhM5ii20GCx_3cwzKy6vtPX4cfdbswWBBFq4gXlLlflFx2lgkR3DtkQfn0DXPbmKm4rzh4LaPe3m3g3Wa0_HmhEhXuqP87PYuZSbV65IB9hnqSiahINqc9RA5qfm70XA-4xbW7XnMkq0NUUmVVkm1YOWCILOlFUNZV8FjkzLufIr7RbjmsuOq2gv0fIaZtrPr_KsbcX_Oyv4VMhFFhC3Bz_Ri9Sk",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
-    btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white"
+    btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
+    enabled: true
   },
   {
     id: 5,
@@ -49,7 +53,8 @@ const PROMOS = [
     buttonText: "Shop Now",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXVB7ngmlYERntCcZwZgpZzEbsZTFmOxQryYjMxLGIoFBJ4fAP9JCwEraVvoGrXIUT3Q_DwYzza4m0GHfIl-601nJuWj9F6MIUqubhJCGiFTsTpagojZzaSu6O0BMV11gvxSy6DvD6STiJP4qS_mYrgbyBE28Tu-zRqOk4V3zwyDvNSeCEleROjWawUpkVD9RuVcXZNi1qyuyoPT3JOSa3nC8fnrnVBF4Cpk4r0Qaq_B_3iZEzb18biOaRY_O32PKKERedzIOuDva9",
     bgColor: "bg-[#FFF3E0] dark:bg-[#2E2010]", // Light Orange / Dark Brown
-    btnColor: "bg-[#FFB74D] hover:bg-[#e09e3d] text-white"
+    btnColor: "bg-[#FFB74D] hover:bg-[#e09e3d] text-white",
+    enabled: true
   }
 ];
 
@@ -57,6 +62,9 @@ const PromoCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Filter active promos
+  const activePromos = PROMOS.filter(promo => promo.enabled);
 
   // Responsive items per page
   useEffect(() => {
@@ -75,7 +83,7 @@ const PromoCarousel: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalPages = Math.max(1, PROMOS.length - itemsPerPage + 1);
+  const totalPages = Math.max(1, activePromos.length - itemsPerPage + 1);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % totalPages);
@@ -89,6 +97,8 @@ const PromoCarousel: React.FC = () => {
     setCurrentIndex(index);
   };
 
+  if (activePromos.length === 0) return null;
+
   return (
     <section className="bg-background-light dark:bg-background-dark py-12 border-b border-border-light dark:border-border-dark overflow-x-clip">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,7 +111,7 @@ const PromoCarousel: React.FC = () => {
                 className="flex transition-transform duration-500 ease-in-out gap-4"
                 style={{ transform: `translateX(calc(-${currentIndex} * (100% + 1rem) / ${itemsPerPage}))` }}
               >
-                {PROMOS.map((promo) => (
+                {activePromos.map((promo) => (
                   <div
                     key={promo.id}
                     className="flex-shrink-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]"

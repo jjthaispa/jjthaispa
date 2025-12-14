@@ -82,7 +82,7 @@ const INCLUDED_OPTIONS = [
 
 const Services: React.FC = () => {
   return (
-    <section className="bg-background-light dark:bg-background-dark py-12 md:py-20 border-b border-border-light dark:border-border-dark">
+    <section className="bg-background-light dark:bg-background-dark py-8 md:py-12 border-b border-border-light dark:border-border-dark">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <h2 className="font-serif text-3xl md:text-4xl font-bold mb-10 text-text-light dark:text-text-dark">
