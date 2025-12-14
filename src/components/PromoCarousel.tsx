@@ -90,68 +90,79 @@ const PromoCarousel: React.FC = () => {
   };
 
   return (
-    <section className="bg-background-light dark:bg-background-dark py-12 border-b border-border-light dark:border-border-dark overflow-hidden">
+    <section className="bg-background-light dark:bg-background-dark py-12 border-b border-border-light dark:border-border-dark overflow-x-clip">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative group">
-          
-          {/* Slider Container */}
-          <div className="overflow-hidden rounded-2xl" ref={containerRef}>
-            <div 
-              className="flex transition-transform duration-500 ease-in-out gap-4"
-              style={{ transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)` }}
-            >
-              {PROMOS.map((promo) => (
-                <div 
-                  key={promo.id} 
-                  className="flex-shrink-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]"
-                  style={{ flexBasis: itemsPerPage === 1 ? '100%' : itemsPerPage === 2 ? 'calc(50% - 0.5rem)' : 'calc(33.333% - 0.67rem)' }}
-                >
-                  <div className={`h-full min-h-[280px] p-6 md:p-8 rounded-2xl flex flex-col justify-between relative overflow-hidden ${promo.bgColor}`}>
-                    
-                    {/* Background Decorative Element */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-bl-full pointer-events-none z-0"></div>
-                    
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="mb-4">
-                        <span className="inline-block text-[10px] font-bold tracking-widest uppercase mb-2 opacity-70">
-                          {promo.category}
-                        </span>
-                        <h3 className="font-serif text-2xl font-bold leading-tight mb-3 text-text-light dark:text-white">
-                          {promo.title}
-                        </h3>
-                        <p className="text-sm opacity-90 leading-relaxed mb-6 line-clamp-3">
-                          {promo.description}
-                        </p>
-                      </div>
-                      
-                      <div className="mt-auto flex items-center justify-between gap-4">
-                        {promo.buttonText === 'Book Now' ? (
-                          <a 
-                            href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
-                          >
-                            {promo.buttonText}
-                          </a>
-                        ) : (
-                          <button className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
-                            {promo.buttonText}
-                          </button>
-                        )}
-                        <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/50 shadow-sm">
-                            <img src={promo.image} alt={promo.title} className="w-full h-full object-cover" />
+
+          {/* Slider Container - padding allows shadow to show */}
+          <div className="relative" ref={containerRef}>
+            <div className="overflow-x-hidden -mx-3 px-3 py-8 -my-8">
+              <div
+                className="flex transition-transform duration-500 ease-in-out gap-4"
+                style={{ transform: `translateX(calc(-${currentIndex} * (100% + 1rem) / ${itemsPerPage}))` }}
+              >
+                {PROMOS.map((promo) => (
+                  <div
+                    key={promo.id}
+                    className="flex-shrink-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]"
+                    style={{ flexBasis: itemsPerPage === 1 ? '100%' : itemsPerPage === 2 ? 'calc(50% - 0.5rem)' : 'calc(33.333% - 0.67rem)' }}
+                  >
+                    <div className={`h-full min-h-[280px] rounded-2xl flex overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${promo.bgColor}`}>
+
+                      {/* Left Half - Content */}
+                      <div className="flex-1 p-6 md:p-8 flex flex-col justify-between relative z-10">
+                        {/* Background Decorative Element */}
+                        <div className="absolute top-0 left-0 w-24 h-24 bg-white/10 rounded-br-full pointer-events-none"></div>
+
+                        <div>
+                          <span className="inline-block text-[10px] font-bold tracking-widest uppercase mb-2 opacity-70">
+                            {promo.category}
+                          </span>
+                          <h3 className="font-serif text-2xl font-bold leading-tight mb-3 text-text-light dark:text-white">
+                            {promo.title}
+                          </h3>
+                          <p className="text-sm opacity-90 leading-relaxed line-clamp-3">
+                            {promo.description}
+                          </p>
                         </div>
+
+                        <div className="mt-6">
+                          {promo.buttonText === 'Book Now' ? (
+                            <a
+                              href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                            >
+                              {promo.buttonText}
+                              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                            </a>
+                          ) : (
+                            <button className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
+                              {promo.buttonText}
+                              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right Half - Image */}
+                      <div className="w-1/2 relative">
+                        <img
+                          src={promo.image}
+                          alt={promo.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Navigation Buttons */}
-          <button 
+          <button
             onClick={prevSlide}
             className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-card-dark/90 shadow-lg flex items-center justify-center text-text-light dark:text-text-dark hover:bg-white dark:hover:bg-card-dark transition-all disabled:opacity-0 z-20"
             disabled={currentIndex === 0}
@@ -159,8 +170,8 @@ const PromoCarousel: React.FC = () => {
           >
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
-          
-          <button 
+
+          <button
             onClick={nextSlide}
             className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-card-dark/90 shadow-lg flex items-center justify-center text-text-light dark:text-text-dark hover:bg-white dark:hover:bg-card-dark transition-all disabled:opacity-0 z-20"
             disabled={currentIndex >= totalPages - 1}
@@ -175,11 +186,10 @@ const PromoCarousel: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => goToSlide(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  currentIndex === idx 
-                    ? 'w-6 bg-primary' 
-                    : 'w-1.5 bg-border-light dark:bg-border-dark hover:bg-primary/50'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx
+                  ? 'w-6 bg-primary'
+                  : 'w-1.5 bg-border-light dark:bg-border-dark hover:bg-primary/50'
+                  }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
             ))}

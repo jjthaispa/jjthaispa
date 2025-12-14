@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
               href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-colors shadow-lg"
+              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-all duration-150 shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
             >
               Book Now
             </a>
@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
               href="https://app.squareup.com/gift/MLW48R10CJHXH/order"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-full transition-colors backdrop-blur-sm border border-white/30"
+              className="px-8 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-full transition-all duration-150 backdrop-blur-sm border border-white/30 hover:border-white/40 hover:scale-[1.02]"
             >
               Buy e-Gift Card
             </a>

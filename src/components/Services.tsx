@@ -1,25 +1,82 @@
 import React from 'react';
 
-const SERVICES = [
-  {
-    title: "Traditional Thai Massage",
-    description: "Ancient healing art combining acupressure, Indian Ayurvedic principles, and assisted yoga postures to restore energy flow.",
-    icon: "self_improvement"
-  },
+const THERAPIES = [
   {
     title: "Swedish Massage",
-    description: "A classic full-body massage using gentle, long strokes to improve circulation, relieve tension, and promote relaxation.",
-    icon: "waves"
+    description: "Relaxing full-body techniques using long strokes, kneading, and gentle pressure to ease tension and promote circulation.",
+    image: "/therapies/swedish.jpg",
+    prices: [
+      { duration: "60 min", price: "$85" },
+      { duration: "90 min", price: "$120" }
+    ]
+  },
+  {
+    title: "Combination Massage",
+    description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
+    image: "/therapies/combination.jpg",
+    prices: [
+      { duration: "60 min", price: "$90" },
+      { duration: "90 min", price: "$130" }
+    ]
+  },
+  {
+    title: "Thai Deep Tissue",
+    description: "Deep pressure massage with focused relief targeting muscle knots and chronic tension for therapeutic results.",
+    image: "/therapies/deep-tissue.jpg",
+    prices: [
+      { duration: "60 min", price: "$95" },
+      { duration: "90 min", price: "$135" }
+    ]
+  },
+  {
+    title: "Tension Release",
+    description: "Relaxing full-body massage combined with targeted pressure relief for neck, shoulders, and back.",
+    image: "/therapies/tension.jpg",
+    prices: [
+      { duration: "60 min", price: "$55" },
+      { duration: "90 min", price: "$170" }
+    ]
   },
   {
     title: "Prenatal Massage",
-    description: "A nurturing massage specially designed for expectant mothers to relieve discomfort, reduce swelling, and promote deep relaxation.",
-    icon: "pregnant_woman"
+    description: "Focusing on pressure points and areas of discomfort specific to pregnancy, includes a relaxing foot massage.",
+    image: "/therapies/prenatal.jpg",
+    prices: [
+      { duration: "45 min", price: "$55" },
+      { duration: "90 min", price: "$130" }
+    ]
   },
   {
     title: "Couples Massage",
-    description: "Share a moment of tranquility side-by-side. Enjoy simultaneous massages in our private suite for a shared bonding experience.",
-    icon: "favorite"
+    description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
+    image: "/therapies/couples.jpg",
+    prices: [
+      { duration: "60 min", price: "$95" },
+      { duration: "90 min", price: "$145" }
+    ]
+  }
+];
+
+const INCLUDED_OPTIONS = [
+  {
+    title: "Aromatherapy",
+    description: "Choice of relaxing essential oils with aromatherapy diffuser.",
+    icon: "spa"
+  },
+  {
+    title: "Hot Stone",
+    description: "Heated stones for deeper muscle relaxation and tension relief.",
+    icon: "local_fire_department"
+  },
+  {
+    title: "Cupping Therapy",
+    description: "Cupping set available with any massage to enhance circulation.",
+    icon: "sports_bar"
+  },
+  {
+    title: "Tea or Cold Water",
+    description: "Complimentary hot tea or cold water with every session.",
+    icon: "emoji_food_beverage"
   }
 ];
 
@@ -27,30 +84,92 @@ const Services: React.FC = () => {
   return (
     <section className="bg-background-light dark:bg-background-dark py-12 md:py-20 border-b border-border-light dark:border-border-dark">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 text-text-light dark:text-text-dark">Our Treatments</h2>
-          <p className="text-text-light/80 dark:text-text-dark/80 text-base md:text-lg">
-            Restore balance to your body and mind with our curated selection of holistic therapies.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {SERVICES.map((service, index) => (
-            <div 
-              key={index} 
-              className="group flex flex-col items-center text-center p-6 rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+        {/* Header */}
+        <h2 className="font-serif text-3xl md:text-4xl font-bold mb-10 text-text-light dark:text-text-dark">
+          Our Therapies
+        </h2>
+
+        {/* Therapy Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {THERAPIES.map((therapy, index) => (
+            <div
+              key={index}
+              className="group flex gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
             >
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                <span className="material-symbols-outlined text-3xl">{service.icon}</span>
+              {/* Image */}
+              <div className="flex-shrink-0 w-28 h-28 rounded-xl overflow-hidden bg-amber-100">
+                <img
+                  src={therapy.image}
+                  alt={therapy.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-amber-100 text-amber-600"><span class="material-symbols-outlined text-4xl">self_improvement</span></div>`;
+                  }}
+                />
               </div>
-              <h3 className="font-serif text-xl font-bold mb-3 text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed">
-                {service.description}
-              </p>
+
+              {/* Content */}
+              <div className="flex-1 flex flex-col min-w-0">
+                <h3 className="font-serif text-lg font-bold text-text-light dark:text-text-dark mb-1 group-hover:text-primary transition-colors">
+                  {therapy.title}
+                </h3>
+                <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed mb-3 line-clamp-2">
+                  {therapy.description}
+                </p>
+
+                {/* Pricing and Arrow */}
+                <div className="mt-auto flex items-center justify-between gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    {therapy.prices.map((price, priceIndex) => (
+                      <span
+                        key={priceIndex}
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
+                      >
+                        {price.duration} | {price.price}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/50 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Included Options Section */}
+        <div>
+          <h3 className="font-serif text-2xl md:text-3xl font-bold mb-8 text-text-light dark:text-text-dark">
+            Included Options
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {INCLUDED_OPTIONS.map((option, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark"
+              >
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-300">
+                  <span className="material-symbols-outlined text-2xl">{option.icon}</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-text-light dark:text-text-dark mb-1">
+                    {option.title}
+                  </h4>
+                  <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed">
+                    {option.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
