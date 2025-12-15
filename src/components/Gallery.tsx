@@ -64,15 +64,15 @@ const Gallery: React.FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   // Use custom images if configured, otherwise use fallbacks
   const useCustomImages = CAROUSEL_IMAGES.length > 0;
   const totalImages = useCustomImages ? CAROUSEL_IMAGES.length : FALLBACK_IMAGES.length;
-  
+
   // Calculate pagination
   const totalPages = Math.ceil(totalImages / imagesPerPage);
   const showNavigation = totalImages > imagesPerPage;
-  
+
   // Get current page images
   const startIndex = currentPage * imagesPerPage;
   const endIndex = startIndex + imagesPerPage;
@@ -117,12 +117,45 @@ const Gallery: React.FC = () => {
     ));
   };
 
+  // Swipe handlers
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+    }
+    if (isRightSwipe) {
+      goToPrevious();
+    }
+  };
+
   return (
     <section className="bg-card-light dark:bg-card-dark py-12 md:py-20 border-y border-border-light dark:border-border-dark">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
           {/* Image Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             {useCustomImages ? renderCustomImages() : renderFallbackImages()}
           </div>
 
@@ -154,11 +187,10 @@ const Gallery: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => setCurrentPage(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentPage === idx
+                  className={`h-2 rounded-full transition-all duration-300 ${currentPage === idx
                       ? 'w-6 bg-primary'
                       : 'w-2 bg-border-light dark:bg-border-dark hover:bg-primary/50'
-                  }`}
+                    }`}
                   aria-label={`Go to page ${idx + 1}`}
                 />
               ))}

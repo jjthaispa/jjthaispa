@@ -12,7 +12,17 @@ const Hero: React.FC = () => {
       >
         <div className="flex flex-col gap-4 max-w-2xl mt-16 md:mt-20">
           <h1 className="font-serif font-bold leading-tight text-white">
-            <span className="hidden md:block text-3xl md:text-4xl mb-2 opacity-90">J<span style={{ position: 'relative', top: '-0.15em' }}>.</span>J Thai Spa</span>
+            {/* Desktop Curved Text */}
+            <div className="hidden md:block mb-4 opacity-90 w-full max-w-md mx-auto">
+              <svg viewBox="0 0 400 80" className="w-full h-auto overflow-visible">
+                <path id="curve" d="M20,80 Q200,35 380,80" fill="transparent" />
+                <text className="font-serif font-bold fill-white text-[38px]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                  <textPath href="#curve" startOffset="50%" textAnchor="middle">
+                    J<tspan dy="-8">.</tspan><tspan dy="8">J</tspan> Thai Spa
+                  </textPath>
+                </text>
+              </svg>
+            </div>
             <span className="block text-4xl md:text-6xl">Bridgewater</span>
           </h1>
           <p className="text-base font-normal leading-normal text-white/90 md:text-lg">

@@ -145,6 +145,34 @@ const ReviewsSection: React.FC = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
+  // Swipe handlers
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+    }
+    if (isRightSwipe) {
+      goToPrevious();
+    }
+  };
+
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Section Header */}
@@ -180,7 +208,12 @@ const ReviewsSection: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             {currentReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}
@@ -202,8 +235,8 @@ const ReviewsSection: React.FC = () => {
                     key={i + 1}
                     onClick={() => goToPage(i + 1)}
                     className={`flex items-center justify-center size-9 rounded-full border text-sm transition-colors ${currentPage === i + 1
-                        ? 'border-primary bg-primary/20 dark:bg-primary/30 text-primary dark:text-white font-bold'
-                        : 'border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark'
+                      ? 'border-primary bg-primary/20 dark:bg-primary/30 text-primary dark:text-white font-bold'
+                      : 'border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark'
                       }`}
                   >
                     {i + 1}

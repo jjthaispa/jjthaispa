@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
                 href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block h-10 px-6 rounded bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors leading-10"
+                className="block w-full h-10 px-6 rounded bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors leading-10 text-center"
               >
                 Book an Appointment
               </a>

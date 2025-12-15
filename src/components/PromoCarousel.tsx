@@ -99,6 +99,34 @@ const PromoCarousel: React.FC = () => {
 
   if (activePromos.length === 0) return null;
 
+  // Swipe handlers
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && currentIndex < totalPages - 1) {
+      nextSlide();
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      prevSlide();
+    }
+  };
+
   return (
     <section className="bg-background-light dark:bg-background-dark py-12 border-b border-border-light dark:border-border-dark overflow-x-clip">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,7 +134,12 @@ const PromoCarousel: React.FC = () => {
 
           {/* Slider Container - padding allows shadow to show */}
           <div className="relative" ref={containerRef}>
-            <div className="overflow-x-hidden -mx-3 px-3 py-8 -my-8">
+            <div
+              className="overflow-x-hidden -mx-3 px-3 py-8 -my-8"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <div
                 className="flex transition-transform duration-500 ease-in-out gap-4"
                 style={{ transform: `translateX(calc(-${currentIndex} * (100% + 1rem) / ${itemsPerPage}))` }}
