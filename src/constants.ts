@@ -2,8 +2,9 @@ import { Review, RatingStat, NavLink } from './types';
 
 export const NAV_LINKS: NavLink[] = [
   { label: 'Home', href: '#' },
-  { label: 'Treatments', href: '#' },
+  { label: 'Services', href: '#' },
   { label: 'Gift Cards', href: '#' },
+  { label: 'Policies', href: '#' },
   { label: 'About Us', href: '#' },
   { label: 'Contact', href: '#' },
 ];

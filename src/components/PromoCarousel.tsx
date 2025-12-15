@@ -6,10 +6,11 @@ const PROMOS = [
     category: "E-GIFT CARDS",
     title: "Give the Gift of Serenity",
     description: "The perfect present for any occasion. Let them choose their own path to relaxation with a flexible gift card.",
-    buttonText: "Buy Gift Card",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXVB7ngmlYERntCcZwZgpZzEbsZTFmOxQryYjMxLGIoFBJ4fAP9JCwEraVvoGrXIUT3Q_DwYzza4m0GHfIl-601nJuWj9F6MIUqubhJCGiFTsTpagojZzaSu6O0BMV11gvxSy6DvD6STiJP4qS_mYrgbyBE28Tu-zRqOk4V3zwyDvNSeCEleROjWawUpkVD9RuVcXZNi1qyuyoPT3JOSa3nC8fnrnVBF4Cpk4r0Qaq_B_3iZEzb18biOaRY_O32PKKERedzIOuDva9",
+    buttonText: "Buy eGift Card",
+    image: "/promos/giftcard.png",
     bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
     btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
+    link: "https://app.squareup.com/gift/MLW48R10CJHXH/order",
     enabled: true
   },
   {
@@ -18,7 +19,7 @@ const PROMOS = [
     title: "Autumn Glow Package",
     description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
     buttonText: "View Offer",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDdpaj2pTQA-5-qy1Vz10fsLao79nMfGRDdL62KnQ5226QQxJ1co59tOBr3DelJiQ3IKuJz3fJ2kEv4I1uFlyLKsF8FIqj5L151jk6XW6ImeQNFBZgXgOVtJLnv1LdegdCusWQnYoQKwX3b7HHka3zd3mOeaH_EW7K8EyafJANZJTBk7mHU8FzqXZVTI27mXACDfb8vVsZ2awXn8IoW4OnnuWlHrtY5LVCNkfEF9KBCFZekmnsexf5JvDt6Eq1aTGhrZ33CSSgbJ0zx",
+    image: "/promos/promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     enabled: true
@@ -43,6 +44,7 @@ const PROMOS = [
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOncWFuAx3uTVoPgQUfovP0CJJFl65sMykMlMo9ljZ2NLII38pnhM5ii20GCx_3cwzKy6vtPX4cfdbswWBBFq4gXlLlflFx2lgkR3DtkQfn0DXPbmKm4rzh4LaPe3m3g3Wa0_HmhEhXuqP87PYuZSbV65IB9hnqSiahINqc9RA5qfm70XA-4xbW7XnMkq0NUUmVVkm1YOWCILOlFUNZV8FjkzLufIr7RbjmsuOq2gv0fIaZtrPr_KsbcX_Oyv4VMhFFhC3Bz_Ri9Sk",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
+    link: "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start",
     enabled: true
   },
   {
@@ -170,9 +172,9 @@ const PromoCarousel: React.FC = () => {
                         </div>
 
                         <div className="mt-6">
-                          {promo.buttonText === 'Book Now' ? (
+                          {promo.link ? (
                             <a
-                              href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                              href={promo.link}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}

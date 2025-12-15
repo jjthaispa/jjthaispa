@@ -62,25 +62,25 @@ const INCLUDED_OPTIONS = [
     title: "Aromatherapy",
     description: "Choice of relaxing essential oils with aromatherapy diffuser.",
     icon: "spa",
-    image: "/aromatherapy.svg"
+    image: "/options/aromatherapy.svg"
   },
   {
     title: "Hot Stone",
     description: "Heated stones for deeper muscle relaxation and tension relief.",
     icon: "local_fire_department",
-    image: "/stones.svg"
+    image: "/options/stones.svg"
   },
   {
     title: "Cupping Therapy",
     description: "Cupping set available with any massage to enhance circulation.",
     icon: "sports_bar",
-    image: "/cupping.svg"
+    image: "/options/cupping.svg"
   },
   {
     title: "Tea or Cold Water",
     description: "Complimentary hot tea or cold water with every session.",
     icon: "emoji_food_beverage",
-    image: "/tea.svg"
+    image: "/options/tea.svg"
   }
 ];
 
@@ -148,10 +148,10 @@ const Services: React.FC = () => {
           ))}
         </div>
 
-        {/* Included Options Section */}
+        {/* IncludedService Options Section */}
         <div>
           <h3 className="font-serif text-2xl md:text-3xl font-bold mb-8 text-text-light dark:text-text-dark">
-            Included Options
+            Included Service Options
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
