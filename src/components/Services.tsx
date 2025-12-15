@@ -61,22 +61,26 @@ const INCLUDED_OPTIONS = [
   {
     title: "Aromatherapy",
     description: "Choice of relaxing essential oils with aromatherapy diffuser.",
-    icon: "spa"
+    icon: "spa",
+    image: "/aromatherapy.svg"
   },
   {
     title: "Hot Stone",
     description: "Heated stones for deeper muscle relaxation and tension relief.",
-    icon: "local_fire_department"
+    icon: "local_fire_department",
+    image: "/stones.svg"
   },
   {
     title: "Cupping Therapy",
     description: "Cupping set available with any massage to enhance circulation.",
-    icon: "sports_bar"
+    icon: "sports_bar",
+    image: "/cupping.svg"
   },
   {
     title: "Tea or Cold Water",
     description: "Complimentary hot tea or cold water with every session.",
-    icon: "emoji_food_beverage"
+    icon: "emoji_food_beverage",
+    image: "/tea.svg"
   }
 ];
 
@@ -154,10 +158,14 @@ const Services: React.FC = () => {
             {INCLUDED_OPTIONS.map((option, index) => (
               <div
                 key={index}
-                className="flex items-start gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark"
+                className="group flex items-start gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark hover:shadow-md transition-all duration-300"
               >
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-300">
-                  <span className="material-symbols-outlined text-2xl">{option.icon}</span>
+                <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 bg-background-light dark:bg-background-dark group-hover:bg-text-light dark:group-hover:bg-text-dark">
+                  <img
+                    src={option.image}
+                    alt={option.title}
+                    className="w-8 h-8 transition-all duration-300 group-hover:invert group-hover:brightness-0 group-hover:invert-0 group-hover:brightness-200"
+                  />
                 </div>
                 <div>
                   <h4 className="font-bold text-text-light dark:text-text-dark mb-1">
