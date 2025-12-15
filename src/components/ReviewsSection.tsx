@@ -67,7 +67,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
   );
 };
 
-const MAX_PAGES = 3;
+const MAX_PAGES = 12;
 
 const ReviewsSection: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>(REVIEWS);
@@ -221,35 +221,37 @@ const ReviewsSection: React.FC = () => {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center pt-8">
-              <nav className="flex items-center gap-2">
-                <button
-                  onClick={goToPrevious}
-                  disabled={currentPage === 1}
-                  className="flex items-center justify-center size-9 rounded-full border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark disabled:opacity-50 transition-colors"
-                >
-                  <span className="material-symbols-outlined text-xl">chevron_left</span>
-                </button>
+            <div className="flex justify-center items-center gap-3 pt-8">
+              <button
+                onClick={goToPrevious}
+                disabled={currentPage === 1}
+                className="flex items-center justify-center size-9 rounded-full border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark disabled:opacity-50 transition-colors"
+              >
+                <span className="material-symbols-outlined text-xl">chevron_left</span>
+              </button>
+
+              {/* Dot indicators - compact for mobile */}
+              <div className="flex items-center gap-1.5">
                 {[...Array(totalPages)].map((_, i) => (
                   <button
                     key={i + 1}
                     onClick={() => goToPage(i + 1)}
-                    className={`flex items-center justify-center size-9 rounded-full border text-sm transition-colors ${currentPage === i + 1
-                      ? 'border-primary bg-primary/20 dark:bg-primary/30 text-primary dark:text-white font-bold'
-                      : 'border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark'
+                    className={`rounded-full transition-all duration-300 ${currentPage === i + 1
+                        ? 'w-6 h-2 bg-primary'
+                        : 'w-2 h-2 bg-border-light dark:bg-border-dark hover:bg-primary/50'
                       }`}
-                  >
-                    {i + 1}
-                  </button>
+                    aria-label={`Go to page ${i + 1}`}
+                  />
                 ))}
-                <button
-                  onClick={goToNext}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center justify-center size-9 rounded-full border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark disabled:opacity-50 transition-colors"
-                >
-                  <span className="material-symbols-outlined text-xl">chevron_right</span>
-                </button>
-              </nav>
+              </div>
+
+              <button
+                onClick={goToNext}
+                disabled={currentPage === totalPages}
+                className="flex items-center justify-center size-9 rounded-full border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-background-light dark:hover:bg-background-dark disabled:opacity-50 transition-colors"
+              >
+                <span className="material-symbols-outlined text-xl">chevron_right</span>
+              </button>
             </div>
           )}
         </>

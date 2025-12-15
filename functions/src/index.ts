@@ -82,6 +82,58 @@ const FALLBACK_REVIEWS = {
     averageRating: "5.0"
 };
 
+// Helper to shuffle array
+const shuffleArray = <T>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+};
+
+// Helper to select 12 reviews (6 recent, 6 mixed)
+const selectReviewSubset = (reviews: any[]): any[] => {
+    if (!reviews || reviews.length <= 12) {
+        return shuffleArray(reviews || []);
+    }
+
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+    // Filter recent reviews (last 12 months)
+    const recentReviews = reviews.filter(r => {
+        // Use relative_time_description if available for precision, otherwise assume generic recent logic
+        // But mapped reviews might not have raw timestamp if not persisted? 
+        // Sync API stores 'relative_time_description'.
+        const reviewDate = r.relative_time_description ? new Date(r.relative_time_description) : null;
+        return reviewDate && reviewDate >= oneYearAgo;
+    });
+
+    // If we don't have distinct sets (e.g. all are recent), fallback to pool strategy
+    // Strategy: 
+    // 1. Pick up to 6 unique random from recent
+    // 2. Pick up to (12 - count) unique random from 'others' (which is everything minus selected)
+
+    // Better Approach:
+    // Pool A: Recent Reviews
+    // Pool B: All Reviews (excluding those selected from Pool A to avoid dups)
+
+    const shuffledRecent = shuffleArray(recentReviews);
+    const selectedRecent = shuffledRecent.slice(0, 6);
+
+    // Remaining pool: All reviews minus the ones we just picked
+    const selectedIDs = new Set(selectedRecent.map(r => r.relative_time_description || r.text)); // simplistic ID
+    const remainingPool = reviews.filter(r => !selectedIDs.has(r.relative_time_description || r.text));
+
+    const shuffledRemaining = shuffleArray(remainingPool);
+    const needed = 12 - selectedRecent.length;
+    const selectedOthers = shuffledRemaining.slice(0, needed);
+
+    // Combine and final shuffle
+    return shuffleArray([...selectedRecent, ...selectedOthers]);
+};
+
 // GET /api/reviews - Fetch reviews from Firestore or return fallback
 app.get('/api/reviews', async (req, res) => {
     try {
@@ -89,19 +141,30 @@ app.get('/api/reviews', async (req, res) => {
 
         if (reviewsDoc.exists) {
             const data = reviewsDoc.data();
+            const allReviews = data?.reviews || [];
+            const selectedReviews = selectReviewSubset(allReviews);
+
             res.json({
-                reviews: data?.reviews || [],
+                reviews: selectedReviews,
                 totalReviewCount: data?.totalReviewCount || 0,
                 averageRating: data?.averageRating || "0.0"
             });
         } else {
             // Return fallback if no data in Firestore
             console.log('No reviews in Firestore, returning fallback data');
-            res.json(FALLBACK_REVIEWS);
+            const selectedFallback = selectReviewSubset(FALLBACK_REVIEWS.reviews);
+            res.json({
+                ...FALLBACK_REVIEWS,
+                reviews: selectedFallback
+            });
         }
     } catch (error) {
         console.error('Error fetching reviews:', error);
-        res.json(FALLBACK_REVIEWS);
+        const selectedFallback = selectReviewSubset(FALLBACK_REVIEWS.reviews);
+        res.json({
+            ...FALLBACK_REVIEWS,
+            reviews: selectedFallback
+        });
     }
 });
 

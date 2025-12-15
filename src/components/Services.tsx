@@ -4,7 +4,7 @@ const THERAPIES = [
   {
     title: "Swedish Massage",
     description: "Relaxing full-body techniques using long strokes, kneading, and gentle pressure to ease tension and promote circulation.",
-    image: "/therapies/swedish.jpg",
+    image: "/therapies/swedish.png",
     prices: [
       { duration: "60 min", price: "$85" },
       { duration: "90 min", price: "$120" }
@@ -13,7 +13,7 @@ const THERAPIES = [
   {
     title: "Combination Massage",
     description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
-    image: "/therapies/combination.jpg",
+    image: "/therapies/combination.png",
     prices: [
       { duration: "60 min", price: "$90" },
       { duration: "90 min", price: "$130" }
@@ -22,7 +22,7 @@ const THERAPIES = [
   {
     title: "Thai Deep Tissue",
     description: "Deep pressure massage with focused relief targeting muscle knots and chronic tension for therapeutic results.",
-    image: "/therapies/deep-tissue.jpg",
+    image: "/therapies/deeptissue.png",
     prices: [
       { duration: "60 min", price: "$95" },
       { duration: "90 min", price: "$135" }
@@ -31,7 +31,7 @@ const THERAPIES = [
   {
     title: "Tension Release",
     description: "Relaxing full-body massage combined with targeted pressure relief for neck, shoulders, and back.",
-    image: "/therapies/tension.jpg",
+    image: "/therapies/tension.png",
     prices: [
       { duration: "60 min", price: "$55" },
       { duration: "90 min", price: "$170" }
@@ -40,7 +40,7 @@ const THERAPIES = [
   {
     title: "Prenatal Massage",
     description: "Focusing on pressure points and areas of discomfort specific to pregnancy, includes a relaxing foot massage.",
-    image: "/therapies/prenatal.jpg",
+    image: "/therapies/prenatal.png",
     prices: [
       { duration: "45 min", price: "$55" },
       { duration: "90 min", price: "$130" }
@@ -49,7 +49,7 @@ const THERAPIES = [
   {
     title: "Couples Massage",
     description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
-    image: "/therapies/couples.jpg",
+    image: "/therapies/couples.png",
     prices: [
       { duration: "60 min", price: "$95" },
       { duration: "90 min", price: "$145" }
@@ -104,7 +104,7 @@ const Services: React.FC = () => {
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-amber-100 text-amber-600"><span class="material-symbols-outlined text-4xl">self_improvement</span></div>`;
+                    e.currentTarget.parentElement!.innerHTML = `<img src="/therapies/swedish.png" alt="Therapy" class="w-full h-full object-cover" />`;
                   }}
                 />
               </div>
