@@ -9,9 +9,10 @@ import Footer from './components/Footer';
 import CookieBanner from './components/CookieBanner';
 import PromoCarousel from './components/PromoCarousel';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import Policies from './components/Policies';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -20,6 +21,8 @@ function App() {
       const path = window.location.pathname;
       if (path === '/privacy-policy') {
         setCurrentPage('privacy');
+      } else if (path === '/policies') {
+        setCurrentPage('policies');
       } else {
         setCurrentPage('home');
       }
@@ -39,8 +42,11 @@ function App() {
   }, []);
 
   // Handle navigation
-  const navigateTo = (page: 'home' | 'privacy') => {
-    const path = page === 'privacy' ? '/privacy-policy' : '/';
+  const navigateTo = (page: 'home' | 'privacy' | 'policies') => {
+    let path = '/';
+    if (page === 'privacy') path = '/privacy-policy';
+    if (page === 'policies') path = '/policies';
+
     window.history.pushState({}, '', path);
     setCurrentPage(page);
     window.scrollTo(0, 0);
@@ -63,6 +69,18 @@ function App() {
     );
   }
 
+  if (currentPage === 'policies') {
+    return (
+      <div className="relative flex min-h-screen w-full flex-col font-display">
+        <Header />
+        <main className="flex-grow">
+          <Policies />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex min-h-screen w-full flex-col font-display">
       <Header />
@@ -77,9 +95,9 @@ function App() {
       <Footer />
       <CookieBanner />
       {showCookieSettings && (
-        <CookieBanner 
-          forceOpen={true} 
-          onClose={() => setShowCookieSettings(false)} 
+        <CookieBanner
+          forceOpen={true}
+          onClose={() => setShowCookieSettings(false)}
         />
       )}
     </div>

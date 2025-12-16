@@ -4,7 +4,7 @@ import { NAV_LINKS } from '../constants';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-background-dark text-white border-t border-border-dark pt-16 pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12 px-4 lg:px-8">
           {/* Brand & About */}
           <div className="flex flex-col gap-6">
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
             © {new Date().getFullYear()} JJ Thai Spa LLC. All rights reserved.
           </p>
           <div className="flex gap-6 flex-wrap justify-center md:justify-end">
-            <a href="#" className="text-white/40 hover:text-white text-xs transition-colors">Terms of Service</a>
+            <a href="/policies" className="text-white/40 hover:text-white text-xs transition-colors">Terms of Service</a>
             <a href="/privacy-policy" className="text-white/40 hover:text-white text-xs transition-colors">Privacy Policy</a>
             <button
               onClick={() => (window as any).openCookieSettings?.()}
