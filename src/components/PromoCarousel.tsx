@@ -20,19 +20,8 @@ const PROMOS = [
     buttonText: "Buy eGift Card",
     image: "/promos/giftcard.png",
     video: "/promos/giftcard.mp4",
-    bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
-    btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
-    enabled: true
-  },
-  {
-    id: 2,
-    category: "HOLIDAY SPECIAL",
-    title: "Autumn Glow Package",
-    description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
-    buttonText: "View Offer",
-    image: "/promos/promo.png",
-    bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
-    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
+    bgColor: "bg-[#E4E9E3] dark:bg-[#1A2E2A]", // Light Sage / Dark Green
+    btnColor: "bg-[#788E6E] hover:bg-[#5A6B52] text-white",
     enabled: true
   },
   {

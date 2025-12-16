@@ -81,6 +81,18 @@ const INCLUDED_OPTIONS = [
     description: "Complimentary hot tea or cold water with every session.",
     icon: "emoji_food_beverage",
     image: "/options/tea.svg"
+  },
+  {
+    title: "Hot Towel",
+    description: "Relaxing hot towel treatment to soothe muscles and cleanse skin.",
+    icon: "cleaning_services",
+    image: "/options/towels.svg"
+  },
+  {
+    title: "Heated Massage Table",
+    description: "Premium heated massage tables for optimal comfort and warmth.",
+    icon: "bed",
+    image: "/options/table.svg"
   }
 ];
 
@@ -128,7 +140,7 @@ const Services: React.FC = () => {
                     {therapy.prices.map((price, priceIndex) => (
                       <span
                         key={priceIndex}
-                        className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-[#8a84a3] text-white"
                       >
                         {price.duration} | {price.price}
                       </span>
@@ -138,7 +150,7 @@ const Services: React.FC = () => {
                     href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/50 transition-colors"
+                    className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                   </a>
@@ -154,7 +166,7 @@ const Services: React.FC = () => {
             Included Service Options
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {INCLUDED_OPTIONS.map((option, index) => (
               <div
                 key={index}
