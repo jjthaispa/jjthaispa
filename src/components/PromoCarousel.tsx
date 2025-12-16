@@ -154,7 +154,7 @@ const PromoCarousel: React.FC = () => {
                     <div className={`h-full min-h-[280px] rounded-2xl flex overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${promo.bgColor}`}>
 
                       {/* Left Half - Content */}
-                      <div className="flex-1 p-6 md:p-8 flex flex-col justify-between relative z-10">
+                      <div className="flex-1 p-4 md:p-6 flex flex-col justify-between relative z-10">
                         {/* Background Decorative Element */}
                         <div className="absolute top-0 left-0 w-24 h-24 bg-white/10 rounded-br-full pointer-events-none"></div>
 

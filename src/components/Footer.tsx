@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12 px-4 lg:px-8">
           {/* Brand & About */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 max-w-xs">
             <div className="flex items-center gap-2">
               <img src="/logo-green.png" alt="J.J Thai Spa Logo" className="h-8 w-8 object-contain" />
               <h3 className="font-serif text-2xl font-bold tracking-tight text-white">
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="max-w-xs">
             <h4 className="font-serif text-lg font-bold mb-6 text-accent">Contact Us</h4>
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3">
