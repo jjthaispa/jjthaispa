@@ -4,9 +4,9 @@ const PROMOS = [
   {
     id: 1,
     category: "HOLIDAY SPECIAL",
-    title: "Autumn Glow Package",
-    description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
-    buttonText: "View Offer",
+    title: "A Holiday Gift to Yourself",
+    description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 minutes\n $15 off 90 minutes",
+    buttonText: "View Details",
     image: "/promos/promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
@@ -19,8 +19,8 @@ const PROMOS = [
   {
     id: 2,
     category: "E-GIFT CARDS",
-    title: "Give the Gift of Serenity",
-    description: "The perfect present for this holiday season. Let them choose their own path to relaxation with a flexible gift card.",
+    title: "Give the Gift of Relaxation",
+    description: "Instant eGift Cards. The perfect present for this holiday season. Physical cards available in store.",
     buttonText: "Buy eGift Card",
     image: "/promos/giftcard.png",
     video: "/promos/giftcard.mp4",
@@ -48,7 +48,7 @@ const PROMOS = [
     image: "/promos/promo.png",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
-    enabled: true
+    enabled: false
   },
   {
     id: 5,
@@ -59,7 +59,7 @@ const PROMOS = [
     image: "/promos/promo.png",
     bgColor: "bg-[#FFF3E0] dark:bg-[#2E2010]", // Light Orange / Dark Brown
     btnColor: "bg-[#FFB74D] hover:bg-[#e09e3d] text-white",
-    enabled: true
+    enabled: false
   }
 ];
 
@@ -163,18 +163,18 @@ const PromoCarousel: React.FC = () => {
                         <div className="absolute top-0 left-0 w-24 h-24 bg-white/10 rounded-br-full pointer-events-none"></div>
 
                         <div>
-                          <span className="inline-block text-[10px] font-bold tracking-widest uppercase mb-2 opacity-70">
+                          <span className="inline-block text-[10px] font-bold tracking-widest uppercase mb-1 opacity-70">
                             {promo.category}
                           </span>
-                          <h3 className="font-serif text-2xl font-bold leading-tight mb-3 text-text-light dark:text-white">
+                          <h3 className="font-serif text-xl font-bold leading-tight mb-2 text-text-light dark:text-white">
                             {promo.title}
                           </h3>
-                          <p className="text-sm opacity-90 leading-relaxed line-clamp-3">
+                          <p className="text-sm opacity-90 leading-relaxed line-clamp-4 whitespace-pre-line">
                             {promo.description}
                           </p>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-4">
                           {promo.buttonText === 'Book Now' ? (
                             <a
                               href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"

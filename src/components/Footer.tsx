@@ -18,42 +18,42 @@ const Footer: React.FC = () => {
               Experience the ultimate relaxation and rejuvenation at J.J Thai Spa. Our expert therapists are dedicated to your wellness journey.
             </p>
             <div className="flex gap-4">
-              <a 
-                href="https://share.google/u3dKf7IUq0rTelJ5a" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://share.google/u3dKf7IUq0rTelJ5a"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors"
                 title="Google Business Profile"
               >
-                <img 
-                  src="/icons/google-g.svg" 
-                  alt="Google" 
+                <img
+                  src="/icons/google-g.svg"
+                  alt="Google"
                   className="w-7 h-7"
                 />
               </a>
-              <a 
-                href="#" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors"
                 title="Instagram"
               >
-                <img 
-                  src="/icons/instagram.svg" 
-                  alt="Instagram" 
+                <img
+                  src="/icons/instagram.svg"
+                  alt="Instagram"
                   className="w-7 h-7"
                 />
               </a>
-              <a 
-                href="#" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors"
                 title="Facebook"
               >
-                <img 
-                  src="/icons/facebook.svg" 
-                  alt="Facebook" 
+                <img
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
                   className="w-7 h-7"
                 />
               </a>
@@ -76,19 +76,7 @@ const Footer: React.FC = () => {
                   Gift Cards
                 </a>
               </li>
-              <li>
-                <a href="/privacy-policy" className="text-white/70 hover:text-primary transition-colors text-sm">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <button
-                  onClick={() => (window as any).openCookieSettings?.()}
-                  className="text-white/70 hover:text-primary transition-colors text-sm text-left"
-                >
-                  Cookie Settings
-                </button>
-              </li>
+
             </ul>
           </div>
 
