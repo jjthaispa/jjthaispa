@@ -6,8 +6,8 @@ const THERAPIES = [
     description: "Relaxing full-body techniques using long strokes, kneading, and gentle pressure to ease tension and promote circulation.",
     image: "/therapies/swedish.png",
     prices: [
-      { duration: "60 min", price: "$85" },
-      { duration: "90 min", price: "$120" }
+      { duration: "60 min", price: "$90" },
+      { duration: "90 min", price: "$125" }
     ]
   },
   {
@@ -15,8 +15,8 @@ const THERAPIES = [
     description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
     image: "/therapies/combination.png",
     prices: [
-      { duration: "60 min", price: "$90" },
-      { duration: "90 min", price: "$130" }
+      { duration: "60 min", price: "$95" },
+      { duration: "90 min", price: "$135" }
     ]
   },
   {
@@ -24,8 +24,8 @@ const THERAPIES = [
     description: "Deep pressure massage with focused relief targeting muscle knots and chronic tension for therapeutic results.",
     image: "/therapies/deeptissue.png",
     prices: [
-      { duration: "60 min", price: "$95" },
-      { duration: "90 min", price: "$135" }
+      { duration: "60 min", price: "$100" },
+      { duration: "90 min", price: "$140" }
     ]
   },
   {
@@ -33,8 +33,8 @@ const THERAPIES = [
     description: "Relaxing full-body massage combined with targeted pressure relief for neck, shoulders, and back.",
     image: "/therapies/tension.png",
     prices: [
-      { duration: "60 min", price: "$55" },
-      { duration: "90 min", price: "$170" }
+      { duration: "30 min", price: "$55" },
+      { duration: "45 min", price: "$75" }
     ]
   },
   {
@@ -42,8 +42,8 @@ const THERAPIES = [
     description: "Focusing on pressure points and areas of discomfort specific to pregnancy, includes a relaxing foot massage.",
     image: "/therapies/prenatal.png",
     prices: [
-      { duration: "45 min", price: "$55" },
-      { duration: "90 min", price: "$130" }
+      { duration: "60 min", price: "$90" },
+      { duration: "90 min", price: "$125" }
     ]
   },
   {
@@ -51,8 +51,8 @@ const THERAPIES = [
     description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
     image: "/therapies/couples.png",
     prices: [
-      { duration: "60 min", price: "$95" },
-      { duration: "90 min", price: "$145" }
+      { duration: "60 min", price: "Varies" },
+      { duration: "90 min", price: "Varies" }
     ]
   }
 ];
@@ -76,11 +76,12 @@ const INCLUDED_OPTIONS = [
     icon: "sports_bar",
     image: "/options/cupping.svg"
   },
+
   {
-    title: "Tea or Cold Water",
-    description: "Complimentary hot tea or cold water with every session.",
-    icon: "emoji_food_beverage",
-    image: "/options/tea.svg"
+    title: "Heated Massage Table",
+    description: "Premium heated massage tables for optimal comfort and warmth.",
+    icon: "bed",
+    image: "/options/table.svg"
   },
   {
     title: "Hot Towel",
@@ -89,11 +90,11 @@ const INCLUDED_OPTIONS = [
     image: "/options/towels.svg"
   },
   {
-    title: "Heated Massage Table",
-    description: "Premium heated massage tables for optimal comfort and warmth.",
-    icon: "bed",
-    image: "/options/table.svg"
-  }
+    title: "Tea or Cold Water",
+    description: "Complimentary hot tea or cold water with every session.",
+    icon: "emoji_food_beverage",
+    image: "/options/tea.svg"
+  },
 ];
 
 const Services: React.FC = () => {
@@ -113,7 +114,7 @@ const Services: React.FC = () => {
               className="group flex gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
             >
               {/* Image */}
-              <div className="flex-shrink-0 w-28 h-28 rounded-xl overflow-hidden bg-amber-100">
+              <div className="flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
                 <img
                   src={therapy.image}
                   alt={therapy.title}
@@ -130,7 +131,7 @@ const Services: React.FC = () => {
                 <h3 className="font-serif text-lg font-bold text-text-light dark:text-text-dark mb-1 group-hover:text-primary transition-colors">
                   {therapy.title}
                 </h3>
-                <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed mb-3 line-clamp-2">
+                <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed mb-3 line-clamp-3">
                   {therapy.description}
                 </p>
 
@@ -162,9 +163,12 @@ const Services: React.FC = () => {
 
         {/* IncludedService Options Section */}
         <div>
-          <h3 className="font-serif text-2xl md:text-3xl font-bold mb-8 text-text-light dark:text-text-dark">
-            Included Service Options
+          <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2 text-text-light dark:text-text-dark">
+            Service Options
           </h3>
+          <p className="text-lg text-text-light/70 dark:text-text-dark/70 mb-8">
+            Included in the price of your massage at no additional cost
+          </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {INCLUDED_OPTIONS.map((option, index) => (
