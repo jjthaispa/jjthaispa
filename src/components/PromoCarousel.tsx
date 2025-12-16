@@ -3,19 +3,29 @@ import React, { useState, useEffect, useRef } from 'react';
 const PROMOS = [
   {
     id: 1,
-    category: "E-GIFT CARDS",
-    title: "Give the Gift of Serenity",
-    description: "The perfect present for any occasion. Let them choose their own path to relaxation with a flexible gift card.",
-    buttonText: "Buy eGift Card",
-    image: "/promos/giftcard.png",
-    bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
-    btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
-    link: "https://app.squareup.com/gift/MLW48R10CJHXH/order",
+    category: "HOLIDAY SPECIAL",
+    title: "Autumn Glow Package",
+    description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
+    buttonText: "View Offer",
+    image: "/promos/promo.png",
+    bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
+    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     enabled: true
   },
   {
     id: 2,
-    category: "SEASONAL SPECIAL",
+    category: "E-GIFT CARDS",
+    title: "Give the Gift of Serenity",
+    description: "The perfect present for this holiday season. Let them choose their own path to relaxation with a flexible gift card.",
+    buttonText: "Buy eGift Card",
+    image: "/promos/giftcard.png",
+    bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
+    btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
+    enabled: true
+  },
+  {
+    id: 2,
+    category: "HOLIDAY SPECIAL",
     title: "Autumn Glow Package",
     description: "Save 20% on our signature pumpkin enzyme facial and warm oil massage bundle. Limited time only.",
     buttonText: "View Offer",
@@ -30,7 +40,7 @@ const PROMOS = [
     title: "Join the Wellness Club",
     description: "Prioritize your health with monthly treatments at exclusive member-only rates. Cancel anytime.",
     buttonText: "Learn More",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7miWWKtjWPn3v8nFIkI3FDS5omYuPaDPjAKXqdwiEvUc-DsYBUff-b4xO0EyRUG11eL2Q9IHWywVwWn_iYaSmkD3Mx3Elb26xb88D6DSX0CCAPvRTjMbjzu4imIM2TiJoSOPH0AovSlRwgvM9W0-HYbO9y95CnI2mvry5zcmvmRgrilVDdT_RMo9WqJ39UUHTXbfEkcjq-2efJw-7pLuJKvH9DIG_JdzXctHi7eRrydiWpaetnxZiAq0bDoByhWCbq2c0EwPsUicV",
+    image: "/promos/promo.png",
     bgColor: "bg-[#F0EFF4] dark:bg-[#26242E]", // Light Lavender / Dark Purple
     btnColor: "bg-[#8A84A3] hover:bg-[#746e8c] text-white",
     enabled: true
@@ -41,10 +51,9 @@ const PROMOS = [
     title: "Hydrotherapy Sessions",
     description: "Experience the healing power of water. Our new hydrotherapy pools are now open for booking.",
     buttonText: "Book Now",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOncWFuAx3uTVoPgQUfovP0CJJFl65sMykMlMo9ljZ2NLII38pnhM5ii20GCx_3cwzKy6vtPX4cfdbswWBBFq4gXlLlflFx2lgkR3DtkQfn0DXPbmKm4rzh4LaPe3m3g3Wa0_HmhEhXuqP87PYuZSbV65IB9hnqSiahINqc9RA5qfm70XA-4xbW7XnMkq0NUUmVVkm1YOWCILOlFUNZV8FjkzLufIr7RbjmsuOq2gv0fIaZtrPr_KsbcX_Oyv4VMhFFhC3Bz_Ri9Sk",
+    image: "/promos/promo.png",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
-    link: "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start",
     enabled: true
   },
   {
@@ -53,7 +62,7 @@ const PROMOS = [
     title: "Luxury Skin Care",
     description: "Bring the spa home. Shop our exclusive line of organic lotions and essential oils.",
     buttonText: "Shop Now",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXVB7ngmlYERntCcZwZgpZzEbsZTFmOxQryYjMxLGIoFBJ4fAP9JCwEraVvoGrXIUT3Q_DwYzza4m0GHfIl-601nJuWj9F6MIUqubhJCGiFTsTpagojZzaSu6O0BMV11gvxSy6DvD6STiJP4qS_mYrgbyBE28Tu-zRqOk4V3zwyDvNSeCEleROjWawUpkVD9RuVcXZNi1qyuyoPT3JOSa3nC8fnrnVBF4Cpk4r0Qaq_B_3iZEzb18biOaRY_O32PKKERedzIOuDva9",
+    image: "/promos/promo.png",
     bgColor: "bg-[#FFF3E0] dark:bg-[#2E2010]", // Light Orange / Dark Brown
     btnColor: "bg-[#FFB74D] hover:bg-[#e09e3d] text-white",
     enabled: true
@@ -172,9 +181,9 @@ const PromoCarousel: React.FC = () => {
                         </div>
 
                         <div className="mt-6">
-                          {promo.link ? (
+                          {promo.buttonText === 'Book Now' ? (
                             <a
-                              href={promo.link}
+                              href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
                               target="_blank"
                               rel="noopener noreferrer"
                               className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}

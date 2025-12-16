@@ -100,22 +100,3 @@ export const REVIEWS: Review[] = [
     source: 'Verified Client'
   }
 ];
-
-export const GALLERY_IMAGES = [
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDdpaj2pTQA-5-qy1Vz10fsLao79nMfGRDdL62KnQ5226QQxJ1co59tOBr3DelJiQ3IKuJz3fJ2kEv4I1uFlyLKsF8FIqj5L151jk6XW6ImeQNFBZgXgOVtJLnv1LdegdCusWQnYoQKwX3b7HHka3zd3mOeaH_EW7K8EyafJANZJTBk7mHU8FzqXZVTI27mXACDfb8vVsZ2awXn8IoW4OnnuWlHrtY5LVCNkfEF9KBCFZekmnsexf5JvDt6Eq1aTGhrZ33CSSgbJ0zx",
-    alt: "A close-up of a facial treatment being applied."
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7miWWKtjWPn3v8nFIkI3FDS5omYuPaDPjAKXqdwiEvUc-DsYBUff-b4xO0EyRUG11eL2Q9IHWywVwWn_iYaSmkD3Mx3Elb26xb88D6DSX0CCAPvRTjMbjzu4imIM2TiJoSOPH0AovSlRwgvM9W0-HYbO9y95CnI2mvry5zcmvmRgrilVDdT_RMo9WqJ39UUHTXbfEkcjq-2efJw-7pLuJKvH9DIG_JdzXctHi7eRrydiWpaetnxZiAq0bDoByhWCbq2c0EwPsUicV",
-    alt: "A tranquil spa relaxation area with comfortable lounge chairs."
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXVB7ngmlYERntCcZwZgpZzEbsZTFmOxQryYjMxLGIoFBJ4fAP9JCwEraVvoGrXIUT3Q_DwYzza4m0GHfIl-601nJuWj9F6MIUqubhJCGiFTsTpagojZzaSu6O0BMV11gvxSy6DvD6STiJP4qS_mYrgbyBE28Tu-zRqOk4V3zwyDvNSeCEleROjWawUpkVD9RuVcXZNi1qyuyoPT3JOSa3nC8fnrnVBF4Cpk4r0Qaq_B_3iZEzb18biOaRY_O32PKKERedzIOuDva9",
-    alt: "Hot stones arranged neatly on a wooden tray."
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOncWFuAx3uTVoPgQUfovP0CJJFl65sMykMlMo9ljZ2NLII38pnhM5ii20GCx_3cwzKy6vtPX4cfdbswWBBFq4gXlLlflFx2lgkR3DtkQfn0DXPbmKm4rzh4LaPe3m3g3Wa0_HmhEhXuqP87PYuZSbV65IB9hnqSiahINqc9RA5qfm70XA-4xbW7XnMkq0NUUmVVkm1YOWCILOlFUNZV8FjkzLufIr7RbjmsuOq2gv0fIaZtrPr_KsbcX_Oyv4VMhFFhC3Bz_Ri9Sk",
-    alt: "A person enjoying a relaxing foot bath with flower petals."
-  }
-];

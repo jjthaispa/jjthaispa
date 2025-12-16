@@ -11,7 +11,7 @@ const THERAPIES = [
     ]
   },
   {
-    title: "Combination Massage",
+    title: "Thai Combination Massage",
     description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
     image: "/therapies/combination.png",
     prices: [
