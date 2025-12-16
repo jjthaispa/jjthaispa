@@ -111,51 +111,54 @@ const Services: React.FC = () => {
           {THERAPIES.map((therapy, index) => (
             <div
               key={index}
-              className="group flex gap-4 p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
+              className="group flex flex-col p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
             >
-              {/* Image */}
-              <div className="flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
-                <img
-                  src={therapy.image}
-                  alt={therapy.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.innerHTML = `<img src="/therapies/swedish.png" alt="Therapy" class="w-full h-full object-cover" />`;
-                  }}
-                />
+              {/* Top row: Image and Text */}
+              <div className="flex gap-4">
+                {/* Image */}
+                <div className="flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
+                  <img
+                    src={therapy.image}
+                    alt={therapy.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement!.innerHTML = `<img src="/therapies/swedish.png" alt="Therapy" class="w-full h-full object-cover" />`;
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col min-w-0">
+                  <h3 className="font-serif text-lg font-bold text-text-light dark:text-text-dark mb-1 group-hover:text-primary transition-colors">
+                    {therapy.title}
+                  </h3>
+                  <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed line-clamp-4">
+                    {therapy.description}
+                  </p>
+                </div>
               </div>
 
-              {/* Content */}
-              <div className="flex-1 flex flex-col min-w-0">
-                <h3 className="font-serif text-lg font-bold text-text-light dark:text-text-dark mb-1 group-hover:text-primary transition-colors">
-                  {therapy.title}
-                </h3>
-                <p className="text-sm text-text-light/70 dark:text-text-dark/70 leading-relaxed mb-3 line-clamp-3">
-                  {therapy.description}
-                </p>
-
-                {/* Pricing and Arrow */}
-                <div className="mt-auto flex items-center justify-between gap-2">
-                  <div className="flex flex-wrap gap-2">
-                    {therapy.prices.map((price, priceIndex) => (
-                      <span
-                        key={priceIndex}
-                        className="px-2 py-1 text-xs font-medium rounded-full bg-[#8a84a3] text-white"
-                      >
-                        {price.duration} | {price.price}
-                      </span>
-                    ))}
-                  </div>
-                  <a
-                    href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-lg">arrow_forward</span>
-                  </a>
+              {/* Pricing and Arrow - below image and description */}
+              <div className="mt-4 flex items-center justify-between gap-2">
+                <div className="flex flex-wrap gap-2">
+                  {therapy.prices.map((price, priceIndex) => (
+                    <span
+                      key={priceIndex}
+                      className="px-2 py-1 text-xs font-medium rounded-full bg-[#8a84a3] text-white"
+                    >
+                      {price.duration} | {price.price}
+                    </span>
+                  ))}
                 </div>
+                <a
+                  href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
+                >
+                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                </a>
               </div>
             </div>
           ))}

@@ -10,7 +10,11 @@ const PROMOS = [
     image: "/promos/promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
-    enabled: true
+    enabled: true,
+    overlay: [
+      { highlight: "$10 OFF", subtitle: "60 MINUTE MASSAGE" },
+      { highlight: "$15 OFF", subtitle: "90 MINUTE MASSAGE" }
+    ]
   },
   {
     id: 2,
@@ -215,6 +219,26 @@ const PromoCarousel: React.FC = () => {
                             alt={promo.title}
                             className="absolute inset-0 w-full h-full object-cover"
                           />
+                        )}
+                        {/* Text Overlay */}
+                        {promo.overlay && (
+                          <div className="absolute inset-x-0 top-0 h-1/2 flex flex-col items-center justify-center bg-gradient-to-b from-white/80 via-white/70 to-transparent text-center px-4 py-3">
+                            {promo.overlay.map((item, idx) => (
+                              <React.Fragment key={idx}>
+                                {idx > 0 && (
+                                  <div className="flex items-center gap-2 my-1">
+                                    <span className="w-6 h-px bg-[#6B4C1F]"></span>
+                                    <span className="text-[#6B4C1F] text-xs">✦</span>
+                                    <span className="w-6 h-px bg-[#6B4C1F]"></span>
+                                  </div>
+                                )}
+                                <div>
+                                  <div className="text-xl md:text-2xl font-bold tracking-tight text-[#5C3D1A]">{item.highlight}</div>
+                                  <div className="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-[#6B4C1F]">{item.subtitle}</div>
+                                </div>
+                              </React.Fragment>
+                            ))}
+                          </div>
                         )}
                       </div>
                     </div>
