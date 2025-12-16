@@ -11,9 +11,10 @@ import PromoCarousel from './components/PromoCarousel';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Policies from './components/Policies';
 import Contact from './components/Contact';
+import Promotions from './components/Promotions';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -26,6 +27,8 @@ function App() {
         setCurrentPage('policies');
       } else if (path === '/contact') {
         setCurrentPage('contact');
+      } else if (path === '/promotions') {
+        setCurrentPage('promotions');
       } else {
         setCurrentPage('home');
       }
@@ -45,11 +48,12 @@ function App() {
   }, []);
 
   // Handle navigation
-  const navigateTo = (page: 'home' | 'privacy' | 'policies' | 'contact') => {
+  const navigateTo = (page: 'home' | 'privacy' | 'policies' | 'contact' | 'promotions') => {
     let path = '/';
     if (page === 'privacy') path = '/privacy-policy';
     if (page === 'policies') path = '/policies';
     if (page === 'contact') path = '/contact';
+    if (page === 'promotions') path = '/promotions';
 
     window.history.pushState({}, '', path);
     setCurrentPage(page);
@@ -91,6 +95,18 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Contact />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (currentPage === 'promotions') {
+    return (
+      <div className="relative flex min-h-screen w-full flex-col font-display">
+        <Header />
+        <main className="flex-grow">
+          <Promotions />
         </main>
         <Footer />
       </div>
