@@ -5,7 +5,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Services', href: '/#services' },
   { label: 'Gift Cards', href: '/#gift-cards' },
   { label: 'Policies', href: '/policies' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const RATING_STATS: RatingStat[] = [
