@@ -43,7 +43,8 @@ const Header: React.FC = () => {
   return (
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${headerClass}`}>
       <div className="container mx-auto flex items-center justify-between whitespace-nowrap px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex items-center gap-4">
+        {/* Logo - Left section with fixed width for balance */}
+        <div className="flex items-center gap-4 md:min-w-[200px]">
           <img
             src={logoSrc}
             alt="J.J Thai Spa Logo"
@@ -54,7 +55,8 @@ const Header: React.FC = () => {
           </h2>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Navigation - Centered */}
+        <nav className="hidden md:flex items-center justify-center gap-8 flex-1">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -66,7 +68,8 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        {/* Book Now - Right section with fixed width for balance */}
+        <div className="flex items-center justify-end gap-4 md:min-w-[200px]">
           <a
             href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
             target="_blank"

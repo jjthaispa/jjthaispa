@@ -3,7 +3,7 @@ import React from 'react';
 const THERAPIES = [
   {
     title: "Swedish Massage",
-    description: "Relaxing full-body techniques using long strokes, kneading, and gentle pressure to ease tension and promote circulation.",
+    description: "Relaxing full-body techniques using long strokes, kneading, and gentle to medium pressure to ease tension and promote circulation.",
     image: "/therapies/swedish.png",
     prices: [
       { duration: "60 min", price: "$90" },
@@ -29,8 +29,8 @@ const THERAPIES = [
     ]
   },
   {
-    title: "Tension Release",
-    description: "Relaxing full-body massage combined with targeted pressure relief for neck, shoulders, and back.",
+    title: "Back, Neck and Shoulder Release",
+    description: "Relieve built-up tension where it’s felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress.",
     image: "/therapies/tension.png",
     prices: [
       { duration: "30 min", price: "$55" },
@@ -39,7 +39,7 @@ const THERAPIES = [
   },
   {
     title: "Prenatal Massage",
-    description: "Focusing on pressure points and areas of discomfort specific to pregnancy, includes a relaxing foot massage.",
+    description: "A gentle, nurturing massage designed specifically for expectant mothers. This treatment helps alleviates common discomforts during pregnancy",
     image: "/therapies/prenatal.png",
     prices: [
       { duration: "60 min", price: "$90" },
