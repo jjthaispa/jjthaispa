@@ -19,6 +19,7 @@ const PROMOS = [
     description: "The perfect present for this holiday season. Let them choose their own path to relaxation with a flexible gift card.",
     buttonText: "Buy eGift Card",
     image: "/promos/giftcard.png",
+    video: "/promos/giftcard.mp4",
     bgColor: "bg-[#E8F3F1] dark:bg-[#1A2E2A]", // Light Mint / Dark Green
     btnColor: "bg-[#7A9E96] hover:bg-[#688a82] text-white",
     enabled: true
@@ -200,13 +201,32 @@ const PromoCarousel: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Right Half - Image */}
-                      <div className="w-1/2 relative">
-                        <img
-                          src={promo.image}
-                          alt={promo.title}
-                          className="absolute inset-0 w-full h-full object-cover"
-                        />
+                      {/* Right Half - Image/Video */}
+                      <div className="w-1/2 relative group/media">
+                        {promo.video && itemsPerPage > 1 ? (
+                          <>
+                            <img
+                              src={promo.image}
+                              alt={promo.title}
+                              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover/media:opacity-0"
+                            />
+                            <video
+                              src={promo.video}
+                              muted
+                              loop
+                              playsInline
+                              className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover/media:opacity-100"
+                              onMouseEnter={(e) => e.currentTarget.play()}
+                              onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
+                            />
+                          </>
+                        ) : (
+                          <img
+                            src={promo.image}
+                            alt={promo.title}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
