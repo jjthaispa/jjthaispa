@@ -152,9 +152,7 @@ const Services: React.FC = () => {
                   ))}
                 </div>
                 <a
-                  href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/services#${therapy.title.toLowerCase().replace(/\s+/g, '-')}`}
                   className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>

@@ -10,7 +10,7 @@ const Promotions: React.FC = () => {
             const element = document.querySelector(window.location.hash);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
-                
+
                 // Trigger flash effect for holiday-special
                 if (window.location.hash === '#holiday-special') {
                     setTimeout(() => {
@@ -18,7 +18,7 @@ const Promotions: React.FC = () => {
                         setTimeout(() => setFlashCard(false), 500);
                     }, 200);
                 }
-                
+
                 // Trigger flash effect for gift-cards
                 if (window.location.hash === '#gift-cards') {
                     setTimeout(() => {
@@ -72,10 +72,9 @@ const Promotions: React.FC = () => {
                     </div>
 
                     {/* Main Card */}
-                    <div 
-                        className={`bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${
-                            flashCard ? 'shadow-2xl scale-[1.02]' : ''
-                        }`}
+                    <div
+                        className={`bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${flashCard ? 'shadow-2xl scale-[1.02]' : ''
+                            }`}
                     >
                         <div className="flex flex-col md:flex-row">
                             {/* Left Content */}
@@ -116,7 +115,7 @@ const Promotions: React.FC = () => {
                                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#849f81] hover:bg-[#6f876c] text-white text-sm font-medium transition-all shadow-sm hover:shadow-md"
                                 >
                                     Claim Offer
-                                    <span className="material-symbols-outlined text-base">arrow_forward</span>
+                                    <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
                                 </a>
 
                                 {/* Disclaimer */}
@@ -141,10 +140,9 @@ const Promotions: React.FC = () => {
             {/* Gift Card Section */}
             <section id="gift-cards" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
                 <div className="container mx-auto max-w-6xl">
-                    <div 
-                        className={`flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24 transition-all duration-500 ${
-                            flashGiftCard ? 'shadow-2xl scale-[1.02]' : ''
-                        }`}
+                    <div
+                        className={`flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24 transition-all duration-500 ${flashGiftCard ? 'shadow-2xl scale-[1.02]' : ''
+                            }`}
                     >
                         {/* Image */}
                         <div className="flex-1 w-full">
