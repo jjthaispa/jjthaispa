@@ -9,7 +9,7 @@ const Contact: React.FC = () => {
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
             {/* Dark Hero Section */}
-            <div className="bg-background-dark pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+            <div className="bg-background-dark min-h-[400px] md:min-h-[500px] flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 <div className="container mx-auto max-w-4xl text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
                         Contact Us

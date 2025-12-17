@@ -5,33 +5,37 @@ const THERAPIES = [
     title: "Swedish Massage",
     description: "Relaxing full-body techniques using long strokes, kneading, and gentle to medium pressure to ease tension and promote circulation.",
     image: "/therapies/swedish.png",
+    hasPromo: true,
     prices: [
-      { duration: "60 min", price: "$90" },
-      { duration: "90 min", price: "$125" }
+      { duration: "60 min", price: "$90", promoPrice: "$80" },
+      { duration: "90 min", price: "$125", promoPrice: "$110" }
     ]
   },
   {
     title: "Thai Combination Massage",
     description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
     image: "/therapies/combination.png",
+    hasPromo: true,
     prices: [
-      { duration: "60 min", price: "$95" },
-      { duration: "90 min", price: "$135" }
+      { duration: "60 min", price: "$95", promoPrice: "$85" },
+      { duration: "90 min", price: "$135", promoPrice: "$120" }
     ]
   },
   {
     title: "Thai Deep Tissue",
     description: "A therapeutic massage using firm pressure and Thai techniques. Ideal for pain relief, muscle recovery, and improved mobility. Can be enhanced with optional Ashiatsu massage.",
     image: "/therapies/deeptissue.png",
+    hasPromo: true,
     prices: [
-      { duration: "60 min", price: "$100" },
-      { duration: "90 min", price: "$140" }
+      { duration: "60 min", price: "$100", promoPrice: "$90" },
+      { duration: "90 min", price: "$140", promoPrice: "$125" }
     ]
   },
   {
     title: "Back, Neck and Shoulder Release",
-    description: "Relieve built-up tension where it’s felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress.",
+    description: "Relieve built-up tension where it's felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress.",
     image: "/therapies/tension.png",
+    hasPromo: false,
     prices: [
       { duration: "30 min", price: "$55" },
       { duration: "45 min", price: "$75" }
@@ -41,15 +45,17 @@ const THERAPIES = [
     title: "Prenatal Massage",
     description: "A gentle, nurturing massage designed specifically for expectant mothers. This treatment helps alleviates common discomforts during pregnancy",
     image: "/therapies/prenatal.png",
+    hasPromo: true,
     prices: [
-      { duration: "60 min", price: "$90" },
-      { duration: "90 min", price: "$125" }
+      { duration: "60 min", price: "$90", promoPrice: "$80" },
+      { duration: "90 min", price: "$125", promoPrice: "$110" }
     ]
   },
   {
     title: "Couples Massage",
     description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
     image: "/therapies/couples.png",
+    hasPromo: false,
     prices: [
       { duration: "60 min", price: "Varies" },
       { duration: "90 min", price: "Varies" }
@@ -115,8 +121,13 @@ const Services: React.FC = () => {
             >
               {/* Top row: Image and Text */}
               <div className="flex gap-4">
-                {/* Image */}
-                <div className="flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
+                {/* Image with PROMO badge */}
+                <div className="relative flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
+                  {therapy.hasPromo && (
+                    <span className="absolute top-2 left-2 z-10 bg-[#C85A5A] text-white text-[10px] font-bold tracking-wider px-2 py-1 rounded uppercase shadow-sm">
+                      Promo
+                    </span>
+                  )}
                   <img
                     src={therapy.image}
                     alt={therapy.title}
@@ -145,9 +156,17 @@ const Services: React.FC = () => {
                   {therapy.prices.map((price, priceIndex) => (
                     <span
                       key={priceIndex}
-                      className="px-2 py-1 text-xs font-medium rounded-full bg-[#8a84a3] text-white"
+                      className="px-2.5 py-1.5 text-xs font-medium rounded-full bg-[#8a84a3] text-white flex items-center gap-1.5"
                     >
-                      {price.duration} | {price.price}
+                      {price.duration} |
+                      {price.promoPrice ? (
+                        <>
+                          <span className="line-through opacity-70">{price.price}</span>
+                          <span className="font-bold">{price.promoPrice}</span>
+                        </>
+                      ) : (
+                        <span>{price.price}</span>
+                      )}
                     </span>
                   ))}
                 </div>

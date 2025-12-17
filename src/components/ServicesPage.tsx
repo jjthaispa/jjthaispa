@@ -11,9 +11,10 @@ const SERVICES = [
             "Improves blood circulation",
             "Stimulates the lymphatic system"
         ],
+        hasPromo: true,
         prices: [
-            { duration: "60 Minutes", price: "$90" },
-            { duration: "90 Minutes", price: "$125" }
+            { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
+            { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
         ]
     },
     {
@@ -26,9 +27,10 @@ const SERVICES = [
             "Combines multiple healing techniques",
             "Improves flexibility and range of motion"
         ],
+        hasPromo: true,
         prices: [
-            { duration: "60 Minutes", price: "$95" },
-            { duration: "90 Minutes", price: "$135" }
+            { duration: "60 Minutes", price: "$95", promoPrice: "$85" },
+            { duration: "90 Minutes", price: "$135", promoPrice: "$120" }
         ]
     },
     {
@@ -41,21 +43,23 @@ const SERVICES = [
             "Releases deep-seated tension",
             "Enhances mobility and recovery"
         ],
+        hasPromo: true,
         prices: [
-            { duration: "60 Minutes", price: "$100" },
-            { duration: "90 Minutes", price: "$140" }
+            { duration: "60 Minutes", price: "$100", promoPrice: "$90" },
+            { duration: "90 Minutes", price: "$140", promoPrice: "$125" }
         ]
     },
     {
         category: "FOCUSED RELIEF",
-        title: "Back, Neck & Shoulder",
-        description: "Relieve built-up tension where it’s felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress, perfect for those with desk jobs or carrying stress in their upper body.",
+        title: "Back, Neck & Shoulder Release",
+        description: "Relieve built-up tension where it's felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress, perfect for those with desk jobs or carrying stress in their upper body.",
         image: "/therapies/tension.png",
         benefits: [
             "Relieves upper body tension",
             "Reduces tension headaches",
             "Improves posture and alignment"
         ],
+        hasPromo: false,
         prices: [
             { duration: "30 Minutes", price: "$55" },
             { duration: "45 Minutes", price: "$75" }
@@ -71,9 +75,10 @@ const SERVICES = [
             "Alleviates lower back discomfort",
             "Promotes better sleep and relaxation"
         ],
+        hasPromo: true,
         prices: [
-            { duration: "60 Minutes", price: "$90" },
-            { duration: "90 Minutes", price: "$125" }
+            { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
+            { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
         ]
     },
     {
@@ -86,6 +91,7 @@ const SERVICES = [
             "Simultaneous relaxation experience",
             "Private suite setting"
         ],
+        hasPromo: false,
         prices: [
             { duration: "60 Minutes", price: "Varies" },
             { duration: "90 Minutes", price: "Varies" }
@@ -212,7 +218,13 @@ const ServicesPage: React.FC = () => {
                                         </div>
 
                                         {/* Pricing Box */}
-                                        <div className={`${isEven ? 'bg-[#FAF9F6]' : 'bg-white'} dark:bg-card-dark rounded-xl p-6 md:p-8 mb-8 border border-[#EAE5E0] dark:border-border-dark`}>
+                                        <div className={`${isEven ? 'bg-[#FAF9F6]' : 'bg-white'} dark:bg-card-dark rounded-xl p-6 md:p-8 mb-8 border border-[#EAE5E0] dark:border-border-dark relative`}>
+                                            {/* PROMO Badge */}
+                                            {service.hasPromo && (
+                                                <span className="absolute top-4 right-4 bg-[#C85A5A] text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full uppercase">
+                                                    Promo
+                                                </span>
+                                            )}
                                             <h3 className="font-serif font-bold text-xl text-[#788E6E] dark:text-[#849f81] mb-4 border-b border-[#EAE5E0] dark:border-border-dark pb-2">
                                                 Pricing
                                             </h3>
@@ -220,7 +232,16 @@ const ServicesPage: React.FC = () => {
                                                 {service.prices.map((price, idx) => (
                                                     <div key={idx} className="flex justify-between items-center text-[#1a231f] dark:text-white font-medium">
                                                         <span>{price.duration}</span>
-                                                        <span className="font-bold text-lg">{price.price}</span>
+                                                        <span className="flex items-center gap-2">
+                                                            {price.promoPrice ? (
+                                                                <>
+                                                                    <span className="text-[#a0a0a0] line-through text-base">{price.price}</span>
+                                                                    <span className="font-bold text-lg text-[#788E6E] dark:text-[#849f81]">{price.promoPrice}</span>
+                                                                </>
+                                                            ) : (
+                                                                <span className="font-bold text-lg">{price.price}</span>
+                                                            )}
+                                                        </span>
                                                     </div>
                                                 ))}
                                             </div>
