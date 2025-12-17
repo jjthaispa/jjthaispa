@@ -59,7 +59,7 @@ const Promotions: React.FC = () => {
             </div>
 
             {/* Holiday Special Section */}
-            <section id="holiday-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
+            <section id="holiday-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1a231f]">
                 <div className="container mx-auto max-w-6xl">
                     {/* Header */}
                     <div className="text-center mb-12">
@@ -73,7 +73,7 @@ const Promotions: React.FC = () => {
 
                     {/* Main Card */}
                     <div
-                        className={`bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${flashCard ? 'shadow-2xl scale-[1.02]' : ''
+                        className={`bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${flashCard ? 'md:shadow-2xl md:scale-[1.02]' : ''
                             }`}
                     >
                         <div className="flex flex-col md:flex-row">
@@ -138,10 +138,10 @@ const Promotions: React.FC = () => {
             </section>
 
             {/* Gift Card Section */}
-            <section id="gift-cards" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
+            <section id="gift-cards" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1a231f]">
                 <div className="container mx-auto max-w-6xl">
                     <div
-                        className={`flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24 transition-all duration-500 ${flashGiftCard ? 'shadow-2xl scale-[1.02]' : ''
+                        className={`flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24 transition-all duration-500 ${flashGiftCard ? 'md:shadow-2xl md:scale-[1.02]' : ''
                             }`}
                     >
                         {/* Image */}
