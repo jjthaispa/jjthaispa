@@ -1,9 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Promotions: React.FC = () => {
-    // Scroll to top on mount
+    const [flashCard, setFlashCard] = useState(false);
+    const [flashGiftCard, setFlashGiftCard] = useState(false);
+
+    // Scroll handling and flash effect
     useEffect(() => {
-        window.scrollTo(0, 0);
+        if (window.location.hash) {
+            const element = document.querySelector(window.location.hash);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                
+                // Trigger flash effect for holiday-special
+                if (window.location.hash === '#holiday-special') {
+                    setTimeout(() => {
+                        setFlashCard(true);
+                        setTimeout(() => setFlashCard(false), 500);
+                    }, 200);
+                }
+                
+                // Trigger flash effect for gift-cards
+                if (window.location.hash === '#gift-cards') {
+                    setTimeout(() => {
+                        setFlashGiftCard(true);
+                        setTimeout(() => setFlashGiftCard(false), 500);
+                    }, 200);
+                }
+            }
+        } else {
+            window.scrollTo(0, 0);
+        }
     }, []);
 
     return (
@@ -33,7 +59,7 @@ const Promotions: React.FC = () => {
             </div>
 
             {/* Holiday Special Section */}
-            <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
+            <section id="holiday-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
                 <div className="container mx-auto max-w-6xl">
                     {/* Header */}
                     <div className="text-center mb-12">
@@ -46,7 +72,11 @@ const Promotions: React.FC = () => {
                     </div>
 
                     {/* Main Card */}
-                    <div className="bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden">
+                    <div 
+                        className={`bg-[#F9F6F0] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${
+                            flashCard ? 'shadow-2xl scale-[1.02]' : ''
+                        }`}
+                    >
                         <div className="flex flex-col md:flex-row">
                             {/* Left Content */}
                             <div className="flex-1 p-8 md:p-10 lg:p-12 relative bg-white dark:bg-[#2E281A]">
@@ -109,16 +139,20 @@ const Promotions: React.FC = () => {
             </section>
 
             {/* Gift Card Section */}
-            <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
+            <section id="gift-cards" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f4f7f4] dark:bg-[#1a231f]">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24">
+                    <div 
+                        className={`flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-24 transition-all duration-500 ${
+                            flashGiftCard ? 'shadow-2xl scale-[1.02]' : ''
+                        }`}
+                    >
                         {/* Image */}
                         <div className="flex-1 w-full">
-                            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-square group">
+                            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-square">
                                 <img
                                     src="/promos/giftcard_box.png"
                                     alt="Gift Card"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
                         </div>

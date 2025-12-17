@@ -30,11 +30,11 @@ const PROMOS = [
   },
   {
     id: 3,
-    category: "MEMBERSHIP",
-    title: "Join the Wellness Club",
-    description: "Prioritize your health with monthly treatments at exclusive member-only rates. Cancel anytime.",
+    category: "AROMATHERAPY",
+    title: "Complimentary Aromatherapy",
+    description: "Enhance your massage with a soothing blend of essential oils. Our gift to you with every massage.",
     buttonText: "Learn More",
-    image: "/promos/promo.png",
+    image: "/promos/aroma.png",
     bgColor: "bg-[#F0EFF4] dark:bg-[#26242E]", // Light Lavender / Dark Purple
     btnColor: "bg-[#8A84A3] hover:bg-[#746e8c] text-white",
     enabled: true
@@ -180,6 +180,14 @@ const PromoCarousel: React.FC = () => {
                               href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
                               target="_blank"
                               rel="noopener noreferrer"
+                              className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                            >
+                              {promo.buttonText}
+                              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                            </a>
+                          ) : promo.buttonText === 'View Details' ? (
+                            <a
+                              href="/promotions#holiday-special"
                               className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
                             >
                               {promo.buttonText}
