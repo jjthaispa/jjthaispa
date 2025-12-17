@@ -21,7 +21,7 @@ const THERAPIES = [
   },
   {
     title: "Thai Deep Tissue",
-    description: "Deep pressure massage with focused relief targeting muscle knots and chronic tension for therapeutic results.",
+    description: "A therapeutic massage using firm pressure and Thai techniques. Ideal for pain relief, muscle recovery, and improved mobility. Can be enhanced with optional Ashiatsu massage.",
     image: "/therapies/deeptissue.png",
     prices: [
       { duration: "60 min", price: "$100" },
@@ -60,7 +60,7 @@ const THERAPIES = [
 const INCLUDED_OPTIONS = [
   {
     title: "Aromatherapy",
-    description: "Choice of relaxing essential oils with aromatherapy diffuser.",
+    description: "Elevate your massage experience with the calming power of essential oils.",
     icon: "spa",
     image: "/options/aromatherapy.svg"
   },
@@ -91,7 +91,7 @@ const INCLUDED_OPTIONS = [
   },
   {
     title: "Tea or Cold Water",
-    description: "Complimentary hot tea or cold water with every session.",
+    description: "Complimentary hot tea or cold water after every session.",
     icon: "emoji_food_beverage",
     image: "/options/tea.svg"
   },
@@ -170,7 +170,7 @@ const Services: React.FC = () => {
             Service Options
           </h3>
           <p className="text-lg text-text-light/70 dark:text-text-dark/70 mb-8">
-            Included in the price of your massage at no additional cost
+            Included with your massage at no additional cost
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

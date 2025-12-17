@@ -56,6 +56,18 @@ const Contact: React.FC = () => {
                                     </li>
                                     <li className="flex items-start gap-4">
                                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+                                            <span className="material-symbols-outlined">schedule</span>
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-text-light dark:text-text-dark mb-1">Business Hours</h3>
+                                            <p className="text-text-light/70 dark:text-text-dark/70 leading-relaxed text-sm">
+                                                <span className="block mb-1"><span className="font-bold text-text-light/90 dark:text-text-dark/90 w-20 inline-block">Mon - Fri:</span> 10:00 AM - 8:00 PM</span>
+                                                <span className="block"><span className="font-bold text-text-light/90 dark:text-text-dark/90 w-20 inline-block">Sat - Sun:</span> 10:00 AM - 6:00 PM</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
                                             <span className="material-symbols-outlined">call</span>
                                         </div>
                                         <div>

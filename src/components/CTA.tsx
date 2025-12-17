@@ -67,11 +67,11 @@ const CTA: React.FC = () => {
             {/* Divider */}
             <div className="border-t border-border-light dark:border-border-dark"></div>
 
-            {/* Opening Hours */}
+            {/* Business Hours */}
             <div className="flex items-start gap-3">
               <span className="material-symbols-outlined text-xl text-primary shrink-0">schedule</span>
               <div className="flex-1">
-                <h4 className="font-semibold text-text-light dark:text-text-dark text-sm mb-2">Opening Hours</h4>
+                <h4 className="font-semibold text-text-light dark:text-text-dark text-sm mb-2">Business Hours</h4>
                 <div className="space-y-1 text-sm text-text-light/80 dark:text-text-dark/80">
                   <div className="flex justify-between">
                     <span>Monday - Friday</span>

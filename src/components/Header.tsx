@@ -3,8 +3,8 @@ import { NAV_LINKS } from '../constants';
 
 // URLs for the logo images
 // These files are now in the public directory
-const LOGO_WHITE = "/logo-white.png";
-const LOGO_COLORED = "/logo-gold.png";
+const LOGO_WHITE = "/logo-white.svg";
+const LOGO_COLORED = "/logo-gold.svg";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
