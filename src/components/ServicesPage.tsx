@@ -43,7 +43,7 @@ const SERVICES = [
         category: "THERAPEUTIC",
         title: "Thai Deep Tissue",
         description: "A therapeutic massage using firm pressure and Thai techniques to target the inner layers of your muscles and connective tissues. This is ideal for treating musculoskeletal issues, such as strains and sports injuries, breaking up scar tissue and physically breaking down muscle knots.  For those seeking a deeper level of release, optional Ashiatsu may be incorporated, using controlled, broad foot pressure to enhance relaxation and muscle relief while maintaining a soothing experience.",
-        image: "/carousel/walking.png",
+        image: "/therapies/walking2.png",
         benefits: [
             "Alleviates chronic muscle pain",
             "Releases deep-seated tension",

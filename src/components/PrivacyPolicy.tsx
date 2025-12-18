@@ -2,27 +2,39 @@ import React from 'react';
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background-light dark:bg-background-dark pt-24 pb-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        {/* Header */}
-        <div className="mb-12">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-6"
-          >
-            <span className="material-symbols-outlined">arrow_back</span>
-            <span className="text-sm font-medium">Back to Home</span>
-          </a>
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark mb-4">
+    <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+      {/* Dark Hero Section */}
+      <div className="bg-background-dark min-h-[400px] md:min-h-[500px] flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
             Privacy Policy
           </h1>
-          <p className="text-text-light/70 dark:text-text-dark/70">
-            Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          <div className="h-1 w-24 bg-primary mx-auto rounded-full mb-8"></div>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+            J.J Thai Spa is committed to protecting your privacy and ensuring your personal information is handled with care.
           </p>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="prose prose-lg dark:prose-invert max-w-none">
+      {/* Main Content Card */}
+      <div className="flex-grow px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="container mx-auto max-w-4xl relative z-10 -mt-12">
+          <div className="bg-card-light dark:bg-card-dark p-8 md:p-12 rounded-2xl shadow-xl border border-border-light dark:border-border-dark">
+            <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-6">
+              <a
+                href="/"
+                className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors group"
+              >
+                <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+                <span className="text-sm font-bold uppercase tracking-wider">Back to Home</span>
+              </a>
+              <p className="text-sm text-text-light/50 dark:text-text-dark/50 font-medium">
+                Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+
+            {/* Content */}
+            <div className="prose prose-lg dark:prose-invert max-w-none">
           <section className="mb-10">
             <h2 className="font-serif text-2xl font-bold text-text-light dark:text-text-dark mb-4">
               Introduction
@@ -198,7 +210,9 @@ const PrivacyPolicy: React.FC = () => {
         </div>
       </div>
     </div>
-  );
+  </div>
+</div>
+);
 };
 
 export default PrivacyPolicy;

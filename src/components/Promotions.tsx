@@ -39,7 +39,7 @@ const Promotions: React.FC = () => {
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/promotion_background.png"
+                        src="/buddha.png"
                         alt="Spa Promotions"
                         className="w-full h-full object-cover"
                     />
