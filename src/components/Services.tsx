@@ -3,7 +3,7 @@ import React from 'react';
 const THERAPIES = [
   {
     title: "Swedish Massage",
-    description: "Relaxing full-body techniques using long strokes, kneading, and gentle to medium pressure to ease tension and promote circulation.",
+    description: "Our Swedish Massage blends long, flowing movements and light kneading with gentle to medium pressure to gently relax muscles, reduce stress, and restore balance. ",
     image: "/therapies/swedish2.png",
     hasPromo: true,
     prices: [
@@ -55,10 +55,10 @@ const THERAPIES = [
     title: "Couples Massage",
     description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
     image: "/therapies/couples.png",
-    hasPromo: false,
+    hasPromo: true,
     prices: [
-      { duration: "60 min", price: "Varies" },
-      { duration: "90 min", price: "Varies" }
+      { duration: "60 min Swedish", price: "$180", promoPrice: "$160" },
+      { duration: "60 min Deep Tissue", price: "$200", promoPrice: "$180" }
     ]
   }
 ];
