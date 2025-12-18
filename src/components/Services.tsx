@@ -3,7 +3,7 @@ import React from 'react';
 const THERAPIES = [
   {
     title: "Swedish Massage",
-    description: "Our Swedish Massage blends long, flowing movements and light kneading with gentle to medium pressure to gently relax muscles, reduce stress, and restore balance. ",
+    description: "Our Swedish Massage blends long, flowing movements and light kneading with gentle to medium pressure to gently relax muscles, reduce stress, and restore balance.",
     image: "/therapies/swedish2.png",
     hasPromo: true,
     prices: [
