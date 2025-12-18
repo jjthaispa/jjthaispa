@@ -5,14 +5,14 @@ const PROMOS = [
     id: 1,
     category: "HOLIDAY SPECIAL",
     title: "A Holiday Gift to Yourself",
-    description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 minutes\n $15 off 90 minutes",
+    description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 or 75 minutes\n $15 off 90 minutes",
     buttonText: "View Details",
     image: "/promos/promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     enabled: true,
     overlay: [
-      { highlight: "$10 OFF", subtitle: "60 MINUTE MASSAGE" },
+      { highlight: "$10 OFF", subtitle: "60 OR 75 MINUTE MASSAGE" },
       { highlight: "$15 OFF", subtitle: "90 MINUTE MASSAGE" }
     ]
   },

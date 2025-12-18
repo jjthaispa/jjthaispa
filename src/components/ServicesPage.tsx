@@ -4,8 +4,8 @@ const SERVICES = [
     {
         category: "RELAXATION",
         title: "Swedish Massage",
-        description: "Our classic Swedish Massage creates a calming experience designed to relax the entire body. By using long, gliding strokes in the direction of blood returning to the heart, this therapy increases oxygen levels in the blood, decreases muscle toxins, and improves circulation and flexibility while easing tension.",
-        image: "/therapies/swedish.png",
+        description: "Our Swedish Massage is a classic, full-body treatment designed to promote deep relaxation and overall well-being. Using gentle, flowing strokes, light kneading, and rhythmic movements with gentle to medium pressure, this massage helps ease muscle tension, improve circulation, and calm the nervous system.",
+        image: "/therapies/swedish2.png",
         benefits: [
             "Promotes deep relaxation and stress relief",
             "Improves blood circulation",
@@ -13,7 +13,10 @@ const SERVICES = [
         ],
         hasPromo: true,
         prices: [
+            { duration: "30 Minutes", price: "$55" },
+            { duration: "45 Minutes", price: "$75" },
             { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
+            { duration: "75 Minutes", price: "$110", promoPrice: "$100" },
             { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
         ]
     },
@@ -29,23 +32,30 @@ const SERVICES = [
         ],
         hasPromo: true,
         prices: [
+            { duration: "30 Minutes", price: "$60" },
+            { duration: "45 Minutes", price: "$80" },
             { duration: "60 Minutes", price: "$95", promoPrice: "$85" },
+            { duration: "75 Minutes", price: "$115", promoPrice: "$105" },
             { duration: "90 Minutes", price: "$135", promoPrice: "$120" }
         ]
     },
     {
         category: "THERAPEUTIC",
         title: "Thai Deep Tissue",
-        description: "A therapeutic massage using firm pressure and Thai techniques to target the inner layers of your muscles and connective tissues. This is ideal for treating musculoskeletal issues, such as strains and sports injuries, breaking up scar tissue and physically breaking down muscle knots.",
-        image: "/therapies/deeptissue.png",
+        description: "A therapeutic massage using firm pressure and Thai techniques to target the inner layers of your muscles and connective tissues. This is ideal for treating musculoskeletal issues, such as strains and sports injuries, breaking up scar tissue and physically breaking down muscle knots.  For those seeking a deeper level of release, optional Ashiatsu may be incorporated, using controlled, broad foot pressure to enhance relaxation and muscle relief while maintaining a soothing experience.",
+        image: "/carousel/walking.png",
         benefits: [
             "Alleviates chronic muscle pain",
             "Releases deep-seated tension",
-            "Enhances mobility and recovery"
+            "Enhances mobility and recovery",
+            "Enhances flexibility through gentle stretching"
         ],
         hasPromo: true,
         prices: [
+            { duration: "30 Minutes", price: "$65" },
+            { duration: "45 Minutes", price: "$85" },
             { duration: "60 Minutes", price: "$100", promoPrice: "$90" },
+            { duration: "75 Minutes", price: "$120", promoPrice: "$110" },
             { duration: "90 Minutes", price: "$140", promoPrice: "$125" }
         ]
     },
@@ -77,7 +87,10 @@ const SERVICES = [
         ],
         hasPromo: true,
         prices: [
+            { duration: "30 Minutes", price: "$55" },
+            { duration: "45 Minutes", price: "$75" },
             { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
+            { duration: "75 Minutes", price: "$110", promoPrice: "$100" },
             { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
         ]
     },
@@ -92,8 +105,10 @@ const SERVICES = [
             "Private suite setting"
         ],
         hasPromo: false,
+        callToBook: true,
         prices: [
             { duration: "60 Minutes", price: "Varies" },
+            { duration: "75 Minutes", price: "Varies" },
             { duration: "90 Minutes", price: "Varies" }
         ]
     }
@@ -103,19 +118,25 @@ const ServicesPage: React.FC = () => {
     const [flashingService, setFlashingService] = React.useState<string | null>(null);
 
     useEffect(() => {
-        if (window.location.hash) {
-            const id = window.location.hash.substring(1);
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => {
-                    setFlashingService(id);
-                    setTimeout(() => setFlashingService(null), 500);
-                }, 200);
+        const handleHashChange = () => {
+            if (window.location.hash) {
+                const id = window.location.hash.substring(1);
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        setFlashingService(id);
+                        setTimeout(() => setFlashingService(null), 700);
+                    }, 200);
+                }
+            } else {
+                window.scrollTo(0, 0);
             }
-        } else {
-            window.scrollTo(0, 0);
-        }
+        };
+
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
 
     return (
@@ -160,13 +181,18 @@ const ServicesPage: React.FC = () => {
                         ? 'flex-col-reverse md:flex-row'
                         : 'flex-col-reverse md:flex-row-reverse';
 
-                    const serviceId = service.title.toLowerCase().replace(/\s+/g, '-');
+                    const serviceId = service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                     const isFlashing = flashingService === serviceId;
 
                     return (
-                        <section key={index} id={serviceId} className={`scroll-mt-32 py-20 px-4 sm:px-6 lg:px-8 ${bgClass}`}>
+                        <section
+                            key={index}
+                            id={serviceId}
+                            className={`scroll-mt-32 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${bgClass} ${isFlashing ? 'brightness-[0.8] z-10' : 'brightness-100'
+                                }`}
+                        >
                             <div className="container mx-auto max-w-7xl">
-                                <div className={`flex items-start gap-12 lg:gap-20 ${layoutClass} transition-all duration-500 ${isFlashing ? 'md:shadow-2xl md:scale-[1.02] md:rounded-2xl md:p-4' : ''}`}>
+                                <div className={`flex items-start gap-12 lg:gap-20 ${layoutClass}`}>
                                     {/* Image */}
                                     <div className="flex-1 w-full md:mt-24">
                                         <div className="relative rounded-2xl overflow-hidden aspect-square md:aspect-[4/3] w-full">
@@ -249,12 +275,12 @@ const ServicesPage: React.FC = () => {
 
                                         {/* Button */}
                                         <a
-                                            href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-block bg-[#788E6E] hover:bg-[#6f876c] text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                                            href={service.callToBook ? "tel:+5088070141" : "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"}
+                                            target={service.callToBook ? undefined : "_blank"}
+                                            rel={service.callToBook ? undefined : "noopener noreferrer"}
+                                            className={`inline-block ${service.callToBook ? 'bg-[#c0a172] hover:bg-[#a88a5d]' : 'bg-[#788E6E] hover:bg-[#6f876c]'} text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5`}
                                         >
-                                            Book Appointment
+                                            {service.callToBook ? 'Call for Appointment' : 'Book Appointment'}
                                         </a>
                                     </div>
                                 </div>

@@ -4,7 +4,7 @@ const THERAPIES = [
   {
     title: "Swedish Massage",
     description: "Relaxing full-body techniques using long strokes, kneading, and gentle to medium pressure to ease tension and promote circulation.",
-    image: "/therapies/swedish.png",
+    image: "/therapies/swedish2.png",
     hasPromo: true,
     prices: [
       { duration: "60 min", price: "$90", promoPrice: "$80" },
@@ -32,7 +32,7 @@ const THERAPIES = [
     ]
   },
   {
-    title: "Back, Neck and Shoulder Release",
+    title: "Back, Neck & Shoulder Release",
     description: "Relieve built-up tension where it's felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress.",
     image: "/therapies/tension.png",
     hasPromo: false,
@@ -171,7 +171,7 @@ const Services: React.FC = () => {
                   ))}
                 </div>
                 <a
-                  href={`/services#${therapy.title.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={`/services#${therapy.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                   className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>

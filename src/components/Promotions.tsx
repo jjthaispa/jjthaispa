@@ -79,13 +79,6 @@ const Promotions: React.FC = () => {
                         <div className="flex flex-col md:flex-row">
                             {/* Left Content */}
                             <div className="flex-1 p-8 md:p-10 lg:p-12 relative bg-white dark:bg-[#2E281A]">
-                                {/* Decorative Leaf */}
-                                <div className="absolute top-0 left-0 w-20 h-20 opacity-20">
-                                    <svg viewBox="0 0 100 100" className="w-full h-full text-[#849f81]" fill="currentColor">
-                                        <path d="M50 5 C30 25 15 50 20 80 C25 90 35 95 50 95 C65 95 75 90 80 80 C85 50 70 25 50 5 M50 20 C40 35 35 55 40 75 C43 82 46 85 50 85 C54 85 57 82 60 75 C65 55 60 35 50 20" />
-                                    </svg>
-                                </div>
-
                                 <h3 className="font-serif text-2xl md:text-3xl text-[#2e2e2e] dark:text-white mb-5">
                                     A Gift to Yourself
                                 </h3>
@@ -98,7 +91,7 @@ const Promotions: React.FC = () => {
                                     <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
                                         <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
                                         <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$10 OFF</div>
-                                        <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 Minute Massage</span>
+                                        <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 or 75 Minute Massage</span>
                                     </div>
                                     <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
                                         <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
@@ -107,17 +100,6 @@ const Promotions: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* CTA Button */}
-                                <a
-                                    href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#849f81] hover:bg-[#6f876c] text-white text-sm font-medium transition-all shadow-sm hover:shadow-md"
-                                >
-                                    Claim Offer
-                                    <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
-                                </a>
-
                                 {/* Disclaimer */}
                                 <p className="text-[11px] text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
                                     *Offer valid through December 31st. Cannot be combined with other discounts.
@@ -125,11 +107,11 @@ const Promotions: React.FC = () => {
                             </div>
 
                             {/* Right Image */}
-                            <div className="flex-1 min-h-[300px] md:min-h-0">
+                            <div className="flex-1 min-h-[300px] md:h-[450px] self-center overflow-hidden">
                                 <img
                                     src="/promos/promo.png"
                                     alt="Holiday Healing Special"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover object-bottom"
                                 />
                             </div>
                         </div>
