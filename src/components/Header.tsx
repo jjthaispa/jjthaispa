@@ -44,7 +44,7 @@ const Header: React.FC = () => {
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${headerClass}`}>
       <div className="container mx-auto flex items-center justify-between whitespace-nowrap px-4 sm:px-6 lg:px-8 py-4">
         {/* Logo - Left section with fixed width for balance */}
-        <div className="flex items-center gap-4 md:min-w-[200px]">
+        <a href="/" className="flex items-center gap-4 md:min-w-[200px]">
           <img
             src={logoSrc}
             alt="J.J Thai Spa Logo"
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
           <h2 className={`font-serif text-xl font-bold tracking-tight header-title ${textClass}`}>
             J<span style={{ position: 'relative', top: '-0.15em' }}>.</span>J Thai Spa
           </h2>
-        </div>
+        </a>
 
         {/* Navigation - Centered */}
         <nav className="hidden md:flex items-center justify-center gap-8 flex-1">
