@@ -193,6 +193,14 @@ const PromoCarousel: React.FC = () => {
                               {promo.buttonText}
                               <span className="material-symbols-outlined text-lg">arrow_forward</span>
                             </a>
+                          ) : promo.buttonText === 'Learn More' ? (
+                            <a
+                              href="/services#aromatherapy"
+                              className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                            >
+                              {promo.buttonText}
+                              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                            </a>
                           ) : (
                             <button className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
                               {promo.buttonText}

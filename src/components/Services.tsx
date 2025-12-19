@@ -151,7 +151,7 @@ const Services: React.FC = () => {
               </div>
 
               {/* Pricing and Arrow - below image and description */}
-              <div className="mt-4 flex items-center justify-between gap-2">
+              <div className="mt-auto pt-4 flex items-center justify-between gap-2">
                 <div className="flex flex-wrap gap-2">
                   {therapy.prices.map((price, priceIndex) => (
                     <span

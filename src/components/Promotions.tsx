@@ -83,35 +83,49 @@ const Promotions: React.FC = () => {
                                     A Gift to Yourself
                                 </h3>
                                 <p className="text-[#4a4a4a] dark:text-text-dark/80 leading-relaxed mb-8 text-sm md:text-base">
-                                    Relax more. Stress less. Take advantage of our limited-time holiday offer designed to melt away the tension of the season. Treat yourself or a loved one to the ultimate relaxation experience.
+                                    Relax more. Stress less. Take advantage of our limited-time holiday discount. Treat yourself or a loved one to the ultimate relaxation experience.
                                 </p>
 
                                 {/* Discount Boxes */}
-                                <div className="flex gap-4 mb-8">
-                                    <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
-                                        <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
-                                        <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$10 OFF</div>
-                                        <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 or 75 Minute Massage</span>
+                                <div className="space-y-4 mb-8">
+                                    <div className="flex gap-4">
+                                        <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                            <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                            <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$10 OFF</div>
+                                            <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 or 75 Minute Massage</span>
+                                        </div>
+                                        <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                            <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                            <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$15 OFF</div>
+                                            <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">90 Minute Massage</span>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
-                                        <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
-                                        <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$15 OFF</div>
-                                        <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">90 Minute Massage</span>
+                                    <div className="flex gap-4">
+                                        <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                            <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                            <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$20 OFF</div>
+                                            <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 Minute Couples Massage</span>
+                                        </div>
+                                        <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                            <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                            <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$30 OFF</div>
+                                            <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">90 Minute Couples Massage</span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Disclaimer */}
-                                <p className="text-[11px] text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
-                                    *Offer valid through December 31st. Cannot be combined with other discounts.
+                                <p className="text-sm text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
+                                    *Offer valid through January 4th, 2026. Cannot be combined with other discounts.  Discount applied at checkout.
                                 </p>
                             </div>
 
                             {/* Right Image */}
-                            <div className="flex-1 min-h-[300px] md:h-[450px] self-center overflow-hidden">
+                            <div className="flex-1 min-h-[300px] md:min-h-0 overflow-hidden">
                                 <img
                                     src="/promos/promo.png"
                                     alt="Holiday Healing Special"
-                                    className="w-full h-full object-cover object-bottom"
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
                         </div>

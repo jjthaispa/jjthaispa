@@ -32,13 +32,14 @@ const Policies: React.FC = () => {
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
                                 <li>All massage and spa services are available <strong>by appointment only</strong>. Walk-ins may be accommodated based on availability.</li>
-                                <li>We strongly recommend booking in advance to secure your preferred date, time, and therapist.</li>
-                                <li>A <strong>credit card, gift certificate, or deposit</strong> may be required to guarantee your reservation.</li>
+                                <li>We strongly recommend booking online in advance to secure your preferred date, time, and therapist.</li>
+                                <li>Bookings for couples massage can't be done online at this time and must be done over the phone.</li>
+                                <li>A <strong>credit card or deposit</strong> may be required to guarantee your reservation.</li>
                                 <li>Online booking requests are subject to confirmation. In some cases, appointment times may be adjusted to ensure proper scheduling flow.</li>
                             </ul>
                         </section>
 
-                        <section>
+                        {/* <section>
                             <h2 className="font-serif text-2xl font-bold text-text-light dark:text-text-dark mb-4 pb-2 border-b border-border-light dark:border-border-dark">
                                 Deposits
                             </h2>
@@ -48,7 +49,7 @@ const Policies: React.FC = () => {
                                 <li>For services requiring special preparation (e.g., body scrubs, herbal ball treatments), deposits help cover preparation costs.</li>
                                 <li>Failure to provide a deposit may result in refusal of reservation.</li>
                             </ul>
-                        </section>
+                        </section> */}
 
                         <section>
                             <h2 className="font-serif text-2xl font-bold text-text-light dark:text-text-dark mb-4 pb-2 border-b border-border-light dark:border-border-dark">
@@ -56,13 +57,7 @@ const Policies: React.FC = () => {
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
                                 <li>A minimum of <strong>24 hours’ notice</strong> is required to cancel or reschedule an appointment.</li>
-                                <li>Cancellations or rescheduling with less than 24 hours’ notice may result in:
-                                    <ul className="list-circle pl-5 mt-2 space-y-1">
-                                        <li>A cancellation fee, forfeiture of deposit, or</li>
-                                        <li>Being charged the full service amount.</li>
-                                    </ul>
-                                </li>
-                                <li><strong>No-shows</strong> (missed appointments without notice) will be charged the full service fee using the payment method on file.</li>
+                                <li><strong>No-shows</strong> (missed appointments without notice) may result in a <strong>non-refundable deposit</strong> being charged to secure future bookings or being blocked from future bookings entirely.</li>
                                 <li>Repeated last-minute cancellations or rescheduling may require future bookings to be secured with a <strong>non-refundable deposit</strong>.</li>
                             </ul>
                         </section>
@@ -72,9 +67,8 @@ const Policies: React.FC = () => {
                                 Arrival & Late Arrival Policy
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
-                                <li>Please arrive <strong>10–15 minutes early</strong> to allow time for parking, intake forms, and preparation.</li>
-                                <li>Late arrivals may result in a <strong>shortened session</strong> to avoid delaying other clients.</li>
-                                <li>Appointments cannot be extended beyond the scheduled time.</li>
+                                <li>Please arrive <strong>10 minutes early</strong> to allow time for intake forms, and preparation.</li>
+                                <li>Late arrivals may result in a <strong>shortened session</strong> to avoid delaying other clients.</li> For example, if an appointment is scheduled for 60 minutes and the client arrives 15 minutes late, the session will be shortened to 45 minutes.
                                 <li>Clients arriving more than <strong>15 minutes late</strong> may forfeit the appointment and be charged accordingly.</li>
                             </ul>
                         </section>
@@ -84,7 +78,7 @@ const Policies: React.FC = () => {
                                 Session Duration
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
-                                <li>Service time includes consultation, preparation, and dressing time.</li>
+                                <li>Service time includes 5 minutes for consultation, preparation, and dressing time.</li>
                                 <li>Arriving late or requesting early termination does not change the service fee.</li>
                             </ul>
                         </section>
@@ -107,7 +101,7 @@ const Policies: React.FC = () => {
                                 Informed Consent & Scope of Practice
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
-                                <li>Clients may be required to complete a health intake and consent form prior to service.</li>
+                                <li>Clients are required to complete a health intake and consent form prior to initial service.</li>
                                 <li>Massage therapy is not a substitute for medical diagnosis or treatment.</li>
                                 <li>Therapists do not diagnose or prescribe medical treatments and may refer clients to licensed medical professionals when appropriate.</li>
                             </ul>
@@ -203,8 +197,8 @@ const Policies: React.FC = () => {
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
                                 <li>Payment is due at the time of service or booking, depending on the service.</li>
-                                <li>We accept major credit cards, cash, and gift certificates.</li>
-                                <li>Promotional or cash-discount services require payment in <strong>cash only</strong>.</li>
+                                <li>We accept major credit cards, cash, and gift cards.  JJ Thai Spa Gift cards are available in store or online.</li>
+                                <li>Paper gift certificates are no longer available.  We will continue to accept gift certificates issues after January 1st, 2023</li>
                                 <li>Prices do not include gratuity. Tips are appreciated but never required.</li>
                             </ul>
                         </section>
@@ -221,14 +215,12 @@ const Policies: React.FC = () => {
 
                         <section>
                             <h2 className="font-serif text-2xl font-bold text-text-light dark:text-text-dark mb-4 pb-2 border-b border-border-light dark:border-border-dark">
-                                Gift Certificates
+                                Gift Cards
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
-                                <li>Gift certificates are non-refundable and cannot be redeemed for cash.</li>
-                                <li>Gift certificates expire <strong>3 years from the purchase date</strong>, unless otherwise required by law.</li>
-                                <li>Only one gift certificate may be used per person per service.</li>
-                                <li>Gift certificates cannot be combined with promotions or discounts.</li>
-                                <li>Lost or stolen gift certificates are not guaranteed to be replaced.</li>
+                                <li>Gift cards are non-refundable and cannot be redeemed for cash.</li>
+                                <li>Gift cards balance can be used for any service at JJ Thai Spa, but cannot be used for gratuity.</li>
+                                <li>Lost or stolen gift cards are not guaranteed to be replaced.</li>
                             </ul>
                         </section>
 

@@ -16,6 +16,7 @@ interface Service {
     prices: Price[];
     callToBook?: boolean;
     benefitsHeading?: string;
+    isAddOn?: boolean;
 }
 
 const SERVICES: Service[] = [
@@ -134,6 +135,26 @@ const SERVICES: Service[] = [
             { duration: "90 Minutes Swedish", price: "$250", promoPrice: "$220" },
             { duration: "90 Minutes Thai Combination", price: "$270", promoPrice: "$240" },
             { duration: "90 Minutes Thai Deep Tissue", price: "$280", promoPrice: "$250" }
+        ]
+    },
+    {
+        category: "WELLNESS ADD-ON",
+        title: "Aromatherapy",
+        description: "Enhance your massage experience with the therapeutic power of essential oils. Aromatherapy uses naturally extracted plant essences to promote health and well-being, helping to reduce stress, improve sleep quality, and boost your mood during and after your session at no additional cost.",
+        image: "/therapies/aroma_desk.png",
+        benefitsHeading: "Available Scents:",
+        benefits: [
+            "Eucalyptus",
+            "Lavender",
+            "Citrus",
+            "Wintergreen",
+            "Clary Sage",
+            
+        ],
+        hasPromo: false,
+        isAddOn: true,
+        prices: [
+            { duration: "Add-on to any service", price: "$10" }
         ]
     }
 ];
@@ -268,44 +289,48 @@ const ServicesPage: React.FC = () => {
                                         </div>
 
                                         {/* Pricing Box */}
-                                        <div className={`${isEven ? 'bg-[#FAF9F6]' : 'bg-white'} dark:bg-card-dark rounded-xl p-6 md:p-8 mb-8 border border-[#EAE5E0] dark:border-border-dark relative`}>
-                                            {/* PROMO Badge */}
-                                            {service.hasPromo && (
-                                                <span className="absolute top-4 right-4 bg-[#C85A5A] text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full uppercase">
-                                                    Promo
-                                                </span>
-                                            )}
-                                            <h3 className="font-serif font-bold text-xl text-[#788E6E] dark:text-[#849f81] mb-4 border-b border-[#EAE5E0] dark:border-border-dark pb-2">
-                                                Pricing
-                                            </h3>
-                                            <div className="space-y-3">
-                                                {service.prices.map((price, idx) => (
-                                                    <div key={idx} className="flex justify-between items-center text-[#1a231f] dark:text-white font-medium">
-                                                        <span>{price.duration}</span>
-                                                        <span className="flex items-center gap-2">
-                                                            {price.promoPrice ? (
-                                                                <>
-                                                                    <span className="text-[#a0a0a0] line-through text-base">{price.price}</span>
-                                                                    <span className="font-bold text-lg text-[#788E6E] dark:text-[#849f81]">{price.promoPrice}</span>
-                                                                </>
-                                                            ) : (
-                                                                <span className="font-bold text-lg">{price.price}</span>
-                                                            )}
-                                                        </span>
-                                                    </div>
-                                                ))}
+                                        {!service.isAddOn && (
+                                            <div className={`${isEven ? 'bg-[#FAF9F6]' : 'bg-white'} dark:bg-card-dark rounded-xl p-6 md:p-8 mb-8 border border-[#EAE5E0] dark:border-border-dark relative`}>
+                                                {/* PROMO Badge */}
+                                                {service.hasPromo && (
+                                                    <span className="absolute top-4 right-4 bg-[#C85A5A] text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full uppercase">
+                                                        Promo
+                                                    </span>
+                                                )}
+                                                <h3 className="font-serif font-bold text-xl text-[#788E6E] dark:text-[#849f81] mb-4 border-b border-[#EAE5E0] dark:border-border-dark pb-2">
+                                                    Pricing
+                                                </h3>
+                                                <div className="space-y-3">
+                                                    {service.prices.map((price, idx) => (
+                                                        <div key={idx} className="flex justify-between items-center text-[#1a231f] dark:text-white font-medium">
+                                                            <span>{price.duration}</span>
+                                                            <span className="flex items-center gap-2">
+                                                                {price.promoPrice ? (
+                                                                    <>
+                                                                        <span className="text-[#a0a0a0] line-through text-base">{price.price}</span>
+                                                                        <span className="font-bold text-lg text-[#788E6E] dark:text-[#849f81]">{price.promoPrice}</span>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="font-bold text-lg">{price.price}</span>
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
 
                                         {/* Button */}
-                                        <a
-                                            href={service.callToBook ? "tel:+5088070141" : "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"}
-                                            target={service.callToBook ? undefined : "_blank"}
-                                            rel={service.callToBook ? undefined : "noopener noreferrer"}
-                                            className={`inline-block ${service.callToBook ? 'bg-[#c0a172] hover:bg-[#a88a5d]' : 'bg-[#788E6E] hover:bg-[#6f876c]'} text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5`}
-                                        >
-                                            {service.callToBook ? 'Call for Appointment' : 'Book Appointment'}
-                                        </a>
+                                        {!service.isAddOn && (
+                                            <a
+                                                href={service.callToBook ? "tel:+5088070141" : "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"}
+                                                target={service.callToBook ? undefined : "_blank"}
+                                                rel={service.callToBook ? undefined : "noopener noreferrer"}
+                                                className={`inline-block ${service.callToBook ? 'bg-[#c0a172] hover:bg-[#a88a5d]' : 'bg-[#788E6E] hover:bg-[#6f876c]'} text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5`}
+                                            >
+                                                {service.callToBook ? 'Call for Appointment' : 'Book Appointment'}
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
