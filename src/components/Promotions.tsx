@@ -161,7 +161,7 @@ const Promotions: React.FC = () => {
                             </p>
 
                             <a
-                                href="https://squareup.com/gift/MLD5018696F6F/order"
+                                href="https://app.squareup.com/gift/MLW48R10CJHXH/order"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 text-[#5A6B52] dark:text-[#849f81] font-bold text-lg hover:text-[#3d4a37] dark:hover:text-[#a3bea0] transition-colors group"

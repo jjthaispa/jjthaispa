@@ -201,6 +201,16 @@ const PromoCarousel: React.FC = () => {
                               {promo.buttonText}
                               <span className="material-symbols-outlined text-lg">arrow_forward</span>
                             </a>
+                          ) : promo.buttonText === 'Buy eGift Card' ? (
+                            <a
+                              href="https://app.squareup.com/gift/MLW48R10CJHXH/order"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                            >
+                              {promo.buttonText}
+                              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                            </a>
                           ) : (
                             <button className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}>
                               {promo.buttonText}
