@@ -78,7 +78,6 @@ const Policies: React.FC = () => {
                                 Session Duration
                             </h2>
                             <ul className="list-disc pl-5 space-y-2 text-text-light/80 dark:text-text-dark/80 leading-relaxed">
-                                <li>Service time includes 5 minutes for consultation, preparation, and dressing time.</li>
                                 <li>Arriving late or requesting early termination does not change the service fee.</li>
                             </ul>
                         </section>
