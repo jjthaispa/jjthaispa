@@ -3,6 +3,12 @@ import React from 'react';
 const HolidayWindowAd: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-0 md:p-0">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+          .print-bg-promo { background-color: #788E6E !important; color: white !important; }
+        }
+      `}} />
       <div className="w-full bg-white shadow-none flex flex-col md:flex-row">
         {/* Left Side: Image */}
         <div className="flex-1 min-h-[400px] md:min-h-[700px] relative overflow-hidden">
@@ -39,30 +45,63 @@ const HolidayWindowAd: React.FC = () => {
             </p>
 
             {/* Promotional Badges Grid */}
-            <div className="grid grid-cols-2 gap-4 max-w-lg">
-              {[
-                { amount: '10', label: '60 or 75 Minute' },
-                { amount: '15', label: '90 Minute' },
-                { amount: '20', label: '60 Min Couples' },
-                { amount: '30', label: '90 Min Couples' }
-              ].map((promo, idx) => (
-                <div key={idx} className="relative group">
-                  <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 hover:scale-[1.02] transition-transform duration-300">
-                    <span className="text-[8px] md:text-[10px] font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
-                      Holiday Savings
-                    </span>
-                    <div className="flex items-start">
-                      <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
-                      <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
+            <div className="flex flex-col gap-6 max-w-lg">
+              {/* Individual Savings Row */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { amount: '10', label: '60 or 75 Minute' },
+                  { amount: '15', label: '90 Minute' }
+                ].map((promo, idx) => (
+                  <div key={idx} className="relative group">
+                    <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
+                      <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                        Holiday Savings
+                      </span>
+                      <div className="flex items-start">
+                        <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
+                        <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
+                      </div>
+                      <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                        {promo.label}
+                      </div>
                     </div>
-                    <div className="text-[8px] md:text-[10px] font-medium opacity-70 mt-1 uppercase tracking-[0.1em] text-center">
-                      {promo.label}
-                    </div>
+                    {/* Subtle glow effect behind each badge */}
+                    <div className="absolute inset-0 bg-[#788E6E] blur-2xl opacity-10 -z-10 rounded-full scale-110 group-hover:opacity-20 transition-opacity"></div>
                   </div>
-                  {/* Subtle glow effect behind each badge */}
-                  <div className="absolute inset-0 bg-[#788E6E] blur-2xl opacity-10 -z-10 rounded-full scale-110 group-hover:opacity-20 transition-opacity"></div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* Couples Savings Label */}
+              <div className="flex items-center gap-4 py-2">
+                <div className="h-px bg-[#788E6E]/20 flex-grow"></div>
+                <span className="text-[#788E6E] font-serif italic text-xl md:text-3xl whitespace-nowrap">Couples Savings</span>
+                <div className="h-px bg-[#788E6E]/20 flex-grow"></div>
+              </div>
+
+              {/* Couples Savings Row */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { amount: '20', label: '60 Min Couples' },
+                  { amount: '30', label: '90 Min Couples' }
+                ].map((promo, idx) => (
+                  <div key={idx} className="relative group">
+                    <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
+                      <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                        Holiday Savings
+                      </span>
+                      <div className="flex items-start">
+                        <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
+                        <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
+                      </div>
+                      <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                        {promo.label}
+                      </div>
+                    </div>
+                    {/* Subtle glow effect behind each badge */}
+                    <div className="absolute inset-0 bg-[#788E6E] blur-2xl opacity-10 -z-10 rounded-full scale-110 group-hover:opacity-20 transition-opacity"></div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Disclaimer */}

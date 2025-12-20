@@ -45,7 +45,7 @@ const PriceList: React.FC = () => {
                 <div className="mb-8 print:mb-4 pb-4 flex justify-between items-end">
                     <div className="text-left">
                         <div className="flex items-center gap-6 mb-3">
-                            <img src="/logo-gold.svg" alt="Logo" className="h-16 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.9)]" />
+                            <img src="/logo-gold.svg" alt="Logo" className="h-16 w-auto object-contain" />
                             <h1 className="font-serif text-5xl font-bold text-[#1a231f]">
                                 J<span style={{ position: 'relative', top: '-0.15em' }}>.</span>J Thai Spa
                             </h1>
