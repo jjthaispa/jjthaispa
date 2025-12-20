@@ -14,9 +14,10 @@ import Contact from './components/Contact';
 import Promotions from './components/Promotions';
 import ServicesPage from './components/ServicesPage';
 import PriceList from './components/PriceList';
+import HolidayWindowAd from './components/HolidayWindowAd';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'holiday_window_ad'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -35,6 +36,8 @@ function App() {
         setCurrentPage('services');
       } else if (path === '/pricelist') {
         setCurrentPage('pricelist');
+      } else if (path === '/holiday-window-ad') {
+        setCurrentPage('holiday_window_ad');
       } else {
         setCurrentPage('home');
       }
@@ -134,6 +137,10 @@ function App() {
 
   if (currentPage === 'pricelist') {
     return <PriceList />;
+  }
+
+  if (currentPage === 'holiday_window_ad') {
+    return <HolidayWindowAd />;
   }
 
   return (

@@ -43,6 +43,25 @@
         gtag('js', new Date());
         gtag('config', 'G-BY2P2E98NJ');
     </script>
+
+    <!-- Dark Mode Detection Script (iOS & Android only) -->
+    <script>
+        const updateTheme = () => {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        };
+
+        // Initial check
+        updateTheme();
+
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+    </script>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">

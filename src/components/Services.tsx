@@ -117,8 +117,25 @@ const Services: React.FC = () => {
           {THERAPIES.map((therapy, index) => (
             <div
               key={index}
-              className="group flex flex-col p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
+              className="group relative flex flex-col p-4 rounded-2xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-all duration-300 hover:shadow-lg"
             >
+              {/* Service Icon in Top Right */}
+              <div className="absolute top-4 right-4 w-8 h-8 opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+                <img 
+                  src={
+                    therapy.title === 'Swedish Massage' ? '/therapies/swedish_icon.svg' :
+                    therapy.title === 'Thai Combination Massage' ? '/therapies/combination_icon.svg' :
+                    therapy.title === 'Thai Deep Tissue' ? '/therapies/deeptissue_icon.svg' :
+                    therapy.title === 'Prenatal Massage' ? '/therapies/prenatal_icon.svg' :
+                    therapy.title === 'Couples Massage' ? '/therapies/couples_icon.svg' :
+                    therapy.title.includes('Shoulder') ? '/therapies/shoulder_icon.svg' :
+                    '/therapies/swedish_icon.svg'
+                  }
+                  alt="" 
+                  className="w-full h-full object-contain" 
+                />
+              </div>
+
               {/* Top row: Image and Text */}
               <div className="flex gap-4">
                 {/* Image with PROMO badge */}
@@ -172,7 +189,7 @@ const Services: React.FC = () => {
                 </div>
                 <a
                   href={`/services#${therapy.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-                  className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c0a172] flex items-center justify-center text-white hover:bg-[#a88a5d] transition-colors"
+                  className="flex-shrink-0 w-8 h-8 rounded-full bg-[#788E6E] flex items-center justify-center text-white hover:bg-[#5A6B52] transition-colors shadow-sm"
                 >
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </a>

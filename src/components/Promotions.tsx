@@ -123,7 +123,7 @@ const Promotions: React.FC = () => {
                             {/* Right Image */}
                             <div className="flex-1 min-h-[300px] md:min-h-0 overflow-hidden">
                                 <img
-                                    src="/promos/promo.png"
+                                    src="/promos/promo_dark.png"
                                     alt="Holiday Healing Special"
                                     className="w-full h-full object-cover"
                                 />
