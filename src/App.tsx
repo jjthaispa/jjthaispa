@@ -13,9 +13,10 @@ import Policies from './components/Policies';
 import Contact from './components/Contact';
 import Promotions from './components/Promotions';
 import ServicesPage from './components/ServicesPage';
+import PriceList from './components/PriceList';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -32,6 +33,8 @@ function App() {
         setCurrentPage('promotions');
       } else if (path === '/services') {
         setCurrentPage('services');
+      } else if (path === '/pricelist') {
+        setCurrentPage('pricelist');
       } else {
         setCurrentPage('home');
       }
@@ -127,6 +130,10 @@ function App() {
         <Footer />
       </div>
     );
+  }
+
+  if (currentPage === 'pricelist') {
+    return <PriceList />;
   }
 
   return (

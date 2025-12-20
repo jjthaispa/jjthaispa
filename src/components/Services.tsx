@@ -161,7 +161,7 @@ const Services: React.FC = () => {
                       {price.duration} |
                       {price.promoPrice ? (
                         <>
-                          <span className="line-through opacity-70">{price.price}</span>
+                          <span className="line-through decoration-[#C85A5A] opacity-70">{price.price}</span>
                           <span className="font-bold">{price.promoPrice}</span>
                         </>
                       ) : (
