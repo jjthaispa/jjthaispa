@@ -93,28 +93,14 @@ export const applyPreferences = (preferences: CookiePreferences): void => {
 
   // If analytics is enabled, the consent update above will trigger GTM tags.
   // We no longer manually load GA4 script here as GTM handles it.
-  /*
-  if (preferences.analytics) {
-    loadGoogleAnalytics();
-  }
-  */
 };
 
 // Initialize consent on page load
 export const initializeConsent = (): void => {
   const prefs = getCookiePreferences();
 
-  // Set default consent state (denied until user consents)
   if (typeof window !== 'undefined') {
-    // Initialize gtag with default denied state
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    function gtag(...args: any[]) {
-      (window as any).dataLayer.push(args);
-    }
-    (window as any).gtag = gtag;
-
-    // Default consent is now handled in index.html before GTM loads.
-    // We only need to apply stored preferences if they exist.
+    // We rely on index.html to have defined window.gtag and initialized default consent
 
     // If user has already consented, apply their preferences
     if (prefs) {
@@ -126,21 +112,6 @@ export const initializeConsent = (): void => {
 // Load Google Analytics script
 // DEPRECATED: Handled by Google Tag Manager now.
 const loadGoogleAnalytics = (): void => {
-  /*
-  // Replace with your actual GA4 Measurement ID
-  const GA_MEASUREMENT_ID = 'G-BY2P2E98NJ';
-  
-  if (typeof window === 'undefined') return;
-  if (document.querySelector(`script[src*="googletagmanager.com/gtag"]`)) return;
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-  document.head.appendChild(script);
-
-  (window as any).gtag('js', new Date());
-  (window as any).gtag('config', GA_MEASUREMENT_ID);
-  */
 };
 
 // Clear consent (for testing or user request)
