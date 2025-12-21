@@ -39,7 +39,7 @@ export const saveCookiePreferences = (preferences: CookiePreferences): void => {
       timestamp: Date.now(),
     };
     localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(prefsWithTimestamp));
-    
+
     // Apply preferences immediately
     applyPreferences(prefsWithTimestamp);
   } catch (e) {
@@ -91,16 +91,19 @@ export const applyPreferences = (preferences: CookiePreferences): void => {
     });
   }
 
-  // If analytics is enabled and GA isn't loaded yet, load it
+  // If analytics is enabled, the consent update above will trigger GTM tags.
+  // We no longer manually load GA4 script here as GTM handles it.
+  /*
   if (preferences.analytics) {
     loadGoogleAnalytics();
   }
+  */
 };
 
 // Initialize consent on page load
 export const initializeConsent = (): void => {
   const prefs = getCookiePreferences();
-  
+
   // Set default consent state (denied until user consents)
   if (typeof window !== 'undefined') {
     // Initialize gtag with default denied state
@@ -110,13 +113,8 @@ export const initializeConsent = (): void => {
     }
     (window as any).gtag = gtag;
 
-    gtag('consent', 'default', {
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      wait_for_update: 500,
-    });
+    // Default consent is now handled in index.html before GTM loads.
+    // We only need to apply stored preferences if they exist.
 
     // If user has already consented, apply their preferences
     if (prefs) {
@@ -126,7 +124,9 @@ export const initializeConsent = (): void => {
 };
 
 // Load Google Analytics script
+// DEPRECATED: Handled by Google Tag Manager now.
 const loadGoogleAnalytics = (): void => {
+  /*
   // Replace with your actual GA4 Measurement ID
   const GA_MEASUREMENT_ID = 'G-BY2P2E98NJ';
   
@@ -140,6 +140,7 @@ const loadGoogleAnalytics = (): void => {
 
   (window as any).gtag('js', new Date());
   (window as any).gtag('config', GA_MEASUREMENT_ID);
+  */
 };
 
 // Clear consent (for testing or user request)
