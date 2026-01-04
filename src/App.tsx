@@ -12,12 +12,13 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Policies from './components/Policies';
 import Contact from './components/Contact';
 import Promotions from './components/Promotions';
+import ReleasePromo from './components/ReleasePromo';
 import ServicesPage from './components/ServicesPage';
 import PriceList from './components/PriceList';
-import HolidayWindowAd from './components/HolidayWindowAd';
+import HolidayPromo from './components/HolidayPromo';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'holiday_window_ad'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'holiday_promo' | 'release_promo'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -36,8 +37,10 @@ function App() {
         setCurrentPage('services');
       } else if (path === '/pricelist') {
         setCurrentPage('pricelist');
-      } else if (path === '/holiday-window-ad') {
-        setCurrentPage('holiday_window_ad');
+      } else if (path === '/holiday-promo') {
+        setCurrentPage('holiday_promo');
+      } else if (path === '/release-promo') {
+        setCurrentPage('release_promo');
       } else {
         setCurrentPage('home');
       }
@@ -139,8 +142,12 @@ function App() {
     return <PriceList />;
   }
 
-  if (currentPage === 'holiday_window_ad') {
-    return <HolidayWindowAd />;
+  if (currentPage === 'holiday_promo') {
+    return <HolidayPromo />;
+  }
+
+  if (currentPage === 'release_promo') {
+    return <ReleasePromo />;
   }
 
   return (

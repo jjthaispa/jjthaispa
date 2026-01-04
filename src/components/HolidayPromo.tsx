@@ -1,9 +1,10 @@
 import React from 'react';
 
-const HolidayWindowAd: React.FC = () => {
+const HolidayPromo: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-0 md:p-0">
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media print {
           body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           .print-bg-promo { background-color: #788E6E !important; color: white !important; }
@@ -12,9 +13,9 @@ const HolidayWindowAd: React.FC = () => {
       <div className="w-full bg-white shadow-none flex flex-col md:flex-row">
         {/* Left Side: Image */}
         <div className="flex-1 min-h-[400px] md:min-h-[700px] relative overflow-hidden">
-          <img 
-            src="/promos/promo.png" 
-            alt="Holiday Relaxation" 
+          <img
+            src="/promos/holiday_promo.png"
+            alt="Holiday Relaxation"
             className="absolute inset-0 w-full h-full object-cover object-center scale-105"
           />
           {/* Overlay Content */}
@@ -118,5 +119,5 @@ const HolidayWindowAd: React.FC = () => {
   );
 };
 
-export default HolidayWindowAd;
+export default HolidayPromo;
 

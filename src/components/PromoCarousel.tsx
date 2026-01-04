@@ -7,7 +7,8 @@ const PROMOS = [
     title: "A Holiday Gift to Yourself",
     description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 minutes\n $15 off 90 minutes",
     buttonText: "View Details",
-    image: "/promos/promo.png",
+    anchor: '#holiday-special',
+    image: "/promos/holiday_promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     enabled: false,
@@ -22,6 +23,7 @@ const PROMOS = [
     title: "Back, Neck & Shoulder Release",
     description: "New Service Intro Pricing. Limited-time offer.\n $5 off 30 minutes\n $10 off 45 minutes",
     buttonText: "View Details",
+    anchor: '#release-special',
     image: "/promos/release_promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
@@ -70,7 +72,7 @@ const PROMOS = [
     title: "Hydrotherapy Sessions",
     description: "Experience the healing power of water. Our new hydrotherapy pools are now open for booking.",
     buttonText: "Book Now",
-    image: "/promos/promo.png",
+    image: "/promos/holiday_promo.png",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
     enabled: false
@@ -201,7 +203,7 @@ const PromoCarousel: React.FC = () => {
                             </a>
                           ) : promo.buttonText === 'View Details' ? (
                             <a
-                              href="/promotions#holiday-special"
+                              href={promo.anchor ? `/promotions${promo.anchor}` : '/promotions'}
                               className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
                             >
                               {promo.buttonText}

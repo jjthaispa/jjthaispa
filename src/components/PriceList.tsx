@@ -51,7 +51,7 @@ const PriceList: React.FC = () => {
                             </h1>
                         </div>
                         <p className="text-[#788E6E] font-serif italic text-xl tracking-wide">
-                            Restore balance. Release tension. Move with ease.
+                            Experience the Art of Thai Massage
                         </p>
                     </div>
                     <div className="text-right flex flex-col items-end">
@@ -64,10 +64,10 @@ const PriceList: React.FC = () => {
                             </span>
                         </div>
                         <p className="text-[#1a231f] font-serif uppercase tracking-[0.2em] text-2xl font-bold mb-1">
-                            Holiday Price List
+                            New Year's Price List
                         </p>
                         <p className="text-[#C85A5A] font-serif italic text-lg">
-                            December 2025
+                            January 2026
                         </p>
                     </div>
                 </div>

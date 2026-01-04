@@ -212,7 +212,7 @@ const Promotions: React.FC = () => {
                                     Give the Gift of <br />Relaxation
                                 </h2>
                                 <p className="text-[#1a231f]/70 dark:text-white/70 leading-relaxed mb-8 text-lg">
-                                    Instant eGift Cards are the perfect present for any occasion. Available online, deliverable instantly via email or by text. Prefer something tangible? Plastic gift cards are also available in-store.
+                                    Instant eGift Cards are the perfect present for any occasion. Available online, deliverable instantly via email or by text. Prefer something tangible? Gift cards are also available in-store.
                                 </p>
 
                                 <a
