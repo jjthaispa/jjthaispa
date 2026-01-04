@@ -5,60 +5,60 @@ const THERAPIES = [
     title: "Swedish Massage",
     description: "Our Swedish Massage blends long, flowing movements and light kneading with gentle to medium pressure to gently relax muscles, reduce stress, and restore balance.",
     image: "/therapies/swedish2.png",
-    hasPromo: true,
+    hasPromo: false,
     prices: [
-      { duration: "60 min", price: "$90", promoPrice: "$80" },
-      { duration: "90 min", price: "$125", promoPrice: "$110" }
+      { duration: "60 min", price: "$90" },
+      { duration: "90 min", price: "$125" }
     ]
   },
   {
     title: "Thai Combination Massage",
     description: "A customized blend of Swedish, deep tissue, and Thai techniques tailored to your specific needs and preferences.",
     image: "/therapies/combination.png",
-    hasPromo: true,
+    hasPromo: false,
     prices: [
-      { duration: "60 min", price: "$95", promoPrice: "$85" },
-      { duration: "90 min", price: "$135", promoPrice: "$120" }
+      { duration: "60 min", price: "$95" },
+      { duration: "90 min", price: "$135" }
     ]
   },
   {
     title: "Thai Deep Tissue",
     description: "A therapeutic massage using firm pressure and Thai techniques. Ideal for pain relief, muscle recovery, and improved mobility. Can be enhanced with optional Ashiatsu massage.",
     image: "/therapies/deeptissue.png",
-    hasPromo: true,
+    hasPromo: false,
     prices: [
-      { duration: "60 min", price: "$100", promoPrice: "$90" },
-      { duration: "90 min", price: "$140", promoPrice: "$125" }
+      { duration: "60 min", price: "$100" },
+      { duration: "90 min", price: "$140" }
     ]
   },
   {
     title: "Back, Neck & Shoulder Release",
     description: "Relieve built-up tension where it's felt most. This focused massage targets the neck, back, and shoulders using therapeutic techniques to release tight muscles and ease stress.",
     image: "/therapies/tension.png",
-    hasPromo: false,
+    hasPromo: true,
     prices: [
-      { duration: "30 min", price: "$55" },
-      { duration: "45 min", price: "$75" }
+      { duration: "30 min", price: "$55", promoPrice: "$50" },
+      { duration: "45 min", price: "$75", promoPrice: "$65" }
     ]
   },
   {
     title: "Prenatal Massage",
     description: "A gentle, nurturing massage designed specifically for expectant mothers. This treatment helps alleviates common discomforts during pregnancy",
     image: "/therapies/prenatal.png",
-    hasPromo: true,
+    hasPromo: false,
     prices: [
-      { duration: "60 min", price: "$90", promoPrice: "$80" },
-      { duration: "90 min", price: "$125", promoPrice: "$110" }
+      { duration: "60 min", price: "$90"},
+      { duration: "90 min", price: "$125"}
     ]
   },
   {
     title: "Couples Massage",
     description: "Share a relaxing experience together with designed side-by-side massage and traditional Thai techniques.",
     image: "/therapies/couples.png",
-    hasPromo: true,
+    hasPromo: false,
     prices: [
-      { duration: "60 min Swedish", price: "$180", promoPrice: "$160" },
-      { duration: "60 min Deep Tissue", price: "$200", promoPrice: "$180" }
+      { duration: "60 min Swedish", price: "$180"},
+      { duration: "60 min Deep Tissue", price: "$200"}
     ]
   }
 ];
@@ -121,18 +121,18 @@ const Services: React.FC = () => {
             >
               {/* Service Icon in Top Right */}
               <div className="absolute top-4 right-4 w-8 h-8 opacity-40 group-hover:opacity-100 transition-opacity duration-300">
-                <img 
+                <img
                   src={
                     therapy.title === 'Swedish Massage' ? '/therapies/swedish_icon.svg' :
-                    therapy.title === 'Thai Combination Massage' ? '/therapies/combination_icon.svg' :
-                    therapy.title === 'Thai Deep Tissue' ? '/therapies/deeptissue_icon.svg' :
-                    therapy.title === 'Prenatal Massage' ? '/therapies/prenatal_icon.svg' :
-                    therapy.title === 'Couples Massage' ? '/therapies/couples_icon.svg' :
-                    therapy.title.includes('Shoulder') ? '/therapies/shoulder_icon.svg' :
-                    '/therapies/swedish_icon.svg'
+                      therapy.title === 'Thai Combination Massage' ? '/therapies/combination_icon.svg' :
+                        therapy.title === 'Thai Deep Tissue' ? '/therapies/deeptissue_icon2.svg' :
+                          therapy.title === 'Prenatal Massage' ? '/therapies/prenatal_icon.svg' :
+                            therapy.title === 'Couples Massage' ? '/therapies/couples_icon.svg' :
+                              therapy.title.includes('Shoulder') ? '/therapies/shoulder_icon.svg' :
+                                '/therapies/swedish_icon.svg'
                   }
-                  alt="" 
-                  className="w-full h-full object-contain" 
+                  alt=""
+                  className="w-full h-full object-contain"
                 />
               </div>
 

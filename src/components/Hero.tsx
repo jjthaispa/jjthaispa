@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
             <span className="block text-4xl md:text-6xl">Bridgewater</span>
           </h1>
           <p className="text-base font-normal leading-normal text-white/90 md:text-lg">
-            Restore balance. Release tension. Move with ease.
+            Experience the Art of Thai Massage
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
             <a

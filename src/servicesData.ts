@@ -29,13 +29,13 @@ export const SERVICES: Service[] = [
             "Improves circulation throughout the body",
             "Ideal for relaxation and first-time massage clients"
         ],
-        hasPromo: true,
+        hasPromo: false,
         prices: [
             { duration: "30 Minutes", price: "$55" },
             { duration: "45 Minutes", price: "$75" },
-            { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
-            { duration: "75 Minutes", price: "$110", promoPrice: "$100" },
-            { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
+            { duration: "60 Minutes", price: "$90" },
+            { duration: "75 Minutes", price: "$110" },
+            { duration: "90 Minutes", price: "$125" }
         ]
     },
     {
@@ -48,34 +48,34 @@ export const SERVICES: Service[] = [
             "Combines multiple healing techniques",
             "Improves flexibility and range of motion"
         ],
-        hasPromo: true,
+        hasPromo: false,
         prices: [
             { duration: "30 Minutes", price: "$60" },
             { duration: "45 Minutes", price: "$80" },
-            { duration: "60 Minutes", price: "$95", promoPrice: "$85" },
-            { duration: "75 Minutes", price: "$115", promoPrice: "$105" },
-            { duration: "90 Minutes", price: "$135", promoPrice: "$120" }
+            { duration: "60 Minutes", price: "$95" },
+            { duration: "75 Minutes", price: "$115" },
+            { duration: "90 Minutes", price: "$135" }
         ]
     },
     {
         category: "THERAPEUTIC",
-        title: "Thai Deep Tissue",
+        title: "Thai Deep Tissue Massage",
         description: "A therapeutic massage using firm pressure and Thai techniques to target the inner layers of your muscles and connective tissues. This is ideal for treating musculoskeletal issues, such as strains and sports injuries, breaking up scar tissue and physically breaking down muscle knots.  For those seeking a deeper level of release, optional Ashiatsu may be incorporated, using controlled, broad foot pressure to enhance relaxation and muscle relief while maintaining a soothing experience.",
         image: "/therapies/walking2.png",
         benefits: [
             "Targets chronic muscle tension and deep-seated knots",
             "Helps reduce muscle stiffness and tightness",
             "Supports muscle recovery and injury prevention",
-            "Improves range of motion and overall mobility",
+            "Stretching improves range of motion and overall mobility",
             "Ideal for active individuals and athletes"
         ],
-        hasPromo: true,
+        hasPromo: false,
         prices: [
             { duration: "30 Minutes", price: "$65" },
             { duration: "45 Minutes", price: "$85" },
-            { duration: "60 Minutes", price: "$100", promoPrice: "$90" },
-            { duration: "75 Minutes", price: "$120", promoPrice: "$110" },
-            { duration: "90 Minutes", price: "$140", promoPrice: "$125" }
+            { duration: "60 Minutes", price: "$100" },
+            { duration: "75 Minutes", price: "$120" },
+            { duration: "90 Minutes", price: "$140" }
         ]
     },
     {
@@ -88,10 +88,10 @@ export const SERVICES: Service[] = [
             "Reduces tension headaches",
             "Improves posture and alignment"
         ],
-        hasPromo: false,
+        hasPromo: true,
         prices: [
-            { duration: "30 Minutes", price: "$55" },
-            { duration: "45 Minutes", price: "$75" }
+            { duration: "30 Minutes", price: "$55", promoPrice: "$50" },
+            { duration: "45 Minutes", price: "$75", promoPrice: "$65" }
         ]
     },
     {
@@ -104,11 +104,11 @@ export const SERVICES: Service[] = [
             "Alleviates lower back discomfort",
             "Promotes better sleep and relaxation"
         ],
-        hasPromo: true,
+        hasPromo: false,
         prices: [
             { duration: "30 Minutes", price: "$55" },
-            { duration: "60 Minutes", price: "$90", promoPrice: "$80" },
-            { duration: "90 Minutes", price: "$125", promoPrice: "$110" }
+            { duration: "60 Minutes", price: "$90" },
+            { duration: "90 Minutes", price: "$125" }
         ]
     },
     {
@@ -122,15 +122,15 @@ export const SERVICES: Service[] = [
             "Each person can choose their own individual massage type",
             "The prices below are for our most popular couples massages"
         ],
-        hasPromo: true,
+        hasPromo: false,
         callToBook: true,
         prices: [
-            { duration: "60 Minutes Swedish", price: "$180", promoPrice: "$160" },
-            { duration: "60 Minutes Thai Combination", price: "$190", promoPrice: "$170" },
-            { duration: "60 Minutes Thai Deep Tissue", price: "$200", promoPrice: "$180" },
-            { duration: "90 Minutes Swedish", price: "$250", promoPrice: "$220" },
-            { duration: "90 Minutes Thai Combination", price: "$270", promoPrice: "$240" },
-            { duration: "90 Minutes Thai Deep Tissue", price: "$280", promoPrice: "$250" }
+            { duration: "60 Minutes Swedish", price: "$180" },
+            { duration: "60 Minutes Thai Combination", price: "$190" },
+            { duration: "60 Minutes Thai Deep Tissue", price: "$200" },
+            { duration: "90 Minutes Swedish", price: "$250" },
+            { duration: "90 Minutes Thai Combination", price: "$270" },
+            { duration: "90 Minutes Thai Deep Tissue", price: "$280" }
         ]
     },
     {
@@ -141,10 +141,10 @@ export const SERVICES: Service[] = [
         benefitsHeading: "Available Scents:",
         benefits: [
             "Eucalyptus",
-            "Lavender",
-            "Citrus",
-            "Wintergreen",
-            "Clary Sage",
+            "Lavender Blend",
+            "Citrus Blend",
+            "Wintergreen Blend",
+            "Clary Sage Blend",
 
         ],
         hasPromo: false,

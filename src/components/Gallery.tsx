@@ -16,11 +16,11 @@ import React, { useState, useEffect } from 'react';
 
 const CAROUSEL_IMAGES: string[] = [
   // Add your image filenames here
-  'couples.png',
   'stretch.png',
   'walking.png',
   'cupping.png',
   'tea_station.png',
+  'couples.png',
   'stretch2.png',
   'deeptissue.png',
   'dog.png',

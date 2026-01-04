@@ -90,7 +90,7 @@ const PriceList: React.FC = () => {
                                             ) : service.title === 'Swedish Massage' ? (
                                                 <img src="/therapies/swedish_icon.svg" alt="Swedish Icon" className="w-8 h-8 object-contain" />
                                             ) : service.title === 'Thai Deep Tissue' ? (
-                                                <img src="/therapies/deeptissue_icon.svg" alt="Deep Tissue Icon" className="w-8 h-8 object-contain" />
+                                                <img src="/therapies/deeptissue_icon2.svg" alt="Deep Tissue Icon" className="w-8 h-8 object-contain" />
                                             ) : service.title === 'Couples Massage' ? (
                                                 <img src="/therapies/couples_icon.svg" alt="Couples Icon" className="w-8 h-8 object-contain" />
                                             ) : service.title.includes('Shoulder') ? (
@@ -135,28 +135,28 @@ const PriceList: React.FC = () => {
                             {col2.map((service, idx) => (
                                 <div key={idx} className={`break-inside-avoid ${service.title.includes('Couples') ? 'bg-[#F0EDE9] -mx-6 px-8 py-8 rounded-2xl print:bg-[#F0EDE9] shadow-inner' : ''}`}>
                                     <div className="flex items-center justify-between gap-3 mb-4">
-                                    <div className="flex items-center gap-3">
-                                        {service.title === 'Prenatal Massage' ? (
-                                            <img src="/therapies/prenatal_icon.svg" alt="Prenatal Icon" className="w-8 h-8 object-contain" />
-                                        ) : service.title === 'Thai Combination Massage' ? (
-                                            <img src="/therapies/combination_icon.svg" alt="Combination Icon" className="w-8 h-8 object-contain" />
-                                        ) : service.title === 'Swedish Massage' ? (
-                                            <img src="/therapies/swedish_icon.svg" alt="Swedish Icon" className="w-8 h-8 object-contain" />
-                                        ) : service.title === 'Thai Deep Tissue' ? (
-                                            <img src="/therapies/deeptissue_icon.svg" alt="Deep Tissue Icon" className="w-8 h-8 object-contain" />
-                                        ) : service.title === 'Couples Massage' ? (
-                                            <img src="/therapies/couples_icon.svg" alt="Couples Icon" className="w-8 h-8 object-contain" />
-                                        ) : service.title.includes('Shoulder') ? (
-                                            <img src="/therapies/shoulder_icon.svg" alt="Shoulder Icon" className="w-8 h-8 object-contain" />
-                                        ) : (
-                                            <span className={`material-symbols-outlined text-[#788E6E] text-2xl`}>
-                                                {service.title.includes('Couples') ? 'favorite' : 'spa'}
-                                            </span>
-                                        )}
-                                        <h3 className="font-serif text-3xl font-bold text-[#1a231f]">
-                                            {service.title}
-                                        </h3>
-                                    </div>
+                                        <div className="flex items-center gap-3">
+                                            {service.title === 'Prenatal Massage' ? (
+                                                <img src="/therapies/prenatal_icon.svg" alt="Prenatal Icon" className="w-8 h-8 object-contain" />
+                                            ) : service.title === 'Thai Combination Massage' ? (
+                                                <img src="/therapies/combination_icon.svg" alt="Combination Icon" className="w-8 h-8 object-contain" />
+                                            ) : service.title === 'Swedish Massage' ? (
+                                                <img src="/therapies/swedish_icon.svg" alt="Swedish Icon" className="w-8 h-8 object-contain" />
+                                            ) : service.title === 'Thai Deep Tissue' ? (
+                                                <img src="/therapies/deeptissue_icon2.svg" alt="Deep Tissue Icon" className="w-8 h-8 object-contain" />
+                                            ) : service.title === 'Couples Massage' ? (
+                                                <img src="/therapies/couples_icon.svg" alt="Couples Icon" className="w-8 h-8 object-contain" />
+                                            ) : service.title.includes('Shoulder') ? (
+                                                <img src="/therapies/shoulder_icon.svg" alt="Shoulder Icon" className="w-8 h-8 object-contain" />
+                                            ) : (
+                                                <span className={`material-symbols-outlined text-[#788E6E] text-2xl`}>
+                                                    {service.title.includes('Couples') ? 'favorite' : 'spa'}
+                                                </span>
+                                            )}
+                                            <h3 className="font-serif text-3xl font-bold text-[#1a231f]">
+                                                {service.title}
+                                            </h3>
+                                        </div>
                                     </div>
 
                                     {/* Detailed Couples Pricing */}
@@ -172,15 +172,15 @@ const PriceList: React.FC = () => {
                                                                 {p.promoPrice ? (
                                                                     <>
                                                                         <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
-                                                                    <span className="text-xl font-bold text-[#556B4E]">
-                                                                        {p.promoPrice}
+                                                                        <span className="text-xl font-bold text-[#556B4E]">
+                                                                            {p.promoPrice}
+                                                                        </span>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="text-xl font-bold text-[#1a231f]">
+                                                                        {p.price}
                                                                     </span>
-                                                                </>
-                                                            ) : (
-                                                                <span className="text-xl font-bold text-[#1a231f]">
-                                                                    {p.price}
-                                                                </span>
-                                                            )}
+                                                                )}
                                                             </span>
                                                         </div>
                                                     ))}
@@ -194,15 +194,15 @@ const PriceList: React.FC = () => {
                                                                 {p.promoPrice ? (
                                                                     <>
                                                                         <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
-                                                                    <span className="text-xl font-bold text-[#556B4E]">
-                                                                        {p.promoPrice}
+                                                                        <span className="text-xl font-bold text-[#556B4E]">
+                                                                            {p.promoPrice}
+                                                                        </span>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="text-xl font-bold text-[#1a231f]">
+                                                                        {p.price}
                                                                     </span>
-                                                                </>
-                                                            ) : (
-                                                                <span className="text-xl font-bold text-[#1a231f]">
-                                                                    {p.price}
-                                                                </span>
-                                                            )}
+                                                                )}
                                                             </span>
                                                         </div>
                                                     ))}
@@ -216,15 +216,15 @@ const PriceList: React.FC = () => {
                                                                 {p.promoPrice ? (
                                                                     <>
                                                                         <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
-                                                                    <span className="text-xl font-bold text-[#556B4E]">
-                                                                        {p.promoPrice}
+                                                                        <span className="text-xl font-bold text-[#556B4E]">
+                                                                            {p.promoPrice}
+                                                                        </span>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="text-xl font-bold text-[#1a231f]">
+                                                                        {p.price}
                                                                     </span>
-                                                                </>
-                                                            ) : (
-                                                                <span className="text-xl font-bold text-[#1a231f]">
-                                                                    {p.price}
-                                                                </span>
-                                                            )}
+                                                                )}
                                                             </span>
                                                         </div>
                                                     ))}

@@ -10,10 +10,24 @@ const PROMOS = [
     image: "/promos/promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
-    enabled: true,
+    enabled: false,
     overlay: [
       { highlight: "$10 OFF", subtitle: "60 MINUTE MASSAGE" },
       { highlight: "$15 OFF", subtitle: "90 MINUTE MASSAGE" }
+    ]
+  },
+  {
+    id: 1,
+    category: "NEW SERVICE SPECIAL",
+    title: "Back, Neck & Shoulder Release",
+    description: "New Service Intro Pricing. Limited-time offer.\n $5 off 30 minutes\n $10 off 45 minutes",
+    buttonText: "View Details",
+    image: "/promos/release_promo.png",
+    bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
+    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
+    enabled: true,
+    overlay: [
+      { highlight: "$10 OFF", subtitle: "45 MINUTE MASSAGE" }
     ]
   },
   {
@@ -26,6 +40,17 @@ const PROMOS = [
     video: "/promos/giftcard.mp4",
     bgColor: "bg-[#E4E9E3] dark:bg-[#1A2E2A]", // Light Sage / Dark Green
     btnColor: "bg-[#788E6E] hover:bg-[#5A6B52] text-white",
+    enabled: false
+  },
+  {
+    id: 5,
+    category: "E-GIFT CARDS",
+    title: "Valentine’s Day",
+    description: "Send a Valentine’s Day e-gift card in seconds ♥ instant delivery, heartfelt surprise, perfect for last-minute love.",
+    buttonText: "Buy eGift Card",
+    image: "/promos/valentines_promo.png",
+    bgColor: "bg-[#FFE0E0] dark:bg-[#2B0C13]", // Soft Red / Merlot
+    btnColor: "bg-[#C62828] hover:bg-[#a82020] text-white", // Deep Red
     enabled: true
   },
   {
@@ -48,17 +73,6 @@ const PROMOS = [
     image: "/promos/promo.png",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
-    enabled: false
-  },
-  {
-    id: 5,
-    category: "RETAIL",
-    title: "Luxury Skin Care",
-    description: "Bring the spa home. Shop our exclusive line of organic lotions and essential oils.",
-    buttonText: "Shop Now",
-    image: "/promos/promo.png",
-    bgColor: "bg-[#FFF3E0] dark:bg-[#2E2010]", // Light Orange / Dark Brown
-    btnColor: "bg-[#FFB74D] hover:bg-[#e09e3d] text-white",
     enabled: false
   }
 ];

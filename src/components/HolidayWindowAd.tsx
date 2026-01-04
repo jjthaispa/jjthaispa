@@ -35,9 +35,12 @@ const HolidayWindowAd: React.FC = () => {
         <div className="flex-1 p-10 md:p-12 lg:p-16 flex flex-col justify-center">
           <div className="max-w-md mx-auto md:mx-0">
             {/* Subheading */}
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl text-[#1a231f]/80 font-light mb-6">
-              A Gift to Yourself
-            </h2>
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl text-[#1a231f]/80 font-light">
+                A Gift to Yourself
+              </h2>
+              <img src="/logo-gold.svg" alt="Logo" className="h-20 md:h-32 w-auto object-contain shrink-0" />
+            </div>
 
             {/* Body Text */}
             <p className="text-xl md:text-2xl text-gray-600 mb-8 font-medium">
