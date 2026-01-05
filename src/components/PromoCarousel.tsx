@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
 import { useServices } from '../context/ServiceContext';
 
 const PROMOS = [
@@ -45,7 +47,8 @@ const PROMOS = [
     video: "/promos/holiday_giftcard.mp4",
     bgColor: "bg-[#E4E9E3] dark:bg-[#1A2E2A]", // Light Sage / Dark Green
     btnColor: "bg-[#788E6E] hover:bg-[#5A6B52] text-white",
-    enabled: false
+    requiredGiftCardId: 'holiday-giftcard',
+    enabled: true // Now dynamically controlled
   },
   {
     id: 5,
@@ -57,7 +60,8 @@ const PROMOS = [
     video: "/promos/valentines_giftcard.mp4",
     bgColor: "bg-[#FFE0E0] dark:bg-[#2B0C13]", // Soft Red / Merlot
     btnColor: "bg-[#C62828] hover:bg-[#a82020] text-white", // Deep Red
-    enabled: true
+    requiredGiftCardId: 'valentines-giftcard',
+    enabled: true // Now dynamically controlled
   },
   {
     id: 3,
@@ -88,6 +92,45 @@ const PromoCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeGiftCards, setActiveGiftCards] = useState<Set<string>>(new Set());
+
+  // Fetch active gift cards
+  useEffect(() => {
+    const fetchGiftCards = async () => {
+      try {
+        const q = query(collection(db, 'giftcards'), where('enabled', '==', true));
+        const querySnapshot = await getDocs(q);
+
+        const now = new Date();
+        const currentMonth = now.getMonth() + 1;
+        const currentDay = now.getDate();
+        const currentNum = currentMonth * 100 + currentDay;
+
+        const activeIds = new Set<string>();
+
+        querySnapshot.docs.forEach(doc => {
+          const data = doc.data();
+          // Helper to convert MM-DD to comparable number
+          const getDateNum = (dateStr: string) => {
+            const [m, d] = dateStr.split('-').map(Number);
+            return m * 100 + d;
+          };
+
+          const startNum = getDateNum(data.startDate);
+          const endNum = getDateNum(data.endDate);
+
+          if (currentNum >= startNum && currentNum <= endNum) {
+            activeIds.add(doc.id);
+          }
+        });
+
+        setActiveGiftCards(activeIds);
+      } catch (error) {
+        console.error("Error fetching gift cards for carousel:", error);
+      }
+    };
+    fetchGiftCards();
+  }, []);
 
   // Filter active promos based on API state AND local enabled flag
   // If requiredPromoId is present, it MUST be in activePromoIds.
@@ -99,7 +142,15 @@ const PromoCarousel: React.FC = () => {
     // @ts-ignore
     if (promo.requiredPromoId) {
       // @ts-ignore
+      // @ts-ignore
       return activePromoIds.includes(promo.requiredPromoId);
+    }
+
+    // Check if dependent on a specific gift card ID
+    // @ts-ignore
+    if (promo.requiredGiftCardId) {
+      // @ts-ignore
+      return activeGiftCards.has(promo.requiredGiftCardId);
     }
 
     return true;

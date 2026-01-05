@@ -1,5 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { useServices } from '../context/ServiceContext';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
+
+// Helper Interface
+interface Promotion {
+    id: string;
+    enabled: boolean;
+    startDate: string;
+    endDate: string;
+}
+
+interface GiftCard {
+    id: string;
+    enabled: boolean;
+    startDate: string; // MM-DD
+    endDate: string;   // MM-DD
+}
+
+const GIFT_CARD_IMAGES: Record<string, string> = {
+    'holiday-giftcard': '/promos/giftcard_box_holiday.png',
+    'valentines-giftcard': '/promos/giftcard_box_valentines.png',
+    'default-giftcard': '/promos/giftcard_box_standard.png',
+};
+
+// Helper to format date
+const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
 
 const Promotions: React.FC = () => {
     const [flashCard, setFlashCard] = useState(false);
@@ -33,7 +62,97 @@ const Promotions: React.FC = () => {
         }
     }, []);
 
-    const { activePromoIds } = useServices();
+    const [validPromos, setValidPromos] = useState<Map<string, Promotion>>(new Map());
+    const [activeGiftCard, setActiveGiftCard] = useState<GiftCard | null>(null);
+
+    useEffect(() => {
+        const fetchPromotions = async () => {
+            try {
+                const q = query(collection(db, 'promotions'), where('enabled', '==', true));
+                const querySnapshot = await getDocs(q);
+
+                const now = new Date();
+                const newValidPromos = new Map<string, Promotion>();
+
+                querySnapshot.docs.forEach(doc => {
+                    const data = doc.data() as Promotion;
+                    const start = new Date(data.startDate);
+                    const end = new Date(data.endDate);
+
+                    if (now >= start && now <= end) {
+                        newValidPromos.set(doc.id, { ...data, id: doc.id });
+                    }
+                });
+
+                setValidPromos(newValidPromos);
+            } catch (error) {
+                console.error("Error fetching promotions:", error);
+            }
+        };
+
+        const fetchGiftCards = async () => {
+            try {
+                const q = query(collection(db, 'giftcards'), where('enabled', '==', true));
+                const querySnapshot = await getDocs(q);
+
+                const now = new Date();
+                const currentMonth = now.getMonth() + 1; // 1-12
+                const currentDay = now.getDate(); // 1-31
+
+                // Helper to convert MM-DD to comparable number (e.g. 12-01 -> 1201)
+                const getDateNum = (dateStr: string) => {
+                    const [m, d] = dateStr.split('-').map(Number);
+                    return m * 100 + d;
+                };
+
+                const currentNum = currentMonth * 100 + currentDay;
+                let selected: GiftCard | null = null;
+                const matches: GiftCard[] = [];
+
+                querySnapshot.docs.forEach(doc => {
+                    const data = doc.data() as GiftCard;
+                    const startNum = getDateNum(data.startDate);
+                    const endNum = getDateNum(data.endDate);
+
+                    // Handle year wrap-around (e.g. Dec to Jan) manually if ever needed, 
+                    // but current requirements are simple ranges within a year or full year.
+                    // For now assuming start <= end as per standard ranges.
+
+                    if (currentNum >= startNum && currentNum <= endNum) {
+                        matches.push({ ...data, id: doc.id });
+                    }
+                });
+
+                // Priority: Holiday > Valentines > Default
+                // We can just look for specific IDs in order
+                const priority = ['holiday-giftcard', 'valentines-giftcard', 'default-giftcard'];
+
+                for (const pid of priority) {
+                    const found = matches.find(m => m.id === pid);
+                    if (found) {
+                        selected = found;
+                        break;
+                    }
+                }
+
+                // Fallback to default if no specific match found but default exists in DB
+                if (!selected) {
+                    const defaultCard = querySnapshot.docs.find(doc => doc.id === 'default-giftcard');
+                    if (defaultCard) selected = { ...defaultCard.data(), id: defaultCard.id } as GiftCard;
+                }
+
+                if (selected) {
+                    setActiveGiftCard(selected);
+                }
+
+            } catch (error) {
+                console.error("Error fetching gift cards:", error);
+            }
+        };
+
+        fetchPromotions();
+        fetchGiftCards();
+    }, []);
 
     const promoSections = [
         {
@@ -99,7 +218,7 @@ const Promotions: React.FC = () => {
 
                                     {/* Disclaimer */}
                                     <p className="text-sm text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
-                                        *Offer valid through January 4th, 2026. Cannot be combined with other discounts.  Discount applied at checkout.
+                                        *Offer valid through {formatDate(validPromos.get('holiday-promo')?.endDate || '')}. Cannot be combined with other discounts.  Discount applied at checkout.
                                     </p>
                                 </div>
 
@@ -171,7 +290,7 @@ const Promotions: React.FC = () => {
 
                                     {/* Disclaimer */}
                                     <p className="text-sm text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
-                                        *Offer valid through January 30th, 2026. Cannot be combined with other discounts.  Discount applied at checkout.
+                                        *Offer valid through {formatDate(validPromos.get('release-promo')?.endDate || '')}. Cannot be combined with other discounts.  Discount applied at checkout.
                                     </p>
                                 </div>
 
@@ -204,7 +323,7 @@ const Promotions: React.FC = () => {
                             <div className="flex-1 w-full">
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-square">
                                     <img
-                                        src="/promos/giftcard_box_valentines.png"
+                                        src={activeGiftCard ? (GIFT_CARD_IMAGES[activeGiftCard.id] || "/promos/giftcard_box_standard.png") : "/promos/giftcard_box_standard.png"}
                                         alt="Gift Card"
                                         className="w-full h-full object-cover"
                                     />
@@ -271,7 +390,7 @@ const Promotions: React.FC = () => {
                 // @ts-ignore
                 if (section.requiredPromoId) {
                     // @ts-ignore
-                    return activePromoIds.includes(section.requiredPromoId);
+                    return validPromos.has(section.requiredPromoId);
                 }
 
                 return true;

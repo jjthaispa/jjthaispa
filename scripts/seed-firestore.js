@@ -73,6 +73,10 @@ const SERVICES = [
             { id: "4", duration: 90, durationServices: "90 Minutes Thai Combination", price: 270 },
             { id: "5", duration: 90, durationServices: "90 Minutes Thai Deep Tissue", price: 280 }
         ]
+    },
+    {
+        id: "aromatherapy",
+        prices: []
     }
 ];
 
@@ -157,6 +161,41 @@ async function seed() {
             console.log(`Updated Promo: ${id}`);
         } catch (e) {
             console.error(`Error updating promo ${promo.id}:`, e);
+        }
+    }
+
+    // Seed Gift Cards
+    const GIFTCARDS = [
+        {
+            id: "holiday-giftcard",
+            label: "Holiday Gift Card",
+            enabled: true,
+            startDate: "12-01", // Dec 1
+            endDate: "12-31"    // Dec 31
+        },
+        {
+            id: "valentines-giftcard",
+            label: "Valentine's Gift Card",
+            enabled: true,
+            startDate: "01-01", // Jan 1
+            endDate: "02-15"    // Feb 15
+        },
+        {
+            id: "default-giftcard",
+            label: "Standard Gift Card",
+            enabled: true,
+            startDate: "01-01", // Always valid, used as fallback
+            endDate: "12-31"
+        }
+    ];
+
+    for (const card of GIFTCARDS) {
+        try {
+            const { id, ...data } = card;
+            await setDoc(doc(db, "giftcards", id), data);
+            console.log(`Updated Gift Card: ${id}`);
+        } catch (e) {
+            console.error(`Error updating gift card ${card.id}:`, e);
         }
     }
 

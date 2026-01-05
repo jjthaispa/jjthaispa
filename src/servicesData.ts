@@ -109,5 +109,23 @@ export const SERVICES: Service[] = [
         ],
         callToBook: true,
         prices: []
+    },
+    {
+        id: "aromatherapy",
+        category: "WELLNESS ADD-ON",
+        title: "Aromatherapy",
+        description: "Enhance your massage experience with the therapeutic power of essential oils. Aromatherapy uses naturally extracted plant essences to promote health and well-being, helping to reduce stress, improve sleep quality, and boost your mood during and after your session at no additional cost.",
+        image: "/therapies/aroma_desk.png",
+        benefitsHeading: "Available Scents:",
+        benefits: [
+            "Eucalyptus",
+            "Lavender Blend",
+            "Citrus Blend",
+            "Wintergreen Blend",
+            "Clary Sage Blend",
+
+        ],
+        isAddOn: true,
+        prices: []
     }
 ];
