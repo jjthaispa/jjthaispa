@@ -88,11 +88,14 @@ const PROMOS = [
 ];
 
 const PromoCarousel: React.FC = () => {
-  const { activePromoIds } = useServices(); // Get active promos from API
+  const { activePromoIds, loading: servicesLoading } = useServices(); // Get active promos from API
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeGiftCards, setActiveGiftCards] = useState<Set<string>>(new Set());
+  const [giftCardsLoading, setGiftCardsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Fetch active gift cards
   useEffect(() => {
@@ -127,6 +130,8 @@ const PromoCarousel: React.FC = () => {
         setActiveGiftCards(activeIds);
       } catch (error) {
         console.error("Error fetching gift cards for carousel:", error);
+      } finally {
+        setGiftCardsLoading(false);
       }
     };
     fetchGiftCards();
@@ -141,7 +146,6 @@ const PromoCarousel: React.FC = () => {
     // Check if dependent on a specific promo ID
     // @ts-ignore
     if (promo.requiredPromoId) {
-      // @ts-ignore
       // @ts-ignore
       return activePromoIds.includes(promo.requiredPromoId);
     }
@@ -187,11 +191,29 @@ const PromoCarousel: React.FC = () => {
     setCurrentIndex(index);
   };
 
+  // Unified loading state
+  const isLoading = servicesLoading || giftCardsLoading;
+
+  // Render Skeletons if loading
+  if (isLoading) {
+    return (
+      <section className="bg-background-light dark:bg-background-dark py-12 border-b border-border-light dark:border-border-dark overflow-x-clip">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-4 overflow-hidden">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex-shrink-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] h-[280px] rounded-2xl bg-gray-300 dark:bg-gray-700 animate-pulse">
+                {/* Skeleton Content */}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (activePromos.length === 0) return null;
 
   // Swipe handlers
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const minSwipeDistance = 50;
 
   const onTouchStart = (e: React.TouchEvent) => {
