@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { SERVICES } from '../servicesData';
+import { useServices } from '../context/ServiceContext';
 
 const PriceList: React.FC = () => {
+    const { services } = useServices();
 
     // Add specific print styles dynamically
     useEffect(() => {
@@ -31,7 +32,7 @@ const PriceList: React.FC = () => {
 
     // Filter services to show (exclude add-ons or show distinctly if needed)
     // For this design, we'll include everything but handle layout gracefully
-    const mainServices = SERVICES.filter(s => !s.isAddOn);
+    const mainServices = services.filter(s => !s.isAddOn);
 
     // Split into two columns for the print layout
     const midPoint = Math.ceil(mainServices.length / 2);
@@ -108,18 +109,18 @@ const PriceList: React.FC = () => {
                                     <div className="space-y-1.5">
                                         {service.prices.map((p, pIdx) => (
                                             <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                <span className="text-lg font-medium text-gray-800">{p.duration}</span>
+                                                <span className="text-lg font-medium text-gray-800">{p.durationServices}</span>
                                                 <span className="flex items-center gap-2">
                                                     {p.promoPrice ? (
                                                         <>
-                                                            <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
+                                                            <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">${p.price}</span>
                                                             <span className="text-xl font-bold text-[#556B4E]">
-                                                                {p.promoPrice}
+                                                                ${p.promoPrice}
                                                             </span>
                                                         </>
                                                     ) : (
                                                         <span className="text-xl font-bold text-[#1a231f]">
-                                                            {p.price}
+                                                            ${p.price}
                                                         </span>
                                                     )}
                                                 </span>
@@ -165,20 +166,20 @@ const PriceList: React.FC = () => {
                                             <>
                                                 <div>
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1">Swedish</h4>
-                                                    {service.prices.filter(p => p.duration.includes('Swedish')).map((p, pIdx) => (
+                                                    {service.prices.filter(p => p.durationServices.includes('Swedish')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.duration.replace(' Swedish', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Swedish', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
-                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
+                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">${p.price}</span>
                                                                         <span className="text-xl font-bold text-[#556B4E]">
-                                                                            {p.promoPrice}
+                                                                            ${p.promoPrice}
                                                                         </span>
                                                                     </>
                                                                 ) : (
                                                                     <span className="text-xl font-bold text-[#1a231f]">
-                                                                        {p.price}
+                                                                        ${p.price}
                                                                     </span>
                                                                 )}
                                                             </span>
@@ -187,20 +188,20 @@ const PriceList: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1 mt-3">Thai Combination</h4>
-                                                    {service.prices.filter(p => p.duration.includes('Combination')).map((p, pIdx) => (
+                                                    {service.prices.filter(p => p.durationServices.includes('Combination')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.duration.replace(' Thai Combination', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Thai Combination', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
-                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
+                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">${p.price}</span>
                                                                         <span className="text-xl font-bold text-[#556B4E]">
-                                                                            {p.promoPrice}
+                                                                            ${p.promoPrice}
                                                                         </span>
                                                                     </>
                                                                 ) : (
                                                                     <span className="text-xl font-bold text-[#1a231f]">
-                                                                        {p.price}
+                                                                        ${p.price}
                                                                     </span>
                                                                 )}
                                                             </span>
@@ -209,20 +210,20 @@ const PriceList: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1 mt-3">Thai Deep Tissue</h4>
-                                                    {service.prices.filter(p => p.duration.includes('Deep Tissue')).map((p, pIdx) => (
+                                                    {service.prices.filter(p => p.durationServices.includes('Deep Tissue')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.duration.replace(' Thai Deep Tissue', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Thai Deep Tissue', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
-                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
+                                                                        <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">${p.price}</span>
                                                                         <span className="text-xl font-bold text-[#556B4E]">
-                                                                            {p.promoPrice}
+                                                                            ${p.promoPrice}
                                                                         </span>
                                                                     </>
                                                                 ) : (
                                                                     <span className="text-xl font-bold text-[#1a231f]">
-                                                                        {p.price}
+                                                                        ${p.price}
                                                                     </span>
                                                                 )}
                                                             </span>
@@ -233,18 +234,18 @@ const PriceList: React.FC = () => {
                                         ) : (
                                             service.prices.map((p, pIdx) => (
                                                 <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                    <span className="text-lg font-medium text-gray-800">{p.duration}</span>
+                                                    <span className="text-lg font-medium text-gray-800">{p.durationServices}</span>
                                                     <span className="flex items-center gap-2">
                                                         {p.promoPrice ? (
                                                             <>
-                                                                <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">{p.price}</span>
+                                                                <span className="text-gray-400 line-through decoration-[#C85A5A] text-base font-normal">${p.price}</span>
                                                                 <span className="text-xl font-bold text-[#556B4E]">
-                                                                    {p.promoPrice}
+                                                                    ${p.promoPrice}
                                                                 </span>
                                                             </>
                                                         ) : (
                                                             <span className="text-xl font-bold text-[#1a231f]">
-                                                                {p.price}
+                                                                ${p.price}
                                                             </span>
                                                         )}
                                                     </span>

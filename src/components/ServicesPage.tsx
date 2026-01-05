@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-
-import { SERVICES } from '../servicesData';
+import { useServices } from '../context/ServiceContext';
 
 const ServicesPage: React.FC = () => {
+    const { services } = useServices();
     const [flashingService, setFlashingService] = React.useState<string | null>(null);
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const ServicesPage: React.FC = () => {
 
             {/* Services List */}
             <div className="flex flex-col">
-                {SERVICES.map((service, index) => {
+                {services.map((service, index) => {
                     const isEven = index % 2 === 0;
                     // Alternating background colors
                     const bgClass = isEven
@@ -137,7 +137,7 @@ const ServicesPage: React.FC = () => {
                                                 {/* PROMO Badge */}
                                                 {service.hasPromo && (
                                                     <span className="absolute top-4 right-4 bg-[#C85A5A] text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full uppercase">
-                                                        Promo
+                                                        {service.promoLabel || "Promo"}
                                                     </span>
                                                 )}
                                                 <h3 className="font-serif font-bold text-xl text-[#788E6E] dark:text-[#849f81] mb-4 border-b border-[#EAE5E0] dark:border-border-dark pb-2">
@@ -146,15 +146,15 @@ const ServicesPage: React.FC = () => {
                                                 <div className="space-y-3">
                                                     {service.prices.map((price, idx) => (
                                                         <div key={idx} className="flex justify-between items-center text-[#1a231f] dark:text-white font-medium">
-                                                            <span>{price.duration}</span>
+                                                            <span>{price.durationServices}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {price.promoPrice ? (
                                                                     <>
-                                                                        <span className="text-[#a0a0a0] line-through decoration-[#C85A5A] text-base">{price.price}</span>
-                                                                        <span className="font-bold text-lg text-[#788E6E] dark:text-[#849f81]">{price.promoPrice}</span>
+                                                                        <span className="text-[#a0a0a0] line-through decoration-[#C85A5A] text-base">${price.price}</span>
+                                                                        <span className="font-bold text-lg text-[#788E6E] dark:text-[#849f81]">${price.promoPrice}</span>
                                                                     </>
                                                                 ) : (
-                                                                    <span className="font-bold text-lg">{price.price}</span>
+                                                                    <span className="font-bold text-lg">${price.price}</span>
                                                                 )}
                                                             </span>
                                                         </div>

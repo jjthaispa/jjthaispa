@@ -78,7 +78,7 @@ const CTA: React.FC = () => {
                     <span>10:00 AM - 8:00 PM</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Saturday - Sunday</span>
+                    <span>Saturday / Sunday</span>
                     <span>10:00 AM - 6:00 PM</span>
                   </div>
                 </div>

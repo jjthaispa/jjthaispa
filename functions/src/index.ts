@@ -168,6 +168,75 @@ app.get('/api/reviews', async (req, res) => {
     }
 });
 
+// GET /api/services - Fetch services with dynamic promotions
+app.get('/api/services', async (req, res) => {
+    try {
+        const [servicesSnap, promotionsSnap] = await Promise.all([
+            db.collection('services').get(),
+            db.collection('promotions').where('enabled', '==', true).get()
+        ]);
+
+        const services: any[] = servicesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const promotions: any[] = promotionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const now = new Date();
+        const activePromotions = promotions.filter((p: any) => {
+            const start = new Date(p.startDate);
+            const end = new Date(p.endDate);
+            return now >= start && now <= end && p.enabled;
+        });
+
+        const enrichedServices = services.map((service: any) => {
+            // Find applicable promo by checking if it has discounts for this service ID
+            const promo = activePromotions.find((p: any) => p.discounts && p.discounts[service.id]);
+
+            if (promo) {
+                const serviceDiscounts = promo.discounts[service.id];
+                let serviceHasPromo = false;
+                const promoLabel = promo.label;
+
+                const enrichedPrices = (service.prices || []).map((price: any) => {
+                    // price.id is "0", "1", etc.
+                    const discountAmount = serviceDiscounts[price.id];
+
+                    if (discountAmount !== undefined && Number(discountAmount) > 0) {
+                        serviceHasPromo = true;
+                        const originalPrice = price.price;
+                        const promoPrice = Math.max(0, originalPrice - Number(discountAmount));
+
+                        return {
+                            ...price,
+                            promoPrice: promoPrice
+                        };
+                    }
+                    return price;
+                });
+
+                if (serviceHasPromo) {
+                    return {
+                        ...service,
+                        hasPromo: true,
+                        promoLabel: promoLabel,
+                        prices: enrichedPrices
+                    };
+                }
+            }
+
+            return service;
+        });
+
+        const activePromoIds = activePromotions.map((p: any) => p.id);
+
+        res.json({
+            services: enrichedServices,
+            activePromoIds
+        });
+    } catch (error) {
+        console.error('Error fetching services:', error);
+        res.status(500).json({ error: 'Failed to fetch services' });
+    }
+});
+
 // Export the Express app as a Firebase Function (v2, us-east1)
 export const api = onRequest({ region: 'us-east1' }, app);
 

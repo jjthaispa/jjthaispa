@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useServices } from '../context/ServiceContext';
 
 const PROMOS = [
   {
@@ -11,7 +12,8 @@ const PROMOS = [
     image: "/promos/holiday_promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
-    enabled: false,
+    requiredPromoId: "holiday-promo",
+    enabled: true, // Controlled by global promo state now
     overlay: [
       { highlight: "$10 OFF", subtitle: "60 MINUTE MASSAGE" },
       { highlight: "$15 OFF", subtitle: "90 MINUTE MASSAGE" }
@@ -27,7 +29,8 @@ const PROMOS = [
     image: "/promos/release_promo.png",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
-    enabled: true,
+    requiredPromoId: "release-promo",
+    enabled: true, // Controlled by global promo state now
     overlay: [
       { highlight: "$10 OFF", subtitle: "45 MINUTE MASSAGE" }
     ]
@@ -38,8 +41,8 @@ const PROMOS = [
     title: "Give the Gift of Relaxation",
     description: "Instant eGift Cards. The perfect present for this holiday season. Physical cards available in store.",
     buttonText: "Buy eGift Card",
-    image: "/promos/giftcard.png",
-    video: "/promos/giftcard.mp4",
+    image: "/promos/holiday_giftcard.png",
+    video: "/promos/holiday_giftcard.mp4",
     bgColor: "bg-[#E4E9E3] dark:bg-[#1A2E2A]", // Light Sage / Dark Green
     btnColor: "bg-[#788E6E] hover:bg-[#5A6B52] text-white",
     enabled: false
@@ -50,7 +53,8 @@ const PROMOS = [
     title: "Valentine’s Day",
     description: "Send a Valentine’s Day e-gift card in seconds ♥ instant delivery, heartfelt surprise, perfect for last-minute love.",
     buttonText: "Buy eGift Card",
-    image: "/promos/valentines_promo.png",
+    image: "/promos/valentines_giftcard.png",
+    video: "/promos/valentines_giftcard.mp4",
     bgColor: "bg-[#FFE0E0] dark:bg-[#2B0C13]", // Soft Red / Merlot
     btnColor: "bg-[#C62828] hover:bg-[#a82020] text-white", // Deep Red
     enabled: true
@@ -80,12 +84,26 @@ const PROMOS = [
 ];
 
 const PromoCarousel: React.FC = () => {
+  const { activePromoIds } = useServices(); // Get active promos from API
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Filter active promos
-  const activePromos = PROMOS.filter(promo => promo.enabled);
+  // Filter active promos based on API state AND local enabled flag
+  // If requiredPromoId is present, it MUST be in activePromoIds.
+  const activePromos = PROMOS.filter(promo => {
+    // If explicit disable in local config, allow it to override
+    if (promo.enabled === false) return false;
+
+    // Check if dependent on a specific promo ID
+    // @ts-ignore
+    if (promo.requiredPromoId) {
+      // @ts-ignore
+      return activePromoIds.includes(promo.requiredPromoId);
+    }
+
+    return true;
+  });
 
   // Responsive items per page
   useEffect(() => {

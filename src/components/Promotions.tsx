@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useServices } from '../context/ServiceContext';
 
 const Promotions: React.FC = () => {
     const [flashCard, setFlashCard] = useState(false);
@@ -32,10 +33,13 @@ const Promotions: React.FC = () => {
         }
     }, []);
 
+    const { activePromoIds } = useServices();
+
     const promoSections = [
         {
             id: 'holiday-special',
-            enabled: false,
+            requiredPromoId: 'holiday-promo',
+            enabled: true, // Controlled by global promo state now
             element: (
                 /* Holiday Special Section */
                 <section id="holiday-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1a231f]">
@@ -115,7 +119,8 @@ const Promotions: React.FC = () => {
         },
         {
             id: 'release-special',
-            enabled: true,
+            requiredPromoId: 'release-promo',
+            enabled: true, // Controlled by global promo state now
             element: (
                 /* Release Special Section */
                 <section id="release-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1a231f]">
@@ -139,7 +144,7 @@ const Promotions: React.FC = () => {
                                 {/* Left Content */}
                                 <div className="flex-1 p-8 md:p-10 lg:p-12 relative bg-white dark:bg-[#2E281A]">
                                     <h3 className="font-serif text-2xl md:text-3xl text-[#2e2e2e] dark:text-white mb-5">
-                                        New Service • Introductory Offer 
+                                        New Service • Introductory Offer
                                     </h3>
                                     <p className="text-[#4a4a4a] dark:text-text-dark/80 leading-relaxed mb-8 text-sm md:text-base">
                                         Tension often builds where we need relief the most—your back, neck, and shoulders. Our new Back, Neck & Shoulder Release is a focused therapeutic session designed to ease tight muscles, reduce stress, and restore comfort in these high-tension areas.
@@ -258,7 +263,19 @@ const Promotions: React.FC = () => {
                 </div>
             </div>
 
-            {promoSections.filter(section => section.enabled).map(section => (
+            {promoSections.filter(section => {
+                // If explicit disable in local config, allow it to override
+                if (section.enabled === false) return false;
+
+                // Check if dependent on a specific promo ID
+                // @ts-ignore
+                if (section.requiredPromoId) {
+                    // @ts-ignore
+                    return activePromoIds.includes(section.requiredPromoId);
+                }
+
+                return true;
+            }).map(section => (
                 <React.Fragment key={section.id}>{section.element}</React.Fragment>
             ))}
 
