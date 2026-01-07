@@ -1,10 +1,38 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow server-side (admin SDK) access from Firebase Functions
-    // The admin SDK bypasses these rules, but we need open rules for initial setup
-    match /{document=**} {
-      allow read, write: if true;
+    // Allowed admin emails for write access
+    function isAdmin() {
+      return request.auth != null && 
+             request.auth.token.email in [
+               'sunicha@jjthaispa.com',
+               'michael@jjthaispa.com', 
+               'mikerijo@gmail.com'
+             ];
+    }
+    
+    // Services collection - public read, admin write
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Promotions collection - public read, admin write
+    match /promotions/{promoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Config collection (reviews, etc) - public read, admin write
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Gift cards collection - public read, admin write
+    match /giftcards/{cardId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }

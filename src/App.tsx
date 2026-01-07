@@ -15,9 +15,11 @@ import Promotions from './components/Promotions';
 import Promo from './components/Promo';
 import ServicesPage from './components/ServicesPage';
 import PriceList from './components/PriceList';
+import AdminPage from './components/AdminPage';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'promo'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'promo' | 'admin'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -38,6 +40,8 @@ function App() {
         setCurrentPage('pricelist');
       } else if (path === '/promo') {
         setCurrentPage('promo');
+      } else if (path === '/admin') {
+        setCurrentPage('admin');
       } else {
         setCurrentPage('home');
       }
@@ -141,6 +145,14 @@ function App() {
 
   if (currentPage === 'promo') {
     return <Promo />;
+  }
+
+  if (currentPage === 'admin') {
+    return (
+      <AuthProvider>
+        <AdminPage />
+      </AuthProvider>
+    );
   }
 
   return (
