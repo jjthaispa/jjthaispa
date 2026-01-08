@@ -159,10 +159,24 @@ export default function AdminPage() {
 
     // Promotion handlers
     const handlePromoFieldChange = (promoId: string, field: keyof Promotion, value: any) => {
-        setEditedPromos(prev => ({
-            ...prev,
-            [promoId]: { ...prev[promoId], [field]: value }
-        }));
+        setEditedPromos(prev => {
+            const newData = {
+                ...prev,
+                [promoId]: { ...prev[promoId], [field]: value }
+            };
+
+            // If enabling a promo, disable all others
+            if (field === 'enabled' && value === true) {
+                promotions.forEach(p => {
+                    if (p.id !== promoId) {
+                        const current = newData[p.id] || p;
+                        newData[p.id] = { ...current, enabled: false };
+                    }
+                });
+            }
+
+            return newData;
+        });
     };
 
     const handlePromoDiscountChange = (promoId: string, serviceId: string, priceId: string, value: string) => {

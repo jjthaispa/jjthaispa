@@ -6,7 +6,8 @@ import { auth, googleProvider } from '../firebase';
 const ALLOWED_EMAILS = [
     'sunicha@jjthaispa.com',
     'michael@jjthaispa.com',
-    'mikerijo@gmail.com'
+    'mikerijo@gmail.com',
+    'sunicha7768@gmail.com'
 ];
 
 interface AuthContextType {
