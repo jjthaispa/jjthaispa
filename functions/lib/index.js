@@ -75,6 +75,14 @@ const formatDate = (dateStr) => {
     }
     return 'Recent';
 };
+// Normalize text to replace smart quotes/punctuation with ASCII equivalents
+const normalizeText = (text) => {
+    return text
+        .replace(/[\u2018\u2019]/g, "'") // smart single quotes
+        .replace(/[\u201C\u201D]/g, '"') // smart double quotes
+        .replace(/[\u2013\u2014]/g, "-") // em/en dashes
+        .replace(/\u2026/g, "..."); // ellipsis
+};
 // Hardcoded fallback reviews
 const FALLBACK_REVIEWS = {
     reviews: [
@@ -295,107 +303,14 @@ app.post('/api/sync-reviews', async (req, res) => {
             res.status(403).json({ error: 'Forbidden - admin access required' });
             return;
         }
-        // Authorized - perform sync (performReviewSync is defined later, so we inline the logic)
+        // Authorized - perform sync
         console.log('Manual sync triggered by:', email);
-        // Fetch reviews from source
-        const response = await fetch('https://jjreviews-27d5c.web.app/json');
-        if (!response.ok) {
-            throw new Error(`Failed to fetch reviews: ${response.status}`);
-        }
-        const data = await response.json();
-        // Fetch blocklist from Firestore
-        const blocklistedTimestampsDoc = await db.doc('config_admin/reviews_blocklist').get();
-        const blocklistedTimestamps = blocklistedTimestampsDoc.exists ? (blocklistedTimestampsDoc.data()?.timestamps || []) : [];
-        const blocklistedWordsDoc = await db.doc('config_admin/reviews_blocklist_words').get();
-        const blocklistedWords = blocklistedWordsDoc.exists ? (blocklistedWordsDoc.data()?.words || []) : [];
-        // Process ALL reviews and assign filter reasons
-        const allReviewsWithReasons = (data.reviews || []).map((review) => {
-            const text = review.text || '';
-            const authorName = review.author_name || '';
-            let filterReason = null;
-            if (!text.trim()) {
-                filterReason = 'empty_text';
-            }
-            else if (text.length > 250) {
-                filterReason = 'too_long';
-            }
-            else if (text.includes('(Translated by Google)')) {
-                filterReason = 'translated';
-            }
-            else if (/[^\x00-\x7F]/.test(text)) {
-                filterReason = 'unicode';
-            }
-            else {
-                const textLower = text.toLowerCase();
-                for (const word of blocklistedWords) {
-                    if (textLower.includes(word.toLowerCase())) {
-                        filterReason = `blocklisted_word:${word}`;
-                        break;
-                    }
-                }
-            }
-            if (!filterReason && blocklistedTimestamps.includes(review.relative_time_description)) {
-                filterReason = 'blocklisted_timestamp';
-            }
-            if (!filterReason) {
-                if (!/^[a-zA-Z\s-]+$/.test(authorName)) {
-                    filterReason = 'special_chars_name';
-                }
-                else {
-                    const nameParts = authorName.trim().split(/\s+/);
-                    if (nameParts.length > 2) {
-                        filterReason = 'too_many_name_parts';
-                    }
-                }
-            }
-            // Format name
-            const parts = authorName.trim().split(/\s+/);
-            let formattedName = authorName;
-            if (parts.length === 1 && parts[0].length >= 2) {
-                formattedName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
-            }
-            else if (parts.length === 2) {
-                formattedName = `${parts[0].charAt(0).toUpperCase()}${parts[0].slice(1).toLowerCase()} ${parts[1].charAt(0).toUpperCase()}.`;
-            }
-            return {
-                author_name: authorName,
-                author_name_formatted: formattedName,
-                rating: review.rating,
-                relative_time_description: review.relative_time_description,
-                date: formatDate(review.relative_time_description),
-                text: text.replace(/\n/g, ' '),
-                filterReason
-            };
-        });
-        // Store ALL reviews with reasons in config_admin
-        await db.collection('config_admin').doc('reviews_all').set({
-            reviews: allReviewsWithReasons,
-            totalReviewCount: data.totalReviewCount || 0,
-            averageRating: data.averageRating || "0.0",
-            lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
-        });
-        // Filter to only approved reviews for public site
-        const filteredReviews = allReviewsWithReasons
-            .filter((r) => r.filterReason === null)
-            .map((r) => ({
-            author_name: r.author_name_formatted,
-            rating: r.rating,
-            relative_time_description: r.relative_time_description,
-            date: r.date,
-            text: r.text
-        }));
-        // Store filtered reviews in config/reviews for public site
-        await db.collection('config').doc('reviews').set({
-            reviews: filteredReviews,
-            totalReviewCount: data.totalReviewCount || 0,
-            averageRating: data.averageRating || "0.0",
-            lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
-        });
+        const result = await performReviewSync();
         res.json({
             success: true,
-            message: `Synced ${allReviewsWithReasons.length} reviews, ${filteredReviews.length} approved for public`,
-            total: allReviewsWithReasons.length,
-            approved: filteredReviews.length
+            message: `Synced ${result.total} reviews, ${result.approved} approved for public`,
+            total: result.total,
+            approved: result.approved
         });
     }
     catch (error) {
@@ -476,7 +391,7 @@ const performReviewSync = async () => {
     const blocklistedWords = await getBlocklistedWords();
     // Process ALL reviews and assign filter reasons
     const allReviewsWithReasons = (data.reviews || []).map((review) => {
-        const text = review.text || '';
+        const text = normalizeText(review.text || '');
         const authorName = review.author_name || '';
         let filterReason = null;
         // Check each filter condition and set reason
