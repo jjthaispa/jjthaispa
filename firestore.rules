@@ -30,6 +30,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
+    // Config Admin collection (blocklists, all reviews) - admin only
+    match /config_admin/{docId} {
+      allow read, write: if isAdmin();
+    }
+    
     // Gift cards collection - public read, admin write
     match /giftcards/{cardId} {
       allow read: if true;

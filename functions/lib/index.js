@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncReviews = exports.api = void 0;
+exports.triggerSyncReviews = exports.syncReviews = exports.api = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
@@ -46,12 +46,34 @@ admin.initializeApp();
 const db = admin.firestore();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-// Format ISO date to "Month Year" format
-const formatDate = (isoDate) => {
-    const date = new Date(isoDate);
-    const months = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
-    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+// Format date to "Month Year" format with fallbacks
+const formatDate = (dateStr) => {
+    // Check for ISO timestamp (e.g. 2026-01-06T18:44:13.403321Z)
+    if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+        try {
+            const date = new Date(dateStr);
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+        }
+        catch (e) {
+            console.error('Error parsing ISO date:', e);
+            return 'Recent';
+        }
+    }
+    // Fallback regex for "Month Year" or "X weeks ago" extraction
+    const months = {
+        'january': 'January', 'february': 'February', 'march': 'March', 'april': 'April',
+        'may': 'May', 'june': 'June', 'july': 'July', 'august': 'August',
+        'september': 'September', 'october': 'October', 'november': 'November', 'december': 'December'
+    };
+    const dateMatch = dateStr.match(/(\w+)\s*,?\s*(\d{4})/i);
+    if (dateMatch) {
+        const monthName = months[dateMatch[1].toLowerCase()] || dateMatch[1];
+        return `${monthName} ${dateMatch[2]}`;
+    }
+    return 'Recent';
 };
 // Hardcoded fallback reviews
 const FALLBACK_REVIEWS = {
@@ -249,16 +271,171 @@ app.get('/api/services', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch services' });
     }
 });
+// Admin emails for sync endpoint authentication
+const SYNC_ADMIN_EMAILS = [
+    'sunicha@jjthaispa.com',
+    'michael@jjthaispa.com',
+    'mikerijo@gmail.com',
+    'sunicha7768@gmail.com'
+];
+// POST /api/sync-reviews - Manual sync trigger (authenticated, admin only)
+app.post('/api/sync-reviews', async (req, res) => {
+    // Verify Firebase Auth token
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        res.status(401).json({ error: 'Unauthorized - no token provided' });
+        return;
+    }
+    const idToken = authHeader.split('Bearer ')[1];
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const email = decodedToken.email;
+        // Check if user is an admin
+        if (!email || !SYNC_ADMIN_EMAILS.includes(email)) {
+            res.status(403).json({ error: 'Forbidden - admin access required' });
+            return;
+        }
+        // Authorized - perform sync (performReviewSync is defined later, so we inline the logic)
+        console.log('Manual sync triggered by:', email);
+        // Fetch reviews from source
+        const response = await fetch('https://jjreviews-27d5c.web.app/json');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch reviews: ${response.status}`);
+        }
+        const data = await response.json();
+        // Fetch blocklist from Firestore
+        const blocklistedTimestampsDoc = await db.doc('config_admin/reviews_blocklist').get();
+        const blocklistedTimestamps = blocklistedTimestampsDoc.exists ? (blocklistedTimestampsDoc.data()?.timestamps || []) : [];
+        const blocklistedWordsDoc = await db.doc('config_admin/reviews_blocklist_words').get();
+        const blocklistedWords = blocklistedWordsDoc.exists ? (blocklistedWordsDoc.data()?.words || []) : [];
+        // Process ALL reviews and assign filter reasons
+        const allReviewsWithReasons = (data.reviews || []).map((review) => {
+            const text = review.text || '';
+            const authorName = review.author_name || '';
+            let filterReason = null;
+            if (!text.trim()) {
+                filterReason = 'empty_text';
+            }
+            else if (text.length > 250) {
+                filterReason = 'too_long';
+            }
+            else if (text.includes('(Translated by Google)')) {
+                filterReason = 'translated';
+            }
+            else if (/[^\x00-\x7F]/.test(text)) {
+                filterReason = 'unicode';
+            }
+            else {
+                const textLower = text.toLowerCase();
+                for (const word of blocklistedWords) {
+                    if (textLower.includes(word.toLowerCase())) {
+                        filterReason = `blocklisted_word:${word}`;
+                        break;
+                    }
+                }
+            }
+            if (!filterReason && blocklistedTimestamps.includes(review.relative_time_description)) {
+                filterReason = 'blocklisted_timestamp';
+            }
+            if (!filterReason) {
+                if (!/^[a-zA-Z\s-]+$/.test(authorName)) {
+                    filterReason = 'special_chars_name';
+                }
+                else {
+                    const nameParts = authorName.trim().split(/\s+/);
+                    if (nameParts.length > 2) {
+                        filterReason = 'too_many_name_parts';
+                    }
+                }
+            }
+            // Format name
+            const parts = authorName.trim().split(/\s+/);
+            let formattedName = authorName;
+            if (parts.length === 1 && parts[0].length >= 2) {
+                formattedName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+            }
+            else if (parts.length === 2) {
+                formattedName = `${parts[0].charAt(0).toUpperCase()}${parts[0].slice(1).toLowerCase()} ${parts[1].charAt(0).toUpperCase()}.`;
+            }
+            return {
+                author_name: authorName,
+                author_name_formatted: formattedName,
+                rating: review.rating,
+                relative_time_description: review.relative_time_description,
+                date: formatDate(review.relative_time_description),
+                text: text.replace(/\n/g, ' '),
+                filterReason
+            };
+        });
+        // Store ALL reviews with reasons in config_admin
+        await db.collection('config_admin').doc('reviews_all').set({
+            reviews: allReviewsWithReasons,
+            totalReviewCount: data.totalReviewCount || 0,
+            averageRating: data.averageRating || "0.0",
+            lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+        // Filter to only approved reviews for public site
+        const filteredReviews = allReviewsWithReasons
+            .filter((r) => r.filterReason === null)
+            .map((r) => ({
+            author_name: r.author_name_formatted,
+            rating: r.rating,
+            relative_time_description: r.relative_time_description,
+            date: r.date,
+            text: r.text
+        }));
+        // Store filtered reviews in config/reviews for public site
+        await db.collection('config').doc('reviews').set({
+            reviews: filteredReviews,
+            totalReviewCount: data.totalReviewCount || 0,
+            averageRating: data.averageRating || "0.0",
+            lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+        res.json({
+            success: true,
+            message: `Synced ${allReviewsWithReasons.length} reviews, ${filteredReviews.length} approved for public`,
+            total: allReviewsWithReasons.length,
+            approved: filteredReviews.length
+        });
+    }
+    catch (error) {
+        console.error('Error in manual sync:', error);
+        res.status(500).json({ error: 'Failed to sync reviews' });
+    }
+});
 // Export the Express app as a Firebase Function (v2, us-east1)
 exports.api = (0, https_1.onRequest)({ region: 'us-east1' }, app);
 // Scheduled function to sync reviews daily at 3 AM (v2, us-east1)
-// Blocklist of reviews to exclude by their relative_time_description
-const BLOCKLISTED_TIMESTAMPS = [
-    '2021-06-10T13:53:56.564352Z',
-    '2025-07-12T21:12:12.410179Z',
-];
-// Blocklisted words in review text (case-insensitive)
-const BLOCKLISTED_WORDS = ['atom', 'kat'];
+// Fetch blocklist from Firestore config
+const getBlocklistedTimestamps = async () => {
+    try {
+        const blocklistDoc = await db.doc('config_admin/reviews_blocklist').get();
+        if (blocklistDoc.exists) {
+            const data = blocklistDoc.data();
+            return data?.timestamps || [];
+        }
+        return [];
+    }
+    catch (error) {
+        console.error('Error fetching blocklist:', error);
+        return [];
+    }
+};
+// Fetch blocklisted words from Firestore config
+const getBlocklistedWords = async () => {
+    try {
+        const blocklistDoc = await db.doc('config_admin/reviews_blocklist_words').get();
+        if (blocklistDoc.exists) {
+            const data = blocklistDoc.data();
+            return data?.words || [];
+        }
+        return [];
+    }
+    catch (error) {
+        console.error('Error fetching blocklisted words:', error);
+        return [];
+    }
+};
 // Check if text contains non-ASCII unicode characters
 const hasUnicodeCharacters = (text) => {
     // eslint-disable-next-line no-control-regex
@@ -285,81 +462,147 @@ const formatShortName = (fullName) => {
     const lastInitial = parts[1].charAt(0).toUpperCase() + '.';
     return `${firstName} ${lastInitial}`;
 };
+// Core sync logic - reusable by scheduled and manual triggers
+const performReviewSync = async () => {
+    console.log('Starting review sync...');
+    // Fetch reviews from source
+    const response = await fetch('https://jjreviews-27d5c.web.app/json');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch reviews: ${response.status}`);
+    }
+    const data = await response.json();
+    // Fetch blocklist from Firestore
+    const blocklistedTimestamps = await getBlocklistedTimestamps();
+    const blocklistedWords = await getBlocklistedWords();
+    // Process ALL reviews and assign filter reasons
+    const allReviewsWithReasons = (data.reviews || []).map((review) => {
+        const text = review.text || '';
+        const authorName = review.author_name || '';
+        let filterReason = null;
+        // Check each filter condition and set reason
+        if (!text.trim()) {
+            filterReason = 'empty_text';
+        }
+        else if (text.length > 250) {
+            filterReason = 'too_long';
+        }
+        else if (text.includes('(Translated by Google)')) {
+            filterReason = 'translated';
+        }
+        else if (hasUnicodeCharacters(text)) {
+            filterReason = 'unicode';
+        }
+        else {
+            // Check blocklisted words
+            const textLower = text.toLowerCase();
+            for (const word of blocklistedWords) {
+                if (textLower.includes(word.toLowerCase())) {
+                    filterReason = `blocklisted_word:${word}`;
+                    break;
+                }
+            }
+        }
+        // Check timestamp blocklist (if not already filtered)
+        if (!filterReason && blocklistedTimestamps.includes(review.relative_time_description)) {
+            filterReason = 'blocklisted_timestamp';
+        }
+        // Check name filters (if not already filtered)
+        if (!filterReason) {
+            if (hasSpecialCharacters(authorName)) {
+                filterReason = 'special_chars_name';
+            }
+            else {
+                const nameParts = authorName.trim().split(/\s+/);
+                if (nameParts.length > 2) {
+                    filterReason = 'too_many_name_parts';
+                }
+                else if (!formatShortName(authorName)) {
+                    filterReason = 'invalid_name_format';
+                }
+            }
+        }
+        return {
+            author_name: review.author_name,
+            author_name_formatted: formatShortName(review.author_name) || review.author_name,
+            rating: review.rating,
+            relative_time_description: review.relative_time_description,
+            date: formatDate(review.relative_time_description),
+            text: (text).replace(/\n/g, ' '),
+            filterReason
+        };
+    });
+    // Store ALL reviews with reasons in config_admin
+    await db.collection('config_admin').doc('reviews_all').set({
+        reviews: allReviewsWithReasons,
+        totalReviewCount: data.totalReviewCount || 0,
+        averageRating: data.averageRating || "0.0",
+        lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+    // Filter to only approved reviews for public site
+    const filteredReviews = allReviewsWithReasons
+        .filter((r) => r.filterReason === null)
+        .map((r) => ({
+        author_name: r.author_name_formatted,
+        rating: r.rating,
+        relative_time_description: r.relative_time_description,
+        date: r.date,
+        text: r.text
+    }));
+    // Store filtered reviews in config/reviews for public site
+    await db.collection('config').doc('reviews').set({
+        reviews: filteredReviews,
+        totalReviewCount: data.totalReviewCount || 0,
+        averageRating: data.averageRating || "0.0",
+        lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+    console.log(`Synced ${allReviewsWithReasons.length} total reviews, ${filteredReviews.length} approved for public`);
+    return { total: allReviewsWithReasons.length, approved: filteredReviews.length };
+};
+// Scheduled function - daily at 3 AM
 exports.syncReviews = (0, scheduler_1.onSchedule)({
     schedule: '0 3 * * *',
     timeZone: 'America/New_York',
     region: 'us-east1'
 }, async () => {
-    console.log('Starting daily review sync...');
     try {
-        // Fetch reviews from source
-        const response = await fetch('https://jjreviews-27d5c.web.app/json');
-        if (!response.ok) {
-            throw new Error(`Failed to fetch reviews: ${response.status}`);
-        }
-        const data = await response.json();
-        // Filter reviews with multiple criteria
-        const filteredReviews = (data.reviews || [])
-            .filter((review) => {
-            const text = review.text || '';
-            const authorName = review.author_name || '';
-            // Exclude empty text
-            if (!text.trim()) {
-                return false;
-            }
-            // Exclude reviews with more than 250 characters
-            if (text.length > 250) {
-                return false;
-            }
-            // Exclude reviews containing blocklisted words (case-insensitive)
-            const textLower = text.toLowerCase();
-            for (const word of BLOCKLISTED_WORDS) {
-                if (textLower.includes(word.toLowerCase())) {
-                    return false;
-                }
-            }
-            // Exclude reviews with "(Translated by Google)"
-            if (text.includes('(Translated by Google)')) {
-                return false;
-            }
-            // Exclude reviews with unicode characters in text
-            if (hasUnicodeCharacters(text)) {
-                return false;
-            }
-            // Exclude blocklisted reviews by timestamp
-            if (BLOCKLISTED_TIMESTAMPS.includes(review.relative_time_description)) {
-                return false;
-            }
-            // Exclude names with special characters
-            if (hasSpecialCharacters(authorName)) {
-                return false;
-            }
-            // Exclude names with more than 2 parts
-            const nameParts = authorName.trim().split(/\s+/);
-            if (nameParts.length > 2) {
-                return false;
-            }
-            return true;
-        })
-            // Format and clean the stored data
-            .map((review) => ({
-            author_name: formatShortName(review.author_name) || review.author_name,
-            rating: review.rating,
-            relative_time_description: review.relative_time_description,
-            date: formatDate(review.relative_time_description),
-            text: (review.text || '').replace(/\n/g, ' ')
-        }));
-        // Store in Firestore
-        await db.collection('config').doc('reviews').set({
-            reviews: filteredReviews,
-            totalReviewCount: data.totalReviewCount || 0,
-            averageRating: data.averageRating || "0.0",
-            lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
-        });
-        console.log(`Synced ${filteredReviews.length} reviews (filtered from ${data.reviews?.length || 0})`);
+        await performReviewSync();
     }
     catch (error) {
         console.error('Error syncing reviews:', error);
+    }
+});
+// HTTP endpoint for manual sync trigger (authenticated, admin only)
+const ADMIN_EMAILS = [
+    'sunicha@jjthaispa.com',
+    'michael@jjthaispa.com',
+    'mikerijo@gmail.com',
+    'sunicha7768@gmail.com'
+];
+// Callable function for manual sync trigger (auth handled by Firebase SDK)
+const https_2 = require("firebase-functions/v2/https");
+exports.triggerSyncReviews = (0, https_2.onCall)({
+    region: 'us-east1'
+}, async (request) => {
+    // Check if user is authenticated
+    if (!request.auth) {
+        throw new https_2.HttpsError('unauthenticated', 'User must be authenticated');
+    }
+    const email = request.auth.token.email;
+    // Check if user is an admin
+    if (!email || !ADMIN_EMAILS.includes(email)) {
+        throw new https_2.HttpsError('permission-denied', 'Admin access required');
+    }
+    try {
+        const result = await performReviewSync();
+        return {
+            success: true,
+            message: `Synced ${result.total} reviews, ${result.approved} approved for public`,
+            ...result
+        };
+    }
+    catch (error) {
+        console.error('Error in manual sync:', error);
+        throw new https_2.HttpsError('internal', 'Failed to sync reviews');
     }
 });
 //# sourceMappingURL=index.js.map

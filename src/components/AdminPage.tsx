@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../firebase';
+import { db, app } from '../firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { SERVICES } from '../servicesData';
 
@@ -33,11 +33,23 @@ interface Promotion {
     discounts: Record<string, Record<string, number>>;
 }
 
-type TabType = 'promotions' | 'services';
+// Review interface
+interface Review {
+    id: string;
+    reviewer_name: string;
+    rating: number;
+    comment: string;
+    create_time: string;
+    timestamp: string; // relative_time_description for blocklist matching
+    filterReason: string | null; // reason for filtering, null if approved
+    source?: string;
+}
+
+type TabType = 'promotions' | 'services' | 'reviews';
 
 export default function AdminPage() {
     const { user, loading, isAuthorized, signOut } = useAuth();
-    const [activeTab, setActiveTab] = useState<TabType>('promotions');
+    const [activeTab, setActiveTab] = useState<TabType>('reviews');
 
     // Services state
     const [services, setServices] = useState<Service[]>([]);
@@ -54,6 +66,59 @@ export default function AdminPage() {
     const [editedPromos, setEditedPromos] = useState<Record<string, Promotion>>({});
     const [expandedPromos, setExpandedPromos] = useState<Set<string>>(new Set());
 
+    // Reviews state
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [loadingReviews, setLoadingReviews] = useState(false);
+
+    // Blocklist state
+    const [blocklist, setBlocklist] = useState<string[]>([]);
+    const [newBlocklistEntry, setNewBlocklistEntry] = useState('');
+    const [savingBlocklist, setSavingBlocklist] = useState(false);
+
+    // Blocklisted words state
+    const [blocklistWords, setBlocklistWords] = useState<string[]>([]);
+    const [newBlocklistWord, setNewBlocklistWord] = useState('');
+    const [savingBlocklistWords, setSavingBlocklistWords] = useState(false);
+
+    // Sync state
+    const [syncing, setSyncing] = useState(false);
+    const [syncMessage, setSyncMessage] = useState<string | null>(null);
+    const [showApprovedOnly, setShowApprovedOnly] = useState(false);
+
+    // Manual sync trigger using Express API
+    const triggerSync = async () => {
+        if (!user) return;
+
+        setSyncing(true);
+        setSyncMessage(null);
+        try {
+            // Get the user's auth token
+            const token = await user.getIdToken();
+
+            const response = await fetch('/api/sync-reviews', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setSyncMessage(`✓ ${data.message}`);
+                // Refresh reviews list
+                fetchReviews();
+            } else {
+                setSyncMessage(`✗ ${data.error || 'Sync failed'}`);
+            }
+        } catch (error: any) {
+            setSyncMessage(`✗ ${error.message || 'Failed to trigger sync'}`);
+            console.error('Sync error:', error);
+        } finally {
+            setSyncing(false);
+        }
+    };
+
     // Fetch data based on active tab
     useEffect(() => {
         if (!isAuthorized) return;
@@ -61,8 +126,135 @@ export default function AdminPage() {
             fetchServices();
         } else if (activeTab === 'promotions') {
             fetchPromotions();
+        } else if (activeTab === 'reviews') {
+            fetchReviews();
+            fetchBlocklist();
+            fetchBlocklistWords();
         }
     }, [activeTab, isAuthorized]);
+
+    // Fetch reviews
+    const fetchReviews = async () => {
+        setLoadingReviews(true);
+        try {
+            const { getDoc } = await import('firebase/firestore');
+            const configDoc = await getDoc(doc(db, 'config_admin', 'reviews_all'));
+
+            if (configDoc.exists()) {
+                const data = configDoc.data();
+                const reviewsArray = data.reviews || [];
+
+                const reviewsData = reviewsArray.map((r: any, index: number) => ({
+                    id: String(index),
+                    reviewer_name: r.author_name || 'Anonymous',
+                    rating: r.rating || 0,
+                    comment: r.text || '',
+                    create_time: r.date || 'Recent',
+                    timestamp: r.relative_time_description || '',
+                    filterReason: r.filterReason || null,
+                    source: 'google'
+                })) as Review[];
+
+                setReviews(reviewsData);
+            }
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        } finally {
+            setLoadingReviews(false);
+        }
+    };
+
+    // Fetch blocklist
+    const fetchBlocklist = async () => {
+        try {
+            const { getDoc } = await import('firebase/firestore');
+            const blocklistDoc = await getDoc(doc(db, 'config_admin', 'reviews_blocklist'));
+            if (blocklistDoc.exists()) {
+                const data = blocklistDoc.data();
+                setBlocklist(data?.timestamps || []);
+            }
+        } catch (error) {
+            console.error('Error fetching blocklist:', error);
+        }
+    };
+
+    // Add blocklist entry
+    const addBlocklistEntry = async () => {
+        if (!newBlocklistEntry.trim()) return;
+        setSavingBlocklist(true);
+        try {
+            const { setDoc } = await import('firebase/firestore');
+            const newList = [...blocklist, newBlocklistEntry.trim()];
+            await setDoc(doc(db, 'config_admin', 'reviews_blocklist'), { timestamps: newList });
+            setBlocklist(newList);
+            setNewBlocklistEntry('');
+        } catch (error) {
+            console.error('Error adding blocklist entry:', error);
+        } finally {
+            setSavingBlocklist(false);
+        }
+    };
+
+    // Remove blocklist entry
+    const removeBlocklistEntry = async (timestamp: string) => {
+        setSavingBlocklist(true);
+        try {
+            const { setDoc } = await import('firebase/firestore');
+            const newList = blocklist.filter(t => t !== timestamp);
+            await setDoc(doc(db, 'config_admin', 'reviews_blocklist'), { timestamps: newList });
+            setBlocklist(newList);
+        } catch (error) {
+            console.error('Error removing blocklist entry:', error);
+        } finally {
+            setSavingBlocklist(false);
+        }
+    };
+
+    // Fetch blocklisted words
+    const fetchBlocklistWords = async () => {
+        try {
+            const { getDoc } = await import('firebase/firestore');
+            const wordsDoc = await getDoc(doc(db, 'config_admin', 'reviews_blocklist_words'));
+            if (wordsDoc.exists()) {
+                const data = wordsDoc.data();
+                setBlocklistWords(data?.words || []);
+            }
+        } catch (error) {
+            console.error('Error fetching blocklisted words:', error);
+        }
+    };
+
+    // Add blocklisted word
+    const addBlocklistWord = async () => {
+        if (!newBlocklistWord.trim()) return;
+        setSavingBlocklistWords(true);
+        try {
+            const { setDoc } = await import('firebase/firestore');
+            const newList = [...blocklistWords, newBlocklistWord.trim().toLowerCase()];
+            await setDoc(doc(db, 'config_admin', 'reviews_blocklist_words'), { words: newList });
+            setBlocklistWords(newList);
+            setNewBlocklistWord('');
+        } catch (error) {
+            console.error('Error adding blocklisted word:', error);
+        } finally {
+            setSavingBlocklistWords(false);
+        }
+    };
+
+    // Remove blocklisted word
+    const removeBlocklistWord = async (word: string) => {
+        setSavingBlocklistWords(true);
+        try {
+            const { setDoc } = await import('firebase/firestore');
+            const newList = blocklistWords.filter(w => w !== word);
+            await setDoc(doc(db, 'config_admin', 'reviews_blocklist_words'), { words: newList });
+            setBlocklistWords(newList);
+        } catch (error) {
+            console.error('Error removing blocklisted word:', error);
+        } finally {
+            setSavingBlocklistWords(false);
+        }
+    };
 
     // Fetch services
     const fetchServices = async () => {
@@ -246,6 +438,9 @@ export default function AdminPage() {
             <div className="bg-white border-b border-stone-200">
                 <div className="max-w-6xl mx-auto px-6">
                     <nav className="flex gap-8">
+                        <button onClick={() => setActiveTab('reviews')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'reviews' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
+                            Reviews
+                        </button>
                         <button onClick={() => setActiveTab('promotions')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'promotions' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
                             Promotions
                         </button>
@@ -258,6 +453,223 @@ export default function AdminPage() {
 
             {/* Main Content */}
             <main className="max-w-6xl mx-auto px-6 py-10">
+                {/* Reviews Tab */}
+                {activeTab === 'reviews' && (
+                    <div className="bg-white rounded-2xl shadow-lg p-8">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-xl font-semibold text-stone-800">Customer Reviews</h2>
+                                <p className="text-stone-500 text-sm">View all customer feedback</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                {syncMessage && (
+                                    <span className={`text-sm ${syncMessage.startsWith('✓') ? 'text-emerald-600' : 'text-red-600'}`}>
+                                        {syncMessage}
+                                    </span>
+                                )}
+                                <button
+                                    onClick={triggerSync}
+                                    disabled={syncing}
+                                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                                >
+                                    {syncing ? (
+                                        <>
+                                            <span className="animate-spin">↻</span>
+                                            Syncing...
+                                        </>
+                                    ) : (
+                                        'Sync Reviews'
+                                    )}
+                                </button>
+                                <span className="text-sm text-stone-500">
+                                    Total: {reviews.length} | Approved: {reviews.filter(r => r.filterReason === null).length}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Filter Toggle */}
+                        <div className="flex items-center gap-2 mb-6">
+                            <input
+                                type="checkbox"
+                                id="showApprovedOnly"
+                                checked={showApprovedOnly}
+                                onChange={(e) => setShowApprovedOnly(e.target.checked)}
+                                className="w-4 h-4 text-emerald-600 rounded border-stone-300 focus:ring-emerald-500"
+                            />
+                            <label htmlFor="showApprovedOnly" className="text-sm text-stone-700 cursor-pointer select-none">
+                                Show only approved reviews
+                            </label>
+                        </div>
+
+                        {/* Blocklist Section */}
+                        <div className="mb-8 p-5 border border-amber-200 bg-amber-50 rounded-xl">
+                            <h3 className="font-semibold text-stone-800 mb-3">Blocklisted Reviews</h3>
+                            <p className="text-xs text-stone-500 mb-4">Reviews matching these timestamps will be excluded from the public site.</p>
+
+                            {/* Add new entry */}
+                            <div className="flex gap-2 mb-4">
+                                <input
+                                    type="text"
+                                    value={newBlocklistEntry}
+                                    onChange={(e) => setNewBlocklistEntry(e.target.value)}
+                                    placeholder="Enter timestamp (e.g., 2025-07-12T21:12:12.410179Z)"
+                                    className="flex-1 px-3 py-2 text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+                                />
+                                <button
+                                    onClick={addBlocklistEntry}
+                                    disabled={savingBlocklist || !newBlocklistEntry.trim()}
+                                    className="px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 disabled:bg-stone-300 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    Add
+                                </button>
+                            </div>
+
+                            {/* Blocklist entries */}
+                            {blocklist.length === 0 ? (
+                                <p className="text-sm text-stone-400 italic">No blocklisted reviews</p>
+                            ) : (
+                                <div className="space-y-2">
+                                    {blocklist.map((timestamp, idx) => (
+                                        <div key={idx} className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-stone-200">
+                                            <code className="text-xs text-stone-600 break-all">{timestamp}</code>
+                                            <button
+                                                onClick={() => removeBlocklistEntry(timestamp)}
+                                                disabled={savingBlocklist}
+                                                className="text-red-500 hover:text-red-700 text-xs font-medium ml-2"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Blocklisted Words Section */}
+                        <div className="mb-8 p-5 border border-yellow-300 bg-yellow-50 rounded-xl">
+                            <h3 className="font-semibold text-stone-800 mb-3">Blocklisted Words</h3>
+                            <p className="text-xs text-stone-500 mb-4">Reviews containing these words (case-insensitive) will be excluded from the public site.</p>
+
+                            {/* Add new word */}
+                            <div className="flex gap-2 mb-4">
+                                <input
+                                    type="text"
+                                    value={newBlocklistWord}
+                                    onChange={(e) => setNewBlocklistWord(e.target.value)}
+                                    placeholder="Enter word to blocklist"
+                                    className="flex-1 px-3 py-2 text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none"
+                                />
+                                <button
+                                    onClick={addBlocklistWord}
+                                    disabled={savingBlocklistWords || !newBlocklistWord.trim()}
+                                    className="px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 disabled:bg-stone-300 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    Add
+                                </button>
+                            </div>
+
+                            {/* Words list */}
+                            {blocklistWords.length === 0 ? (
+                                <p className="text-sm text-stone-400 italic">No blocklisted words</p>
+                            ) : (
+                                <div className="flex flex-wrap gap-2">
+                                    {blocklistWords.map((word, idx) => (
+                                        <div key={idx} className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full border border-stone-200">
+                                            <span className="text-sm text-stone-700">{word}</span>
+                                            <button
+                                                onClick={() => removeBlocklistWord(word)}
+                                                disabled={savingBlocklistWords}
+                                                className="text-red-500 hover:text-red-700 text-xs ml-1"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {loadingReviews ? (
+                            <div className="text-center py-12">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+                                <p className="text-stone-500">Loading reviews...</p>
+                            </div>
+                        ) : reviews.length === 0 ? (
+                            <div className="text-center py-12">
+                                <p className="text-stone-500">No reviews found.</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                {reviews
+                                    .filter(r => !showApprovedOnly || r.filterReason === null)
+                                    .map(review => {
+                                        // Use filterReason from backend for styling
+                                        const isFiltered = review.filterReason !== null;
+                                        const isTimestampBlock = review.filterReason === 'blocklisted_timestamp';
+                                        const isWordBlock = review.filterReason?.startsWith('blocklisted_word');
+
+                                        // Determine styling based on filter reason
+                                        let cardClass = 'border-stone-200';
+                                        let textClass = 'text-stone-800';
+                                        let commentClass = 'text-stone-600';
+                                        let badge = null;
+
+                                        if (isTimestampBlock) {
+                                            cardClass = 'border-red-300 bg-red-50';
+                                            textClass = 'text-red-800';
+                                            commentClass = 'text-red-600';
+                                            badge = <span className="ml-2 text-xs bg-red-200 text-red-700 px-2 py-0.5 rounded-full">Blocklisted (Timestamp)</span>;
+                                        } else if (isWordBlock) {
+                                            cardClass = 'border-yellow-300 bg-yellow-50';
+                                            textClass = 'text-yellow-800';
+                                            commentClass = 'text-yellow-700';
+                                            const word = review.filterReason?.split(':')[1] || '';
+                                            badge = <span className="ml-2 text-xs bg-yellow-200 text-yellow-700 px-2 py-0.5 rounded-full">Blocklisted ({word})</span>;
+                                        } else if (isFiltered) {
+                                            // Other filter reasons - gray styling
+                                            cardClass = 'border-stone-300 bg-stone-100';
+                                            textClass = 'text-stone-600';
+                                            commentClass = 'text-stone-500';
+                                            badge = <span className="ml-2 text-xs bg-stone-200 text-stone-600 px-2 py-0.5 rounded-full">{review.filterReason?.replace(/_/g, ' ')}</span>;
+                                        } else {
+                                            // Approved - green accent
+                                            badge = <span className="ml-2 text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">Approved</span>;
+                                        }
+
+                                        return (
+                                            <div key={review.id} className={`border rounded-xl p-5 transition-colors ${cardClass}`}>
+                                                <div className="flex items-start justify-between mb-3">
+                                                    <div>
+                                                        <h3 className={`font-semibold ${textClass}`}>
+                                                            {review.reviewer_name}
+                                                            {badge}
+                                                        </h3>
+                                                        <div className="flex items-center gap-2 text-xs text-stone-500 mt-1">
+                                                            <span>{review.create_time}</span>
+                                                            {review.source && (
+                                                                <span className="px-2 py-0.5 bg-stone-100 rounded-full capitalize">{review.source}</span>
+                                                            )}
+                                                        </div>
+                                                        {/* Full timestamp for blocklist identification */}
+                                                        <code className="block text-xs text-stone-400 mt-1 select-all">{review.timestamp}</code>
+                                                    </div>
+                                                    <div className="flex gap-0.5">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <span key={i} className={`text-lg ${i < review.rating ? 'text-amber-400 font-variation-fill' : 'text-stone-200'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+                                                                ★
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <p className={`text-sm leading-relaxed ${commentClass}`}>{review.comment}</p>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* Promotions Tab */}
                 {activeTab === 'promotions' && (
                     <div className="bg-white rounded-2xl shadow-lg p-8">
