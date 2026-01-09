@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useServices } from '../context/ServiceContext';
 
 const ServicesPage: React.FC = () => {
@@ -29,12 +30,60 @@ const ServicesPage: React.FC = () => {
 
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display">
+            <Helmet>
+                <title>Services & Pricing - J.J Thai Spa</title>
+                <meta name="description" content="Explore our full menu of services including Traditional Thai Massage, Swedish, Deep Tissue, and Couples Massage. View pricing and duration options." />
+                <link rel="canonical" href="https://jjthaispa.com/services" />
+                <link rel="preload" as="image" href="/promotion_background.webp" fetchpriority="high" />
+
+                {/* JSON-LD Service Schema */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "ItemList",
+                        "name": "Spa Services at J.J Thai Spa",
+                        "itemListElement": services.filter(s => !s.isAddOn).map((service, index) => ({
+                            "@type": "ListItem",
+                            "position": index + 1,
+                            "item": {
+                                "@type": "Service",
+                                "name": service.title,
+                                "description": service.descriptionMain || service.description,
+                                "url": `https://jjthaispa.com/services#${service.id}`,
+                                "provider": {
+                                    "@type": "DaySpa",
+                                    "name": "J.J Thai Spa",
+                                    "address": {
+                                        "@type": "PostalAddress",
+                                        "streetAddress": "180 Winter St. Unit D",
+                                        "addressLocality": "Bridgewater",
+                                        "addressRegion": "MA",
+                                        "postalCode": "02324"
+                                    }
+                                },
+                                "areaServed": {
+                                    "@type": "City",
+                                    "name": "Bridgewater, MA"
+                                },
+                                ...(service.prices.length > 0 && {
+                                    "offers": service.prices.map(price => ({
+                                        "@type": "Offer",
+                                        "name": price.durationServices,
+                                        "price": price.price,
+                                        "priceCurrency": "USD"
+                                    }))
+                                })
+                            }
+                        }))
+                    })}
+                </script>
+            </Helmet>
             {/* Hero Section */}
             <div className="relative min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/promotion_background.png"
+                        src="/promotion_background.webp"
                         alt="Spa Services"
                         className="w-full h-full object-cover"
                     />

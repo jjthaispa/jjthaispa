@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { HelmetProvider } from 'react-helmet-async';
 import { ServiceProvider } from './context/ServiceContext';
 import './index.css';
 
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <ServiceProvider>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </ServiceProvider>
   </React.StrictMode>
 );

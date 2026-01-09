@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -16,6 +17,7 @@ import Promo from './components/Promo';
 import ServicesPage from './components/ServicesPage';
 import PriceList from './components/PriceList';
 import AdminPage from './components/AdminPage';
+import AdminRestricted from './components/AdminRestricted';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -140,17 +142,31 @@ function App() {
   }
 
   if (currentPage === 'pricelist') {
-    return <PriceList />;
+    return (
+      <AuthProvider>
+        <AdminRestricted>
+          <PriceList />
+        </AdminRestricted>
+      </AuthProvider>
+    );
   }
 
   if (currentPage === 'promo') {
-    return <Promo />;
+    return (
+      <AuthProvider>
+        <AdminRestricted>
+          <Promo />
+        </AdminRestricted>
+      </AuthProvider>
+    );
   }
 
   if (currentPage === 'admin') {
     return (
       <AuthProvider>
-        <AdminPage />
+        <AdminRestricted>
+          <AdminPage />
+        </AdminRestricted>
       </AuthProvider>
     );
   }
@@ -159,6 +175,68 @@ function App() {
     <div className="relative flex min-h-screen w-full flex-col font-display">
       <Header />
       <main className="flex-grow">
+        <Helmet>
+          <title>J.J Thai Spa - Experience the Art of Thai Massage</title>
+          <meta name="description" content="Experience the art of Thai massage, deep tissue therapy, and relaxation treatments at J.J Thai Spa. Restore your body and mind." />
+          <link rel="canonical" href="https://jjthaispa.com/" />
+
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://jjthaispa.com/" />
+          <meta property="og:title" content="J.J Thai Spa - Experience the Art of Thai Massage" />
+          <meta property="og:description" content="Experience the art of Thai massage, deep tissue therapy, and relaxation treatments at J.J Thai Spa. Restore your body and mind." />
+          <meta property="og:image" content="https://jjthaispa.com/buddha.webp" />
+
+          {/* Twitter */}
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta property="twitter:url" content="https://jjthaispa.com/" />
+          <meta property="twitter:title" content="J.J Thai Spa - Experience the Art of Thai Massage" />
+          <meta property="twitter:description" content="Experience the art of Thai massage, deep tissue therapy, and relaxation treatments at J.J Thai Spa. Restore your body and mind." />
+          <meta property="twitter:image" content="https://jjthaispa.com/buddha.webp" />
+
+          {/* Structured Data (JSON-LD) */}
+          <script type="application/ld+json">
+            {`
+            {
+              "@context": "https://schema.org",
+              "@type": "DaySpa",
+              "name": "J.J Thai Spa",
+              "image": "https://jjthaispa.com/buddha.webp",
+              "@id": "https://jjthaispa.com",
+              "url": "https://jjthaispa.com",
+              "telephone": "+15088070141",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "180 Winter St. Unit D",
+                "addressLocality": "Bridgewater",
+                "addressRegion": "MA",
+                "postalCode": "02324",
+                "addressCountry": "US"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 41.965, 
+                "longitude": -70.995 
+              },
+              "openingHoursSpecification": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  "opens": "10:00",
+                  "closes": "20:00"
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Saturday", "Sunday"],
+                  "opens": "10:00",
+                  "closes": "18:00"
+                }
+              ],
+              "priceRange": "$$"
+            }
+          `}
+          </script>
+        </Helmet>
         <Hero />
         <PromoCarousel />
         <Services />

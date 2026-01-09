@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const Contact: React.FC = () => {
     // Scroll to top on mount
@@ -8,6 +9,11 @@ const Contact: React.FC = () => {
 
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+            <Helmet>
+                <title>Contact Us - J.J Thai Spa</title>
+                <meta name="description" content="Visit us for a rejuvenating experience. Find our location, opening hours, and contact information to book your appointment." />
+                <link rel="canonical" href="https://jjthaispa.com/contact" />
+            </Helmet>
             {/* Dark Hero Section */}
             <div className="bg-background-dark min-h-[400px] md:min-h-[500px] flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 <div className="container mx-auto max-w-4xl text-center">

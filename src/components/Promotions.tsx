@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -18,9 +19,9 @@ interface GiftCard {
 }
 
 const GIFT_CARD_IMAGES: Record<string, string> = {
-    'holiday-giftcard': '/promos/giftcard_box_holiday.png',
-    'valentines-giftcard': '/promos/giftcard_box_valentines.png',
-    'default-giftcard': '/promos/giftcard_box_standard.png',
+    'holiday-giftcard': '/promos/giftcard_box_holiday.webp',
+    'valentines-giftcard': '/promos/giftcard_box_valentines.webp',
+    'default-giftcard': '/promos/giftcard_box_standard.webp',
 };
 
 // Helper to format date
@@ -323,7 +324,7 @@ const Promotions: React.FC = () => {
                             <div className="flex-1 w-full">
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-square">
                                     <img
-                                        src={activeGiftCard ? (GIFT_CARD_IMAGES[activeGiftCard.id] || "/promos/giftcard_box_standard.png") : "/promos/giftcard_box_standard.png"}
+                                        src={activeGiftCard ? (GIFT_CARD_IMAGES[activeGiftCard.id] || "/promos/giftcard_box_standard.webp") : "/promos/giftcard_box_standard.webp"}
                                         alt="Gift Card"
                                         className="w-full h-full object-cover"
                                     />
@@ -358,12 +359,18 @@ const Promotions: React.FC = () => {
 
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display">
+            <Helmet>
+                <title>Special Offers & Promotions - J.J Thai Spa</title>
+                <meta name="description" content="Discover our latest special offers, seasonal promotions, and gift card packages. Limited time discounts on massage therapies." />
+                <link rel="canonical" href="https://jjthaispa.com/promotions" />
+                <link rel="preload" as="image" href="/buddha.webp" fetchpriority="high" />
+            </Helmet>
             {/* Hero Section */}
             <div className="relative min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/buddha.png"
+                        src="/buddha.webp"
                         alt="Spa Promotions"
                         className="w-full h-full object-cover"
                     />

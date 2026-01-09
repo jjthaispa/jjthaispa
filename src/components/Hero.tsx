@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
         className="flex min-h-[400px] md:min-h-[500px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-8 text-center"
         aria-label="A serene spa room with massage beds and soft lighting"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("/background.png")'
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("/background.webp")'
         }}
       >
         <div className="flex flex-col gap-4 max-w-2xl mt-16 md:mt-20">
