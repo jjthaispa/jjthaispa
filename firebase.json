@@ -6,9 +6,136 @@
             "**/.*",
             "**/node_modules/**"
         ],
+        "redirects": [
+            {
+                "source": "/promotions.html",
+                "destination": "/promotions",
+                "type": 301
+            },
+            {
+                "source": "/privacy_policy.html",
+                "destination": "/privacy-policy",
+                "type": 301
+            },
+            {
+                "source": "/thai-massage.html",
+                "destination": "/services",
+                "type": 301
+            },
+            {
+                "source": "/en/index.html",
+                "destination": "/",
+                "type": 301
+            },
+            {
+                "source": "/en/thai-massage.html",
+                "destination": "/services",
+                "type": 301
+            },
+            {
+                "source": "/en/contact.html",
+                "destination": "/contact",
+                "type": 301
+            },
+            {
+                "source": "/en/massage.html",
+                "destination": "/services",
+                "type": 301
+            },
+            {
+                "source": "/en/pricing.html",
+                "destination": "/services",
+                "type": 301
+            },
+            {
+                "source": "/hiring.html",
+                "destination": "/contact",
+                "type": 301
+            },
+            {
+                "source": "/couples-massage",
+                "destination": "/services",
+                "type": 301
+            },
+            {
+                "source": "/en/promotions.html",
+                "destination": "/promotions",
+                "type": 301
+            }
+        ],
         "rewrites": [
             {
                 "source": "/api/**",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/hot-stone.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/reviews.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/gallery.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/aromatherapy-service.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/accessibility_page.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/item",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/ashiatsu.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/about_us.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/gallery.html",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/submit_contact_form",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/api/set_customer.php",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/sitemap.xml",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/item",
+                "function": "api",
+                "region": "us-east1"
+            },
+            {
+                "source": "/en/hot-stone.html",
                 "function": "api",
                 "region": "us-east1"
             },

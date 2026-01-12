@@ -318,6 +318,70 @@ app.post('/api/sync-reviews', async (req, res) => {
         res.status(500).json({ error: 'Failed to sync reviews' });
     }
 });
+// Legacy pages - return 410 Gone for Google de-indexing
+const LEGACY_PAGES = [
+    '/hot-stone.html',
+    '/reviews.html',
+    '/gallery.html',
+    '/en/aromatherapy-service.html',
+    '/en/accessibility_page.html',
+    '/en/item',
+    '/en/ashiatsu.html',
+    '/en/about_us.html',
+    '/en/gallery.html',
+    '/submit_contact_form',
+    '/en/api/set_customer.php',
+    '/en/sitemap.xml',
+    '/item',
+    '/en/hot-stone.html'
+];
+const gone410Html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page No Longer Available - JJ Thai Spa</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container { text-align: center; max-width: 500px; }
+        h1 { font-size: 6rem; margin: 0; color: #e94560; }
+        h2 { font-size: 1.5rem; margin: 10px 0 20px; color: #ddd; }
+        p { color: #aaa; line-height: 1.6; margin-bottom: 30px; }
+        a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #e94560 0%, #c23a51 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>410</h1>
+        <h2>Page No Longer Available</h2>
+        <p>This page has been permanently removed and is no longer available.</p>
+        <a href="https://jjthaispa.com">Visit Our Homepage</a>
+    </div>
+</body>
+</html>`;
+LEGACY_PAGES.forEach(page => {
+    app.get(page, (req, res) => {
+        res.status(410).send(gone410Html);
+    });
+});
 // Export the Express app as a Firebase Function (v2, us-east1)
 exports.api = (0, https_1.onRequest)({ region: 'us-east1' }, app);
 // Scheduled function to sync reviews daily at 3 AM (v2, us-east1)
@@ -397,6 +461,9 @@ const performReviewSync = async () => {
         // Check each filter condition and set reason
         if (!text.trim()) {
             filterReason = 'empty_text';
+        }
+        else if (review.rating < 4) {
+            filterReason = 'low_rating';
         }
         else if (text.length > 250) {
             filterReason = 'too_long';
