@@ -318,6 +318,36 @@ app.post('/api/sync-reviews', async (req, res) => {
         res.status(500).json({ error: 'Failed to sync reviews' });
     }
 });
+// POST /api/sync-hours - Manual hours sync trigger (authenticated, admin only)
+app.post('/api/sync-hours', async (req, res) => {
+    // Verify Firebase Auth token
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        res.status(401).json({ error: 'Unauthorized - no token provided' });
+        return;
+    }
+    const idToken = authHeader.split('Bearer ')[1];
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const email = decodedToken.email;
+        // Check if user is an admin
+        if (!email || !SYNC_ADMIN_EMAILS.includes(email)) {
+            res.status(403).json({ error: 'Forbidden - admin access required' });
+            return;
+        }
+        // Authorized - perform sync
+        console.log('Manual hours sync triggered by:', email);
+        await performHoursSync();
+        res.json({
+            success: true,
+            message: 'Business hours synced successfully'
+        });
+    }
+    catch (error) {
+        console.error('Error in manual hours sync:', error);
+        res.status(500).json({ error: 'Failed to sync hours' });
+    }
+});
 // Legacy pages - return 410 Gone for Google de-indexing
 const LEGACY_PAGES = [
     '/hot-stone.html',
@@ -540,6 +570,24 @@ const performReviewSync = async () => {
     console.log(`Synced ${allReviewsWithReasons.length} total reviews, ${filteredReviews.length} approved for public`);
     return { total: allReviewsWithReasons.length, approved: filteredReviews.length };
 };
+// Core hours sync logic - fetch business hours and store in Firestore
+const performHoursSync = async () => {
+    console.log('Starting hours sync...');
+    // Fetch hours from source
+    const response = await fetch('https://jjreviews-27d5c.web.app/hours/json');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch hours: ${response.status}`);
+    }
+    const data = await response.json();
+    // Store hours data in Firestore
+    await db.collection('config').doc('business_hours').set({
+        regularHours: data.regularHours || [],
+        specialHours: data.specialHours || [],
+        updatedAt: data.updatedAt || null,
+        lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+    console.log(`Synced business hours: ${data.regularHours?.length || 0} regular, ${data.specialHours?.length || 0} special`);
+};
 // Scheduled function - daily at 3 AM
 exports.syncReviews = (0, scheduler_1.onSchedule)({
     schedule: '0 3 * * *',
@@ -551,6 +599,12 @@ exports.syncReviews = (0, scheduler_1.onSchedule)({
     }
     catch (error) {
         console.error('Error syncing reviews:', error);
+    }
+    try {
+        await performHoursSync();
+    }
+    catch (error) {
+        console.error('Error syncing hours:', error);
     }
 });
 // HTTP endpoint for manual sync trigger (authenticated, admin only)

@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { db, app } from '../firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { SERVICES } from '../servicesData';
+import HolidayPopup from './HolidayPopup';
 
 // Create a lookup map for service titles from static data
 const SERVICE_TITLES: Record<string, string> = {};
@@ -45,7 +46,7 @@ interface Review {
     source?: string;
 }
 
-type TabType = 'promotions' | 'services' | 'reviews';
+type TabType = 'promotions' | 'services' | 'reviews' | 'holidayHours';
 
 export default function AdminPage() {
     const { user, loading, isAuthorized, signOut } = useAuth();
@@ -85,6 +86,37 @@ export default function AdminPage() {
     const [syncMessage, setSyncMessage] = useState<string | null>(null);
     const [showApprovedOnly, setShowApprovedOnly] = useState(false);
 
+    // Holiday hours state
+    interface RegularHour {
+        day: string;
+        dayIndex: number;
+        open: string | null;
+        close: string | null;
+    }
+    interface SpecialHour {
+        date: string;
+        open: string | null;
+        close: string | null;
+        closed: boolean;
+    }
+    interface BusinessHours {
+        regularHours: RegularHour[];
+        specialHours: SpecialHour[];
+        updatedAt: string | null;
+        lastSyncedAt: any;
+    }
+    const [hoursData, setHoursData] = useState<BusinessHours | null>(null);
+    const [loadingHours, setLoadingHours] = useState(false);
+    const [syncingHours, setSyncingHours] = useState(false);
+    const [hoursSyncMessage, setHoursSyncMessage] = useState<string | null>(null);
+
+    // Holiday labels state (date -> label mapping)
+    const [holidayLabels, setHolidayLabels] = useState<Record<string, string>>({});
+    const [editedHolidayLabels, setEditedHolidayLabels] = useState<Record<string, string>>({});
+    const [savingHolidayLabels, setSavingHolidayLabels] = useState(false);
+    const [holidayLabelsSaveMessage, setHolidayLabelsSaveMessage] = useState<string | null>(null);
+    const [previewDate, setPreviewDate] = useState<string>(new Date().toISOString().split('T')[0]);
+
     // Manual sync trigger using Express API
     const triggerSync = async () => {
         if (!user) return;
@@ -119,6 +151,102 @@ export default function AdminPage() {
         }
     };
 
+    // Fetch business hours data from Firestore
+    const fetchHoursData = async () => {
+        setLoadingHours(true);
+        try {
+            const { getDoc } = await import('firebase/firestore');
+            const hoursDoc = await getDoc(doc(db, 'config', 'business_hours'));
+            if (hoursDoc.exists()) {
+                const data = hoursDoc.data() as BusinessHours;
+                setHoursData(data);
+            } else {
+                setHoursData(null);
+            }
+        } catch (error) {
+            console.error('Error fetching hours:', error);
+        } finally {
+            setLoadingHours(false);
+        }
+    };
+
+    // Manual hours sync trigger
+    const triggerHoursSync = async () => {
+        if (!user) return;
+
+        setSyncingHours(true);
+        setHoursSyncMessage(null);
+        try {
+            const token = await user.getIdToken();
+
+            const response = await fetch('/api/sync-hours', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setHoursSyncMessage(`✓ ${data.message}`);
+                fetchHoursData();
+            } else {
+                setHoursSyncMessage(`✗ ${data.error || 'Sync failed'}`);
+            }
+        } catch (error: any) {
+            setHoursSyncMessage(`✗ ${error.message || 'Failed to sync hours'}`);
+            console.error('Hours sync error:', error);
+        } finally {
+            setSyncingHours(false);
+        }
+    };
+
+    // Fetch holiday labels from Firestore
+    const fetchHolidayLabels = async () => {
+        try {
+            const { getDoc } = await import('firebase/firestore');
+            const labelsDoc = await getDoc(doc(db, 'config', 'holiday_labels'));
+            if (labelsDoc.exists()) {
+                const data = labelsDoc.data();
+                const labels = data?.labels || {};
+                setHolidayLabels(labels);
+                setEditedHolidayLabels(labels);
+            }
+        } catch (error) {
+            console.error('Error fetching holiday labels:', error);
+        }
+    };
+
+    // Handle holiday label change
+    const handleLabelChange = (date: string, value: string) => {
+        setEditedHolidayLabels(prev => ({
+            ...prev,
+            [date]: value
+        }));
+    };
+
+    // Save holiday labels
+    const saveHolidayLabels = async () => {
+        setSavingHolidayLabels(true);
+        setHolidayLabelsSaveMessage(null);
+        try {
+            const { setDoc } = await import('firebase/firestore');
+            // Save to config (public) so it can be read by the popup
+            await setDoc(doc(db, 'config', 'holiday_labels'), {
+                labels: editedHolidayLabels,
+                updatedAt: new Date().toISOString()
+            });
+            setHolidayLabels(editedHolidayLabels);
+            setHolidayLabelsSaveMessage('✓ Labels saved successfully');
+        } catch (error) {
+            console.error('Error saving holiday labels:', error);
+            setHolidayLabelsSaveMessage('✗ Failed to save labels');
+        } finally {
+            setSavingHolidayLabels(false);
+        }
+    };
+
     // Fetch data based on active tab
     useEffect(() => {
         if (!isAuthorized) return;
@@ -130,6 +258,9 @@ export default function AdminPage() {
             fetchReviews();
             fetchBlocklist();
             fetchBlocklistWords();
+        } else if (activeTab === 'holidayHours') {
+            fetchHoursData();
+            fetchHolidayLabels();
         }
     }, [activeTab, isAuthorized]);
 
@@ -446,6 +577,9 @@ export default function AdminPage() {
                         </button>
                         <button onClick={() => setActiveTab('services')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'services' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
                             Services & Pricing
+                        </button>
+                        <button onClick={() => setActiveTab('holidayHours')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'holidayHours' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
+                            Holiday Hours
                         </button>
                     </nav>
                 </div>
@@ -860,6 +994,192 @@ export default function AdminPage() {
                                         )}
                                     </div>
                                 ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Holiday Hours Tab */}
+                {activeTab === 'holidayHours' && (
+                    <div className="bg-white rounded-2xl shadow-lg p-8">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-xl font-semibold text-stone-800">Business Hours</h2>
+                                <p className="text-stone-500 text-sm">Regular and holiday/special hours</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                {hoursSyncMessage && (
+                                    <span className={`text-sm ${hoursSyncMessage.startsWith('✓') ? 'text-emerald-600' : 'text-red-600'}`}>
+                                        {hoursSyncMessage}
+                                    </span>
+                                )}
+                                <button
+                                    onClick={triggerHoursSync}
+                                    disabled={syncingHours}
+                                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                                >
+                                    {syncingHours ? (
+                                        <>
+                                            <span className="animate-spin">↻</span>
+                                            Syncing...
+                                        </>
+                                    ) : (
+                                        'Sync Hours'
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        {loadingHours ? (
+                            <div className="text-center py-12">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+                                <p className="text-stone-500">Loading hours...</p>
+                            </div>
+                        ) : !hoursData ? (
+                            <div className="text-center py-12">
+                                <p className="text-stone-500">No hours data found. Click "Sync Hours" to fetch from Google Business.</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-8">
+                                {/* Last Updated Info */}
+                                {hoursData.updatedAt && (
+                                    <p className="text-xs text-stone-400">
+                                        Last updated from Google: {new Date(hoursData.updatedAt).toLocaleString()}
+                                    </p>
+                                )}
+
+                                {/* Regular Hours */}
+                                <div>
+                                    <h3 className="font-semibold text-stone-800 mb-4">Regular Hours</h3>
+                                    <div className="overflow-hidden rounded-xl border border-stone-200">
+                                        <table className="w-full">
+                                            <thead className="bg-stone-50">
+                                                <tr>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-stone-600">Day</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-stone-600">Open</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-stone-600">Close</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-stone-100">
+                                                {(hoursData.regularHours || []).sort((a, b) => a.dayIndex - b.dayIndex).map((hour) => (
+                                                    <tr key={hour.day} className="hover:bg-stone-50">
+                                                        <td className="px-4 py-3 text-sm font-medium text-stone-700 capitalize">
+                                                            {hour.day.toLowerCase()}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-stone-600">
+                                                            {hour.open || 'Closed'}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-stone-600">
+                                                            {hour.close || '-'}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <h3 className="font-semibold text-stone-800 mb-4">Special / Holiday Hours</h3>
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="font-semibold text-stone-800">Special / Holiday Hours</h3>
+                                    {(hoursData.specialHours || []).length > 0 && (
+                                        <div className="flex items-center gap-3">
+                                            {holidayLabelsSaveMessage && (
+                                                <span className={`text-sm ${holidayLabelsSaveMessage.startsWith('✓') ? 'text-emerald-600' : 'text-red-600'}`}>
+                                                    {holidayLabelsSaveMessage}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={saveHolidayLabels}
+                                                disabled={savingHolidayLabels}
+                                                className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 disabled:bg-emerald-300 disabled:cursor-not-allowed transition-colors"
+                                            >
+                                                {savingHolidayLabels ? 'Saving...' : 'Save Labels'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                                {(hoursData.specialHours || []).length === 0 ? (
+                                    <p className="text-sm text-stone-400 italic">No special hours configured</p>
+                                ) : (
+                                    <div className="overflow-hidden rounded-xl border border-amber-200">
+                                        <table className="w-full">
+                                            <thead className="bg-amber-50">
+                                                <tr>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-amber-700">Date</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-amber-700">Label</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-amber-700">Status</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-amber-700">Hours</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-amber-100">
+                                                {(hoursData.specialHours || []).sort((a, b) => a.date.localeCompare(b.date)).map((hour) => {
+                                                    const date = new Date(hour.date + 'T00:00:00');
+                                                    const formattedDate = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+
+                                                    return (
+                                                        <tr key={hour.date} className={hour.closed ? 'bg-red-50' : 'hover:bg-amber-50'}>
+                                                            <td className="px-4 py-3 text-sm font-medium text-stone-700">
+                                                                {formattedDate}
+                                                            </td>
+                                                            <td className="px-4 py-2">
+                                                                <input
+                                                                    type="text"
+                                                                    value={editedHolidayLabels[hour.date] || ''}
+                                                                    onChange={(e) => handleLabelChange(hour.date, e.target.value)}
+                                                                    placeholder="e.g., Thanksgiving"
+                                                                    className="w-full px-2 py-1.5 text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none bg-white"
+                                                                />
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm">
+                                                                {hour.closed ? (
+                                                                    <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Closed</span>
+                                                                ) : (
+                                                                    <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Modified Hours</span>
+                                                                )}
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-stone-600">
+                                                                {hour.closed ? '-' : `${hour.open} - ${hour.close}`}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+
+
+                                {/* Popup Preview Section */}
+                                <div className="mt-8 pt-8 border-t border-stone-200">
+                                    <h3 className="font-semibold text-stone-800 mb-4">Popup Preview</h3>
+                                    <div className="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                                        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
+                                            <div className="flex-1">
+                                                <p className="text-sm text-stone-600 mb-2">Select a date to preview the holiday popup as it would appear on that day.</p>
+                                                <p className="text-xs text-stone-500 italic">Simulates visiting the site on the selected date. Checks for holidays on that date and the next day.</p>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <label className="text-sm font-medium text-stone-700">Preview Date:</label>
+                                                <input
+                                                    type="date"
+                                                    value={previewDate}
+                                                    onChange={(e) => setPreviewDate(e.target.value)}
+                                                    className="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-white text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="w-full rounded-lg overflow-hidden">
+                                            {/* The Popup Component */}
+                                            <HolidayPopup
+                                                previewMode={true}
+                                                previewDate={new Date(previewDate + 'T12:00:00')}
+                                                forceOpen={true}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>

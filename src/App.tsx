@@ -18,6 +18,7 @@ import ServicesPage from './components/ServicesPage';
 import PriceList from './components/PriceList';
 import AdminPage from './components/AdminPage';
 import AdminRestricted from './components/AdminRestricted';
+import HolidayPopup from './components/HolidayPopup';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -243,6 +244,7 @@ function App() {
         <Gallery />
         <ReviewsSection />
         <CTA />
+        <HolidayPopup />
       </main>
       <Footer />
       <CookieBanner />
