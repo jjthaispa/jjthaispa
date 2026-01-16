@@ -226,7 +226,7 @@ const Promotions: React.FC = () => {
                                 {/* Right Image */}
                                 <div className="flex-1 min-h-[300px] md:min-h-0 overflow-hidden">
                                     <img
-                                        src="/promos/holiday_promo_dark.png"
+                                        src="/promos/holiday_promo_dark.webp"
                                         alt="Holiday Healing Special"
                                         className="w-full h-full object-cover"
                                     />
@@ -298,7 +298,7 @@ const Promotions: React.FC = () => {
                                 {/* Right Image */}
                                 <div className="flex-1 min-h-[300px] md:min-h-0 overflow-hidden">
                                     <img
-                                        src="/promos/release_promo_zoom.png"
+                                        src="/promos/release_promo_zoom.webp"
                                         alt="Holiday Healing Special"
                                         className="w-full h-full object-cover"
                                     />

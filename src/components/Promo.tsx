@@ -35,7 +35,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                 {/* Left Side: Image */}
                 <div className="flex-1 min-h-[400px] md:min-h-[700px] relative overflow-hidden">
                     <img
-                        src="/promos/holiday_promo.png"
+                        src="/promos/holiday_promo.webp"
                         alt="Holiday Relaxation"
                         className="absolute inset-0 w-full h-full object-cover object-center scale-105"
                     />
@@ -155,7 +155,7 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                 {/* Left Side: Image */}
                 <div className="flex-1 min-h-[400px] md:min-h-[700px] relative overflow-hidden">
                     <img
-                        src="/promos/release_promo.png"
+                        src="/promos/release_promo.webp"
                         alt="Relaxation"
                         className="absolute inset-0 w-full h-full object-cover object-center scale-105"
                     />

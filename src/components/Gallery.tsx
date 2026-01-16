@@ -16,14 +16,14 @@ import React, { useState, useEffect } from 'react';
 
 const CAROUSEL_IMAGES: string[] = [
   // Add your image filenames here
-  'stretch.png',
-  'walking.png',
-  'cupping.png',
-  'tea_station.png',
-  'couples.png',
-  'stretch2.png',
-  'deeptissue.png',
-  'dog.png',
+  'stretch.webp',
+  'walking.webp',
+  'cupping.webp',
+  'tea_station.webp',
+  'couples.webp',
+  'stretch2.webp',
+  'deeptissue.webp',
+  'dog.webp',
 ];
 
 const Gallery: React.FC = () => {

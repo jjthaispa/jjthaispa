@@ -11,7 +11,7 @@ const PROMOS = [
     description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 minutes\n $15 off 90 minutes",
     buttonText: "View Details",
     anchor: '#holiday-special',
-    image: "/promos/holiday_promo.png",
+    image: "/promos/holiday_promo.webp",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     requiredPromoId: "holiday-promo",
@@ -28,7 +28,7 @@ const PROMOS = [
     description: "New Service Intro Pricing. Limited-time offer.\n $5 off 30 minutes\n $10 off 45 minutes",
     buttonText: "View Details",
     anchor: '#release-special',
-    image: "/promos/release_promo.png",
+    image: "/promos/release_promo.webp",
     bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
     btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
     requiredPromoId: "release-promo",
@@ -43,7 +43,7 @@ const PROMOS = [
     title: "Give the Gift of Relaxation",
     description: "Instant eGift Cards. The perfect present for this holiday season. Physical cards available in store.",
     buttonText: "Buy eGift Card",
-    image: "/promos/holiday_giftcard.png",
+    image: "/promos/holiday_giftcard.webp",
     video: "/promos/holiday_giftcard.mp4",
     bgColor: "bg-[#E4E9E3] dark:bg-[#1A2E2A]", // Light Sage / Dark Green
     btnColor: "bg-[#788E6E] hover:bg-[#5A6B52] text-white",
@@ -56,7 +56,7 @@ const PROMOS = [
     title: "Valentine’s Day",
     description: "Send a Valentine’s Day e-gift card in seconds ♥ instant delivery, heartfelt surprise, perfect for last-minute love.",
     buttonText: "Buy eGift Card",
-    image: "/promos/valentines_giftcard.png",
+    image: "/promos/valentines_giftcard.webp",
     video: "/promos/valentines_giftcard.mp4",
     bgColor: "bg-[#FFE0E0] dark:bg-[#2B0C13]", // Soft Red / Merlot
     btnColor: "bg-[#C62828] hover:bg-[#a82020] text-white", // Deep Red
@@ -69,7 +69,7 @@ const PROMOS = [
     title: "Complimentary Aromatherapy",
     description: "Enhance your massage with a soothing blend of essential oils. Our gift to you with every massage.",
     buttonText: "Learn More",
-    image: "/promos/aroma.png",
+    image: "/promos/aroma.webp",
     bgColor: "bg-[#F0EFF4] dark:bg-[#26242E]", // Light Lavender / Dark Purple
     btnColor: "bg-[#8A84A3] hover:bg-[#746e8c] text-white",
     enabled: true
@@ -80,7 +80,7 @@ const PROMOS = [
     title: "Hydrotherapy Sessions",
     description: "Experience the healing power of water. Our new hydrotherapy pools are now open for booking.",
     buttonText: "Book Now",
-    image: "/promos/holiday_promo.png",
+    image: "/promos/holiday_promo.webp",
     bgColor: "bg-[#E0F2F1] dark:bg-[#132929]", // Light Cyan / Dark Teal
     btnColor: "bg-[#4DB6AC] hover:bg-[#3d968d] text-white",
     enabled: false

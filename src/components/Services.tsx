@@ -93,7 +93,7 @@ const Services: React.FC = () => {
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement!.innerHTML = `<img src="/therapies/swedish.png" alt="Therapy" class="w-full h-full object-cover" />`;
+                      e.currentTarget.parentElement!.innerHTML = `<img src="/therapies/swedish.webp" alt="Therapy" class="w-full h-full object-cover" />`;
                     }}
                   />
                 </div>
