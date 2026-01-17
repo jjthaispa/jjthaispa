@@ -10,14 +10,17 @@ const ServicesPage: React.FC = () => {
         const handleHashChange = () => {
             if (window.location.hash) {
                 const id = window.location.hash.substring(1);
-                const element = document.getElementById(id);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                    setTimeout(() => {
-                        setFlashingService(id);
-                        setTimeout(() => setFlashingService(null), 700);
-                    }, 200);
-                }
+                // Delay scroll to allow content to load
+                setTimeout(() => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                        setTimeout(() => {
+                            setFlashingService(id);
+                            setTimeout(() => setFlashingService(null), 700);
+                        }, 200);
+                    }
+                }, 250);
             } else {
                 window.scrollTo(0, 0);
             }
@@ -125,7 +128,7 @@ const ServicesPage: React.FC = () => {
                         <section
                             key={index}
                             id={serviceId}
-                            className={`scroll-mt-32 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${bgClass} ${isFlashing ? 'brightness-[0.8] z-10' : 'brightness-100'
+                            className={`scroll-mt-40 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${bgClass} ${isFlashing ? 'brightness-[0.8] z-10' : 'brightness-100'
                                 }`}
                         >
                             <div className="container mx-auto max-w-7xl">
