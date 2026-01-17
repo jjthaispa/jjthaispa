@@ -111,13 +111,13 @@ const Contact: React.FC = () => {
                             {/* Google Maps */}
                             <div className="relative h-80 md:h-full min-h-[320px] rounded-xl overflow-hidden border border-border-light dark:border-border-dark">
                                 <iframe
-                                    src="https://maps.google.com/maps?q=180+Winter+St+Unit+D,+Bridgewater,+MA+02324&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2966.5072815067474!2d-70.97745688737339!3d41.967917159664395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e491cd8e47b0bd%3A0x49db5391f06fbd06!2sJ.J%20Thai%20Spa!5e0!3m2!1sen!2sus!4v1768615445581!5m2!1sen!2sus"
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}
-                                    allowFullScreen
+                                    allowfullscreen
                                     loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
+                                    referrerpolicy="no-referrer-when-downgrade"
                                     title="J.J Thai Spa Location"
                                     className="absolute inset-0 w-full h-full"
                                 />
