@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../firebase';
 
 // Helper Interface
 interface Promotion {
     id: string;
-    enabled: boolean;
+    label?: string;
     startDate: string;
     endDate: string;
 }
@@ -236,37 +234,30 @@ const Promo: React.FC = () => {
     useEffect(() => {
         const fetchPromotions = async () => {
             try {
-                // Get all enabled promotions
-                const q = query(collection(db, 'promotions'), where('enabled', '==', true));
-                const querySnapshot = await getDocs(q);
+                const response = await fetch('/api/promotions');
+                if (!response.ok) throw new Error('Failed to fetch promotions');
 
-                const now = new Date();
-                let selectedPromo: Promotion | null = null;
+                const data = await response.json();
+                const promotions = data.promotions || {};
 
                 // Priority list: check for these IDs in order
                 const priorityOrder = ['holiday-promo', 'release-promo'];
 
-                // Find valid promos within date range
-                const validPromos = querySnapshot.docs
-                    .map(doc => ({ id: doc.id, ...doc.data() } as Promotion))
-                    .filter(promo => {
-                        const start = new Date(promo.startDate);
-                        const end = new Date(promo.endDate);
-                        return now >= start && now <= end;
-                    });
-
                 // Pick the highest priority valid promo
+                let selectedPromo: Promotion | null = null;
                 for (const pid of priorityOrder) {
-                    const match = validPromos.find(p => p.id === pid);
-                    if (match) {
-                        selectedPromo = match;
+                    if (promotions[pid]) {
+                        selectedPromo = promotions[pid];
                         break;
                     }
                 }
 
-                // If no priority match, just take the first valid one
-                if (!selectedPromo && validPromos.length > 0) {
-                    selectedPromo = validPromos[0];
+                // If no priority match, take any available promo
+                if (!selectedPromo) {
+                    const promoIds = Object.keys(promotions);
+                    if (promoIds.length > 0) {
+                        selectedPromo = promotions[promoIds[0]];
+                    }
                 }
 
                 setActivePromo(selectedPromo);

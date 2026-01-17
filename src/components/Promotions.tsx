@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../firebase';
 
 // Helper Interface
 interface Promotion {
     id: string;
-    enabled: boolean;
+    label?: string;
     startDate: string;
     endDate: string;
-}
-
-interface GiftCard {
-    id: string;
-    enabled: boolean;
-    startDate: string; // MM-DD
-    endDate: string;   // MM-DD
 }
 
 const GIFT_CARD_IMAGES: Record<string, string> = {
@@ -64,28 +55,23 @@ const Promotions: React.FC = () => {
     }, []);
 
     const [validPromos, setValidPromos] = useState<Map<string, Promotion>>(new Map());
-    const [activeGiftCard, setActiveGiftCard] = useState<GiftCard | null>(null);
+    const [activeGiftCardId, setActiveGiftCardId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPromotions = async () => {
             try {
-                const q = query(collection(db, 'promotions'), where('enabled', '==', true));
-                const querySnapshot = await getDocs(q);
+                const response = await fetch('/api/promotions');
+                if (!response.ok) throw new Error('Failed to fetch promotions');
 
-                const now = new Date();
-                const newValidPromos = new Map<string, Promotion>();
+                const data = await response.json();
+                const promosMap = new Map<string, Promotion>();
 
-                querySnapshot.docs.forEach(doc => {
-                    const data = doc.data() as Promotion;
-                    const start = new Date(data.startDate);
-                    const end = new Date(data.endDate);
-
-                    if (now >= start && now <= end) {
-                        newValidPromos.set(doc.id, { ...data, id: doc.id });
-                    }
+                // Convert the promotions object to a Map
+                Object.values(data.promotions || {}).forEach((p: any) => {
+                    promosMap.set(p.id, p);
                 });
 
-                setValidPromos(newValidPromos);
+                setValidPromos(promosMap);
             } catch (error) {
                 console.error("Error fetching promotions:", error);
             }
@@ -93,61 +79,28 @@ const Promotions: React.FC = () => {
 
         const fetchGiftCards = async () => {
             try {
-                const q = query(collection(db, 'giftcards'), where('enabled', '==', true));
-                const querySnapshot = await getDocs(q);
+                const response = await fetch('/api/giftcards');
+                if (!response.ok) throw new Error('Failed to fetch gift cards');
 
-                const now = new Date();
-                const currentMonth = now.getMonth() + 1; // 1-12
-                const currentDay = now.getDate(); // 1-31
-
-                // Helper to convert MM-DD to comparable number (e.g. 12-01 -> 1201)
-                const getDateNum = (dateStr: string) => {
-                    const [m, d] = dateStr.split('-').map(Number);
-                    return m * 100 + d;
-                };
-
-                const currentNum = currentMonth * 100 + currentDay;
-                let selected: GiftCard | null = null;
-                const matches: GiftCard[] = [];
-
-                querySnapshot.docs.forEach(doc => {
-                    const data = doc.data() as GiftCard;
-                    const startNum = getDateNum(data.startDate);
-                    const endNum = getDateNum(data.endDate);
-
-                    // Handle year wrap-around (e.g. Dec to Jan) manually if ever needed, 
-                    // but current requirements are simple ranges within a year or full year.
-                    // For now assuming start <= end as per standard ranges.
-
-                    if (currentNum >= startNum && currentNum <= endNum) {
-                        matches.push({ ...data, id: doc.id });
-                    }
-                });
+                const data = await response.json();
+                const activeIds = data.activeGiftCardIds || [];
 
                 // Priority: Holiday > Valentines > Default
-                // We can just look for specific IDs in order
                 const priority = ['holiday-giftcard', 'valentines-giftcard', 'default-giftcard'];
-
                 for (const pid of priority) {
-                    const found = matches.find(m => m.id === pid);
-                    if (found) {
-                        selected = found;
+                    if (activeIds.includes(pid)) {
+                        setActiveGiftCardId(pid);
                         break;
                     }
                 }
 
-                // Fallback to default if no specific match found but default exists in DB
-                if (!selected) {
-                    const defaultCard = querySnapshot.docs.find(doc => doc.id === 'default-giftcard');
-                    if (defaultCard) selected = { ...defaultCard.data(), id: defaultCard.id } as GiftCard;
+                // Fallback to default if none found
+                if (!activeIds.length) {
+                    setActiveGiftCardId('default-giftcard');
                 }
-
-                if (selected) {
-                    setActiveGiftCard(selected);
-                }
-
             } catch (error) {
                 console.error("Error fetching gift cards:", error);
+                setActiveGiftCardId('default-giftcard');
             }
         };
 
@@ -324,7 +277,7 @@ const Promotions: React.FC = () => {
                             <div className="flex-1 w-full">
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-square">
                                     <img
-                                        src={activeGiftCard ? (GIFT_CARD_IMAGES[activeGiftCard.id] || "/promos/giftcard_box_standard.webp") : "/promos/giftcard_box_standard.webp"}
+                                        src={activeGiftCardId ? (GIFT_CARD_IMAGES[activeGiftCardId] || "/promos/giftcard_box_standard.webp") : "/promos/giftcard_box_standard.webp"}
                                         alt="Gift Card"
                                         className="w-full h-full object-cover"
                                     />

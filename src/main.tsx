@@ -20,3 +20,6 @@ root.render(
     </ServiceProvider>
   </React.StrictMode>
 );
+
+// Hide static hero once React has mounted
+document.body.classList.add('react-mounted');

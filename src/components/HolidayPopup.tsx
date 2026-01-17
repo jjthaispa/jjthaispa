@@ -1,13 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
-
-interface SpecialHour {
-    date: string; // YYYY-MM-DD
-    open: string | null;
-    close: string | null;
-    closed: boolean;
-}
 
 interface HolidayPopupProps {
     previewMode?: boolean;
@@ -37,113 +28,26 @@ const HolidayPopup: React.FC<HolidayPopupProps> = ({ previewMode, previewDate, f
 
         const checkHoliday = async () => {
             try {
-                // If in preview mode, use the provided date, otherwise use today
-                const today = previewMode && previewDate ? new Date(previewDate) : new Date();
-                const tomorrow = new Date(today);
-                tomorrow.setDate(today.getDate() + 1);
-
-                // Format dates as YYYY-MM-DD for comparison
-                const formatDate = (date: Date) => {
-                    const yyyy = date.getFullYear();
-                    const mm = String(date.getMonth() + 1).padStart(2, '0');
-                    const dd = String(date.getDate()).padStart(2, '0');
-                    return `${yyyy}-${mm}-${dd}`;
-                };
-
-                const todayStr = formatDate(today);
-                const tomorrowStr = formatDate(tomorrow);
-
-                // Fetch business hours and labels in parallel
-                const [hoursDoc, labelsDoc] = await Promise.all([
-                    getDoc(doc(db, 'config', 'business_hours')),
-                    getDoc(doc(db, 'config', 'holiday_labels'))
-                ]);
-
-                if (!hoursDoc.exists()) {
-                    setLoading(false);
-                    return;
+                // Build URL with optional date parameter for preview mode
+                let url = '/api/holidays';
+                if (previewMode && previewDate) {
+                    const yyyy = previewDate.getFullYear();
+                    const mm = String(previewDate.getMonth() + 1).padStart(2, '0');
+                    const dd = String(previewDate.getDate()).padStart(2, '0');
+                    url = `/api/holidays?date=${yyyy}-${mm}-${dd}`;
                 }
 
-                const hoursData = hoursDoc.data();
-                const labelsData = labelsDoc.exists() ? labelsDoc.data()?.labels || {} : {};
-                const specialHours: SpecialHour[] = hoursData?.specialHours || [];
-
-                // Helper to find special hour for a date
-                const getSpecialHour = (dateStr: string) => specialHours.find(h => h.date === dateStr);
-
-                const todaySpecial = getSpecialHour(todayStr);
-                const tomorrowSpecial = getSpecialHour(tomorrowStr);
-
-                // Format date for display (e.g., "July 4th")
-                const formatDisplayDate = (date: Date) => {
-                    const day = date.getDate();
-                    const suffix = day === 1 || day === 21 || day === 31 ? 'st' :
-                        day === 2 || day === 22 ? 'nd' :
-                            day === 3 || day === 23 ? 'rd' : 'th';
-                    return date.toLocaleDateString('en-US', { month: 'long' }) + ' ' + day + suffix;
-                };
-
-                // Format time (e.g., "4 PM")
-                const formatTime = (time: string | null) => {
-                    if (!time) return '';
-                    const [hours, minutes] = time.split(':').map(Number);
-                    const period = hours >= 12 ? 'PM' : 'AM';
-                    const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
-                    return minutes === 0 ? `${displayHours} ${period}` : `${displayHours}:${String(minutes).padStart(2, '0')} ${period}`;
-                };
-
-                let info: HolidayInfo | null = null;
-
-                // Priority: Today's holiday, then tomorrow's
-                if (todaySpecial) {
-                    const label = labelsData[todayStr] || 'Holiday';
-                    if (todaySpecial.closed) {
-                        info = {
-                            title: 'Closed Today',
-                            timeText: 'We are',
-                            highlightedTime: 'Closed',
-                            holidayName: label + ' Observance',
-                            dateDisplay: formatDisplayDate(today),
-                            isToday: true
-                        };
-                    } else {
-                        info = {
-                            title: 'Early Closing Today',
-                            timeText: 'Closing early at',
-                            highlightedTime: formatTime(todaySpecial.close),
-                            holidayName: label + ' Observance',
-                            dateDisplay: formatDisplayDate(today),
-                            isToday: true
-                        };
-                    }
-                } else if (tomorrowSpecial) {
-                    const label = labelsData[tomorrowStr] || 'Holiday';
-                    if (tomorrowSpecial.closed) {
-                        info = {
-                            title: 'Closed Tomorrow',
-                            timeText: 'We will be',
-                            highlightedTime: 'Closed',
-                            holidayName: label + ' Observance',
-                            dateDisplay: formatDisplayDate(tomorrow),
-                            isToday: false
-                        };
-                    } else {
-                        info = {
-                            title: 'Early Closing Tomorrow',
-                            timeText: 'Closing early at',
-                            highlightedTime: formatTime(tomorrowSpecial.close),
-                            holidayName: label + ' Observance',
-                            dateDisplay: formatDisplayDate(tomorrow),
-                            isToday: false
-                        };
-                    }
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch holiday data');
                 }
 
-                if (info) {
-                    setHolidayInfo(info);
+                const data = await response.json();
+
+                if (data.hasHoliday && data.holidayInfo) {
+                    setHolidayInfo(data.holidayInfo);
                     setIsOpen(true);
                 }
-
             } catch (error) {
                 console.error("Error checking holiday popup:", error);
             } finally {

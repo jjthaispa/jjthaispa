@@ -53,16 +53,6 @@
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
             rel="stylesheet" />
     </noscript>
-    <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0"
-  }
-}
-</script>
-
 
 
     <!-- Dark Mode Detection Script (iOS & Android only) -->
@@ -83,6 +73,88 @@
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
     </script>
+
+    <!-- Critical CSS for instant hero display -->
+    <style>
+        .static-hero {
+            display: flex;
+            min-height: 500px;
+            flex-direction: column;
+            gap: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("/background.webp");
+        }
+
+        .static-hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 42rem;
+            margin-top: 5rem;
+        }
+
+        .static-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 2.25rem;
+            line-height: 1.1;
+            color: white;
+        }
+
+        .static-hero p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .static-hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .static-hero-btn {
+            padding: 0.75rem 2rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: transform 0.15s;
+        }
+
+        .static-hero-btn-primary {
+            background-color: #788E6E;
+            color: white;
+        }
+
+        .static-hero-btn-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        @media (min-width: 768px) {
+            .static-hero h1 {
+                font-size: 3.75rem;
+            }
+
+            .static-hero p {
+                font-size: 1.125rem;
+            }
+        }
+
+        /* Hide static hero once React mounts */
+        .react-mounted .static-hero {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
@@ -90,6 +162,25 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PL94J4DT" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Static Hero for instant LCP - hidden once React mounts -->
+    <section class="static-hero">
+        <div class="static-hero-content">
+            <h1>Bridgewater</h1>
+            <p>Experience the Art of Thai Massage</p>
+            <div class="static-hero-buttons">
+                <a href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start" target="_blank"
+                    rel="noopener noreferrer" class="static-hero-btn static-hero-btn-primary">
+                    Book Now
+                </a>
+                <a href="https://app.squareup.com/gift/MLW48R10CJHXH/order" target="_blank" rel="noopener noreferrer"
+                    class="static-hero-btn static-hero-btn-secondary">
+                    Buy eGift Card
+                </a>
+            </div>
+        </div>
+    </section>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 </body>

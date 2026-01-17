@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -13,13 +13,25 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Policies from './components/Policies';
 import Contact from './components/Contact';
 import Promotions from './components/Promotions';
-import Promo from './components/Promo';
 import ServicesPage from './components/ServicesPage';
-import PriceList from './components/PriceList';
-import AdminPage from './components/AdminPage';
-import AdminRestricted from './components/AdminRestricted';
 import HolidayPopup from './components/HolidayPopup';
-import { AuthProvider } from './context/AuthContext';
+
+// Lazy-load Firebase-dependent components to keep SDK out of the main bundle
+const AdminPage = React.lazy(() => import('./components/AdminPage'));
+const AdminRestricted = React.lazy(() => import('./components/AdminRestricted'));
+const PriceList = React.lazy(() => import('./components/PriceList'));
+const Promo = React.lazy(() => import('./components/Promo'));
+// Lazy-load AuthProvider to avoid pulling in Firebase Auth
+const AuthProviderAsync = React.lazy(() =>
+  import('./context/AuthContext').then(module => ({ default: module.AuthProvider }))
+);
+
+// Loading spinner component for lazy-loaded sections
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center bg-stone-50">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+  </div>
+);
 
 function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'promo' | 'admin'>('home');
@@ -144,31 +156,37 @@ function App() {
 
   if (currentPage === 'pricelist') {
     return (
-      <AuthProvider>
-        <AdminRestricted>
-          <PriceList />
-        </AdminRestricted>
-      </AuthProvider>
+      <Suspense fallback={<LoadingSpinner />}>
+        <AuthProviderAsync>
+          <AdminRestricted>
+            <PriceList />
+          </AdminRestricted>
+        </AuthProviderAsync>
+      </Suspense>
     );
   }
 
   if (currentPage === 'promo') {
     return (
-      <AuthProvider>
-        <AdminRestricted>
-          <Promo />
-        </AdminRestricted>
-      </AuthProvider>
+      <Suspense fallback={<LoadingSpinner />}>
+        <AuthProviderAsync>
+          <AdminRestricted>
+            <Promo />
+          </AdminRestricted>
+        </AuthProviderAsync>
+      </Suspense>
     );
   }
 
   if (currentPage === 'admin') {
     return (
-      <AuthProvider>
-        <AdminRestricted>
-          <AdminPage />
-        </AdminRestricted>
-      </AuthProvider>
+      <Suspense fallback={<LoadingSpinner />}>
+        <AuthProviderAsync>
+          <AdminRestricted>
+            <AdminPage />
+          </AdminRestricted>
+        </AuthProviderAsync>
+      </Suspense>
     );
   }
 

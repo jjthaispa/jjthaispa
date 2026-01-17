@@ -270,6 +270,169 @@ app.get('/api/services', async (req, res) => {
     }
 });
 
+// GET /api/promotions - Fetch active promotions
+app.get('/api/promotions', async (req, res) => {
+    try {
+        const promotionsSnap = await db.collection('promotions').where('enabled', '==', true).get();
+        const promotions: any[] = promotionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const now = new Date();
+        const activePromotions = promotions.filter((p: any) => {
+            const start = new Date(p.startDate);
+            const end = new Date(p.endDate);
+            return now >= start && now <= end && p.enabled;
+        });
+
+        // Return as a map keyed by id for easy lookup
+        const promosMap: Record<string, any> = {};
+        activePromotions.forEach(p => {
+            promosMap[p.id] = {
+                id: p.id,
+                label: p.label,
+                startDate: p.startDate,
+                endDate: p.endDate
+            };
+        });
+
+        res.json({
+            promotions: promosMap,
+            activePromoIds: activePromotions.map(p => p.id)
+        });
+    } catch (error) {
+        console.error('Error fetching promotions:', error);
+        res.status(500).json({ error: 'Failed to fetch promotions' });
+    }
+});
+
+// GET /api/giftcards - Fetch active gift cards
+app.get('/api/giftcards', async (req, res) => {
+    try {
+        const giftcardsSnap = await db.collection('giftcards').where('enabled', '==', true).get();
+
+        const now = new Date();
+        const currentMonth = now.getMonth() + 1; // 1-12
+        const currentDay = now.getDate(); // 1-31
+        const currentNum = currentMonth * 100 + currentDay;
+
+        // Helper to convert MM-DD to comparable number
+        const getDateNum = (dateStr: string) => {
+            const [m, d] = dateStr.split('-').map(Number);
+            return m * 100 + d;
+        };
+
+        const activeGiftCards: string[] = [];
+
+        giftcardsSnap.docs.forEach(doc => {
+            const data = doc.data();
+            const startNum = getDateNum(data.startDate);
+            const endNum = getDateNum(data.endDate);
+
+            if (currentNum >= startNum && currentNum <= endNum) {
+                activeGiftCards.push(doc.id);
+            }
+        });
+
+        res.json({
+            activeGiftCardIds: activeGiftCards
+        });
+    } catch (error) {
+        console.error('Error fetching gift cards:', error);
+        res.status(500).json({ error: 'Failed to fetch gift cards' });
+    }
+});
+
+// GET /api/holidays - Fetch holiday popup data for today/tomorrow
+app.get('/api/holidays', async (req, res) => {
+    try {
+        // Allow optional date override via query param (for admin preview)
+        const dateParam = req.query.date as string | undefined;
+        const today = dateParam ? new Date(dateParam + 'T12:00:00') : new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        // Format dates as YYYY-MM-DD
+        const formatDate = (date: Date) => {
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        };
+
+        const todayStr = formatDate(today);
+        const tomorrowStr = formatDate(tomorrow);
+
+        // Fetch business hours and labels in parallel
+        const [hoursDoc, labelsDoc] = await Promise.all([
+            db.collection('config').doc('business_hours').get(),
+            db.collection('config').doc('holiday_labels').get()
+        ]);
+
+        if (!hoursDoc.exists) {
+            res.json({ hasHoliday: false });
+            return;
+        }
+
+        const hoursData = hoursDoc.data();
+        const labelsData = labelsDoc.exists ? labelsDoc.data()?.labels || {} : {};
+        const specialHours = hoursData?.specialHours || [];
+
+        // Find special hours for today and tomorrow
+        const todaySpecial = specialHours.find((h: any) => h.date === todayStr);
+        const tomorrowSpecial = specialHours.find((h: any) => h.date === tomorrowStr);
+
+        // Format date for display (e.g., "November 27th")
+        const formatDisplayDate = (date: Date) => {
+            const day = date.getDate();
+            const suffix = day === 1 || day === 21 || day === 31 ? 'st' :
+                day === 2 || day === 22 ? 'nd' :
+                    day === 3 || day === 23 ? 'rd' : 'th';
+            return date.toLocaleDateString('en-US', { month: 'long' }) + ' ' + day + suffix;
+        };
+
+        // Format time (e.g., "4 PM")
+        const formatTime = (time: string | null) => {
+            if (!time) return '';
+            const [hours, minutes] = time.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+            return minutes === 0 ? `${displayHours} ${period}` : `${displayHours}:${String(minutes).padStart(2, '0')} ${period}`;
+        };
+
+        // Build response
+        let holidayInfo = null;
+
+        if (todaySpecial) {
+            const label = labelsData[todayStr] || 'Holiday';
+            holidayInfo = {
+                title: todaySpecial.closed ? 'Closed Today' : 'Early Closing Today',
+                timeText: todaySpecial.closed ? 'We are' : 'Closing early at',
+                highlightedTime: todaySpecial.closed ? 'Closed' : formatTime(todaySpecial.close),
+                holidayName: label + ' Observance',
+                dateDisplay: formatDisplayDate(today),
+                isToday: true
+            };
+        } else if (tomorrowSpecial) {
+            const label = labelsData[tomorrowStr] || 'Holiday';
+            holidayInfo = {
+                title: tomorrowSpecial.closed ? 'Closed Tomorrow' : 'Early Closing Tomorrow',
+                timeText: tomorrowSpecial.closed ? 'We will be' : 'Closing early at',
+                highlightedTime: tomorrowSpecial.closed ? 'Closed' : formatTime(tomorrowSpecial.close),
+                holidayName: label + ' Observance',
+                dateDisplay: formatDisplayDate(tomorrow),
+                isToday: false
+            };
+        }
+
+        res.json({
+            hasHoliday: holidayInfo !== null,
+            holidayInfo
+        });
+    } catch (error) {
+        console.error('Error fetching holidays:', error);
+        res.status(500).json({ error: 'Failed to fetch holidays' });
+    }
+});
+
 // Admin emails for sync endpoint authentication
 const SYNC_ADMIN_EMAILS = [
     'sunicha@jjthaispa.com',

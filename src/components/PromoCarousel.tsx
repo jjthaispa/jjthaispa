@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../firebase';
 import { useServices } from '../context/ServiceContext';
 
 const PROMOS = [
@@ -53,8 +51,8 @@ const PROMOS = [
   {
     id: 5,
     category: "E-GIFT CARDS",
-    title: "Valentine’s Day",
-    description: "Send a Valentine’s Day e-gift card in seconds ♥ instant delivery, heartfelt surprise, perfect for last-minute love.",
+    title: "Valentine's Day",
+    description: "Send a Valentine's Day e-gift card in seconds ♥ instant delivery, heartfelt surprise, perfect for last-minute love.",
     buttonText: "Buy eGift Card",
     image: "/promos/valentines_giftcard.webp",
     video: "/promos/valentines_giftcard.mp4",
@@ -97,37 +95,15 @@ const PromoCarousel: React.FC = () => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Fetch active gift cards
+  // Fetch active gift cards from API
   useEffect(() => {
     const fetchGiftCards = async () => {
       try {
-        const q = query(collection(db, 'giftcards'), where('enabled', '==', true));
-        const querySnapshot = await getDocs(q);
+        const response = await fetch('/api/giftcards');
+        if (!response.ok) throw new Error('Failed to fetch gift cards');
 
-        const now = new Date();
-        const currentMonth = now.getMonth() + 1;
-        const currentDay = now.getDate();
-        const currentNum = currentMonth * 100 + currentDay;
-
-        const activeIds = new Set<string>();
-
-        querySnapshot.docs.forEach(doc => {
-          const data = doc.data();
-          // Helper to convert MM-DD to comparable number
-          const getDateNum = (dateStr: string) => {
-            const [m, d] = dateStr.split('-').map(Number);
-            return m * 100 + d;
-          };
-
-          const startNum = getDateNum(data.startDate);
-          const endNum = getDateNum(data.endDate);
-
-          if (currentNum >= startNum && currentNum <= endNum) {
-            activeIds.add(doc.id);
-          }
-        });
-
-        setActiveGiftCards(activeIds);
+        const data = await response.json();
+        setActiveGiftCards(new Set(data.activeGiftCardIds || []));
       } catch (error) {
         console.error("Error fetching gift cards for carousel:", error);
       } finally {
