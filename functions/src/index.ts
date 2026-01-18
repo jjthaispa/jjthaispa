@@ -304,6 +304,36 @@ app.get('/api/promotions', async (req, res) => {
     }
 });
 
+// GET /api/promotion.json - Public JSON endpoint for current promotion details
+app.get('/api/promotion.json', async (req, res) => {
+    try {
+        const promotionsSnap = await db.collection('promotions').where('enabled', '==', true).get();
+        const promotions: any[] = promotionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const now = new Date();
+        const activePromotion = promotions.find((p: any) => {
+            const start = new Date(p.startDate);
+            const end = new Date(p.endDate);
+            return now >= start && now <= end && p.enabled;
+        });
+
+        if (activePromotion) {
+            res.json({
+                id: activePromotion.id,
+                label: activePromotion.label,
+                startDate: activePromotion.startDate,
+                endDate: activePromotion.endDate,
+                discounts: activePromotion.discounts
+            });
+        } else {
+            res.json(null);
+        }
+    } catch (error) {
+        console.error('Error fetching promotion:', error);
+        res.status(500).json({ error: 'Failed to fetch promotion' });
+    }
+});
+
 // GET /api/giftcards - Fetch active gift cards
 app.get('/api/giftcards', async (req, res) => {
     try {
