@@ -555,6 +555,17 @@ export default function AdminPage() {
                         <p className="text-stone-500 text-sm">Admin Dashboard</p>
                     </div>
                     <div className="flex items-center gap-4">
+                        <a
+                            href="/admin/booking"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                window.history.pushState({}, '', '/admin/booking');
+                                window.dispatchEvent(new PopStateEvent('popstate'));
+                            }}
+                            className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                        >
+                            Dev Booking →
+                        </a>
                         <div className="text-right">
                             <p className="text-sm font-medium text-stone-700">{user.displayName}</p>
                             <p className="text-xs text-stone-500">{user.email}</p>

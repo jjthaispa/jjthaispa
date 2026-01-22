@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /pricelist
-Disallow: /promo
+Disallow: /promo$
 Disallow: /api/promotion.json
 
 Sitemap: https://jjthaispa.com/sitemap.xml

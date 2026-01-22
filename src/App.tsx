@@ -21,6 +21,7 @@ const AdminPage = React.lazy(() => import('./components/AdminPage'));
 const AdminRestricted = React.lazy(() => import('./components/AdminRestricted'));
 const PriceList = React.lazy(() => import('./components/PriceList'));
 const Promo = React.lazy(() => import('./components/Promo'));
+const AdminBooking = React.lazy(() => import('./components/AdminBooking'));
 // Lazy-load AuthProvider to avoid pulling in Firebase Auth
 const AuthProviderAsync = React.lazy(() =>
   import('./context/AuthContext').then(module => ({ default: module.AuthProvider }))
@@ -34,7 +35,7 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'promo' | 'admin'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'privacy' | 'policies' | 'contact' | 'promotions' | 'services' | 'pricelist' | 'promo' | 'admin' | 'admin-booking'>('home');
   const [showCookieSettings, setShowCookieSettings] = useState(false);
 
   // Handle URL changes for simple routing
@@ -55,6 +56,8 @@ function App() {
         setCurrentPage('pricelist');
       } else if (path === '/promo') {
         setCurrentPage('promo');
+      } else if (path === '/admin/booking') {
+        setCurrentPage('admin-booking');
       } else if (path === '/admin') {
         setCurrentPage('admin');
       } else {
@@ -172,6 +175,18 @@ function App() {
         <AuthProviderAsync>
           <AdminRestricted>
             <Promo />
+          </AdminRestricted>
+        </AuthProviderAsync>
+      </Suspense>
+    );
+  }
+
+  if (currentPage === 'admin-booking') {
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <AuthProviderAsync>
+          <AdminRestricted>
+            <AdminBooking />
           </AdminRestricted>
         </AuthProviderAsync>
       </Suspense>
