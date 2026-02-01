@@ -71,8 +71,8 @@ const MAX_PAGES = 12;
 
 const ReviewsSection: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>(REVIEWS);
-  const [totalCount, setTotalCount] = useState<number>(281);
-  const [averageRating, setAverageRating] = useState<string>("4.9");
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [averageRating, setAverageRating] = useState<string>("5");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage, setReviewsPerPage] = useState(3);
@@ -237,8 +237,8 @@ const ReviewsSection: React.FC = () => {
                     key={i + 1}
                     onClick={() => goToPage(i + 1)}
                     className={`rounded-full transition-all duration-300 ${currentPage === i + 1
-                        ? 'w-6 h-2 bg-primary'
-                        : 'w-2 h-2 bg-border-light dark:bg-border-dark hover:bg-primary/50'
+                      ? 'w-6 h-2 bg-primary'
+                      : 'w-2 h-2 bg-border-light dark:bg-border-dark hover:bg-primary/50'
                       }`}
                     aria-label={`Go to page ${i + 1}`}
                   />

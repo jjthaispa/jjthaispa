@@ -1,22 +1,22 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+        desc = { enumerable: true, get: function () { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
+}) : (function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
 }));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function (o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
+}) : function (o, v) {
     o["default"] = v;
 });
 var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
+    var ownKeys = function (o) {
         ownKeys = Object.getOwnPropertyNames || function (o) {
             var ar = [];
             for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
@@ -728,17 +728,17 @@ const performReviewSync = async () => {
     const filteredReviews = allReviewsWithReasons
         .filter((r) => r.filterReason === null)
         .map((r) => ({
-        author_name: r.author_name_formatted,
-        rating: r.rating,
-        relative_time_description: r.relative_time_description,
-        date: r.date,
-        text: r.text
-    }));
+            author_name: r.author_name_formatted,
+            rating: r.rating,
+            relative_time_description: r.relative_time_description,
+            date: r.date,
+            text: r.text
+        }));
     // Store filtered reviews in config/reviews for public site
     await db.collection('config').doc('reviews').set({
         reviews: filteredReviews,
-        totalReviewCount: data.totalReviewCount || 0,
-        averageRating: data.averageRating || "0.0",
+        totalReviewCount: data.places_reviews.totalReviewCount || 0,
+        averageRating: data.places_reviews.averageRating || "0.0",
         lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
     });
     console.log(`Synced ${allReviewsWithReasons.length} total reviews, ${filteredReviews.length} approved for public`);

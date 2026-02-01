@@ -780,8 +780,8 @@ const performReviewSync = async (): Promise<{ total: number; approved: number }>
     // Store filtered reviews in config/reviews for public site
     await db.collection('config').doc('reviews').set({
         reviews: filteredReviews,
-        totalReviewCount: data.totalReviewCount || 0,
-        averageRating: data.averageRating || "0.0",
+        totalReviewCount: data.places_reviews.totalReviewCount || 0,
+        averageRating: data.places_reviews.averageRating || "0.0",
         lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
     });
 
