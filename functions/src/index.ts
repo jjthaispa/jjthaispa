@@ -761,8 +761,8 @@ const performReviewSync = async (): Promise<{ total: number; approved: number }>
     // Store ALL reviews with reasons in config_admin
     await db.collection('config_admin').doc('reviews_all').set({
         reviews: allReviewsWithReasons,
-        totalReviewCount: data.totalReviewCount || 0,
-        averageRating: data.averageRating || "0.0",
+        totalReviewCount: data.places_reviews.totalReviewCount || 0,
+        averageRating: data.places_reviews.averageRating || "0.0",
         lastSyncedAt: admin.firestore.FieldValue.serverTimestamp()
     });
 
