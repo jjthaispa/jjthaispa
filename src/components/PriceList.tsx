@@ -65,10 +65,10 @@ const PriceList: React.FC = () => {
                             </span>
                         </div>
                         <p className="text-[#1a231f] font-serif uppercase tracking-[0.2em] text-2xl font-bold mb-1">
-                            New Year's Price List
+                            Valentine's Day Price List
                         </p>
                         <p className="text-[#C85A5A] font-serif italic text-lg">
-                            January 2026
+                            February 2026
                         </p>
                     </div>
                 </div>

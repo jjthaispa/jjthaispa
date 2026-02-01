@@ -83,7 +83,7 @@ const Services: React.FC = () => {
                 {/* Image with PROMO badge */}
                 <div className="relative flex-shrink-0 w-32 h-32 rounded-xl overflow-hidden bg-amber-100">
                   {therapy.hasPromo && (
-                    <span className="absolute top-2 left-2 z-10 bg-[#C85A5A] text-white text-[10px] font-bold tracking-wider px-2 py-1 rounded uppercase shadow-sm">
+                    <span className="absolute top-2 left-2 z-10 bg-[#C85A5A] text-white text-[10px] font-bold tracking-normal px-1.5 py-1 rounded uppercase shadow-sm">
                       {therapy.promoLabel || "Promo"}
                     </span>
                   )}

@@ -4,6 +4,23 @@ import { useServices } from '../context/ServiceContext';
 const PROMOS = [
   {
     id: 1,
+    category: "VALENTINE’S DAY SPECIAL",
+    title: "Share the Love This Valentine’s Day",
+    description: "Reconnect. Relax. Renew.\n JJ's Valentine’s Day offer.\n $15 off 60 min Couples\n $25 off 90 min Couples",
+    buttonText: "View Details",
+    anchor: '#valentines-special',
+    image: "/promos/valentines_promo.webp",
+    bgColor: " bg-[#F9F4E8] dark:bg-[#2E281A]", // Light Beige / Dark Brown
+    btnColor: "bg-[#C0A172] hover:bg-[#a88a5d] text-white",
+    requiredPromoId: "valentines-promo",
+    enabled: true, // Controlled by global promo state now
+    overlay: [
+      { highlight: "$15 OFF", subtitle: "60 MIN COUPLES MASSAGE" },
+      { highlight: "$25 OFF", subtitle: "90 MIN COUPLES MASSAGE" }
+    ]
+  },
+  {
+    id: 7,
     category: "HOLIDAY SPECIAL",
     title: "A Holiday Gift to Yourself",
     description: "Relax more. Stress less. Limited-time holiday offer.\n $10 off 60 minutes\n $15 off 90 minutes",
@@ -331,11 +348,11 @@ const PromoCarousel: React.FC = () => {
                         )}
                         {/* Text Overlay */}
                         {promo.overlay && (
-                          <div className="absolute inset-x-0 top-0 h-1/2 flex flex-col items-center justify-center bg-gradient-to-b from-white/80 via-white/70 to-transparent text-center px-4 py-3">
+                          <div className="absolute inset-x-0 top-0 h-1/2 flex flex-col items-center justify-center bg-gradient-to-b from-white/80 via-white/70 to-transparent text-center px-4 py-1.5">
                             {promo.overlay.map((item, idx) => (
                               <React.Fragment key={idx}>
                                 {idx > 0 && (
-                                  <div className="flex items-center gap-2 my-1">
+                                  <div className="flex items-center gap-2 my-0.5">
                                     <span className="w-6 h-px bg-[#6B4C1F]"></span>
                                     <span className="text-[#6B4C1F] text-xs">✦</span>
                                     <span className="w-6 h-px bg-[#6B4C1F]"></span>

@@ -549,7 +549,7 @@ export default function AdminPage() {
         <div className="min-h-screen bg-gradient-to-br from-stone-50 to-stone-100">
             {/* Header */}
             <header className="bg-white shadow-sm border-b border-stone-200">
-                <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="max-w-[90rem] mx-auto px-6 py-4 flex items-center justify-between">
                     <div>
                         <h1 className="font-serif text-2xl text-stone-800">J.J Thai Spa</h1>
                         <p className="text-stone-500 text-sm">Admin Dashboard</p>
@@ -578,7 +578,7 @@ export default function AdminPage() {
 
             {/* Tabs */}
             <div className="bg-white border-b border-stone-200">
-                <div className="max-w-6xl mx-auto px-6">
+                <div className="max-w-[90rem] mx-auto px-6">
                     <nav className="flex gap-8">
                         <button onClick={() => setActiveTab('reviews')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'reviews' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
                             Reviews
@@ -597,7 +597,7 @@ export default function AdminPage() {
             </div>
 
             {/* Main Content */}
-            <main className="max-w-6xl mx-auto px-6 py-10">
+            <main className="max-w-[90rem] mx-auto px-6 py-10">
                 {/* Reviews Tab */}
                 {activeTab === 'reviews' && (
                     <div className="bg-white rounded-2xl shadow-lg p-8">

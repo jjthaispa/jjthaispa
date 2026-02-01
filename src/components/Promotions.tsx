@@ -34,7 +34,7 @@ const Promotions: React.FC = () => {
                 element.scrollIntoView({ behavior: 'smooth' });
 
                 // Trigger flash effect for holiday-special
-                if (window.location.hash === '#holiday-special') {
+                if (window.location.hash === '#holiday-special' || window.location.hash === '#valentines-special') {
                     setTimeout(() => {
                         setFlashCard(true);
                         setTimeout(() => setFlashCard(false), 500);
@@ -109,6 +109,86 @@ const Promotions: React.FC = () => {
     }, []);
 
     const promoSections = [
+        {
+            id: 'valentines-special',
+            requiredPromoId: 'valentines-promo',
+            enabled: true,
+            element: (
+                /* Valentine's Day Special Section */
+                <section id="valentines-special" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1a231f]">
+                    <div className="container mx-auto max-w-6xl">
+                        {/* Header */}
+                        <div className="text-center mb-12">
+                            <span className="text-[#849f81] font-bold tracking-[0.25em] text-xs uppercase mb-4 block">
+                                LIMITED TIME OFFER
+                            </span>
+                            <h2 className="font-serif text-4xl md:text-5xl italic text-[#2e2e2e] dark:text-white">
+                                Share the Love This Valentine’s Day
+                            </h2>
+                        </div>
+
+                        {/* Main Card */}
+                        <div
+                            className={`bg-[#F9F4E8] dark:bg-[#2E281A] rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${flashCard ? 'md:shadow-2xl md:scale-[1.02]' : ''}`}
+                        >
+                            <div className="flex flex-col md:flex-row">
+                                {/* Left Content */}
+                                <div className="flex-1 p-8 md:p-10 lg:p-12 relative bg-white dark:bg-[#2E281A]">
+                                    <h3 className="font-serif text-2xl md:text-3xl text-[#2e2e2e] dark:text-white mb-5">
+                                        Reconnect. Relax. Renew.
+                                    </h3>
+                                    <p className="text-[#4a4a4a] dark:text-text-dark/80 leading-relaxed mb-8 text-sm md:text-base">
+                                        Celebrate love and connection with a rejuvenating massage experience. Whether for yourself or a loved one, our Valentine’s Day special brings relaxation to the heart.
+                                    </p>
+
+                                    {/* Discount Boxes */}
+                                    <div className="space-y-4 mb-8">
+                                        <div className="flex gap-4">
+                                            <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                                <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                                <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$5 OFF</div>
+                                                <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 or 75 Minute Massage</span>
+                                            </div>
+                                            <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                                <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                                <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$10 OFF</div>
+                                                <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">90 Minute Massage</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                                <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                                <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$15 OFF</div>
+                                                <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">60 or 75 Minute Couples Massage</span>
+                                            </div>
+                                            <div className="flex-1 border border-[#d4cfc4] dark:border-[#5C3D1A] rounded-lg p-4 md:p-5 text-center bg-background-light dark:bg-background-dark">
+                                                <span className="block text-[10px] font-bold text-[#849f81] tracking-[0.2em] mb-2 uppercase">Discount</span>
+                                                <div className="font-serif text-2xl md:text-3xl italic text-[#5C3D1A] dark:text-[#c0a172] mb-1">$25 OFF</div>
+                                                <span className="text-[10px] text-[#6b6b6b] dark:text-text-dark/60 uppercase tracking-wider">90 Minute Couples Massage</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Disclaimer */}
+                                    <p className="text-sm text-[#9a9a9a] dark:text-text-dark/40 italic mt-6">
+                                        *Offer valid through {formatDate(validPromos.get('valentines-promo')?.endDate || '')}. Cannot be combined with other discounts. Discount applied at checkout.
+                                    </p>
+                                </div>
+
+                                {/* Right Image */}
+                                <div className="flex-1 min-h-[300px] md:min-h-0 overflow-hidden">
+                                    <img
+                                        src="/promos/valentines_promo.webp"
+                                        alt="Valentine's Day Special"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )
+        },
         {
             id: 'holiday-special',
             requiredPromoId: 'holiday-promo',
