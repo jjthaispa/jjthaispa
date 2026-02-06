@@ -84,7 +84,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-semibold opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                             {/* Couples Savings Label */}
                             <div className="flex items-center gap-4 py-2">
                                 <div className="h-px bg-[#788E6E]/20 flex-grow"></div>
-                                <span className="text-[#788E6E] font-serif italic text-xl md:text-3xl whitespace-nowrap">Couples Savings</span>
+                                <span className="text-[#788E6E] font-serif italic text-2xl md:text-4xl whitespace-nowrap">Couples Savings</span>
                                 <div className="h-px bg-[#788E6E]/20 flex-grow"></div>
                             </div>
 
@@ -116,7 +116,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-semibold opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -128,8 +128,8 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
-                            *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
+                        <p className="text-sm md:text-base font-medium text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
+                            *Offer valid through <span className="font-bold text-stone-800 not-it">{formatDate(endDate)}</span>. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
                 </div>
@@ -204,7 +204,7 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-semibold opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -217,8 +217,8 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
-                            *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
+                        <p className="text-sm md:text-base font-medium text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
+                            *Offer valid through <span className="font-bold text-stone-800 not-italic">{formatDate(endDate)}</span>. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
                 </div>
@@ -293,7 +293,7 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-semibold opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -306,7 +306,7 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                             {/* Couples Savings Label */}
                             <div className="flex items-center gap-4 py-2">
                                 <div className="h-px bg-[#C85A5A]/20 flex-grow"></div>
-                                <span className="text-[#C85A5A] font-serif italic text-xl md:text-3xl whitespace-nowrap">Couples Savings</span>
+                                <span className="text-[#C85A5A] font-serif italic text-2xl md:text-4xl whitespace-nowrap">Couples Savings</span>
                                 <div className="h-px bg-[#C85A5A]/20 flex-grow"></div>
                             </div>
 
@@ -325,7 +325,7 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-semibold opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -337,8 +337,8 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
-                            *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
+                        <p className="text-sm md:text-base font-medium text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
+                            *Offer valid through <span className="font-bold text-stone-800">{formatDate(endDate)}</span>. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
                 </div>
