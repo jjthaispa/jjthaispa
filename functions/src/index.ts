@@ -289,6 +289,8 @@ app.get('/api/promotions', async (req, res) => {
             promosMap[p.id] = {
                 id: p.id,
                 label: p.label,
+                title: p.title || '',
+                dateLabel: p.dateLabel || '',
                 startDate: p.startDate,
                 endDate: p.endDate
             };
@@ -321,6 +323,8 @@ app.get('/api/promotion.json', async (req, res) => {
             res.json({
                 id: activePromotion.id,
                 label: activePromotion.label,
+                title: activePromotion.title || '',
+                dateLabel: activePromotion.dateLabel || '',
                 startDate: activePromotion.startDate,
                 endDate: activePromotion.endDate,
                 discounts: activePromotion.discounts

@@ -1,8 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useServices } from '../context/ServiceContext';
+
+interface PromoData {
+    title: string;
+    dateLabel: string;
+}
 
 const PriceList: React.FC = () => {
     const { services } = useServices();
+    const [promoData, setPromoData] = useState<PromoData>({ title: '', dateLabel: '' });
+
+    // Fetch active promotion data
+    useEffect(() => {
+        const fetchPromoData = async () => {
+            try {
+                const response = await fetch('/api/promotions');
+                if (response.ok) {
+                    const data = await response.json();
+                    const promoIds = data.activePromoIds || [];
+                    if (promoIds.length > 0 && data.promotions[promoIds[0]]) {
+                        const promo = data.promotions[promoIds[0]];
+                        setPromoData({
+                            title: promo.title || '',
+                            dateLabel: promo.dateLabel || ''
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching promotion data:', error);
+            }
+        };
+        fetchPromoData();
+    }, []);
 
     // Add specific print styles dynamically
     useEffect(() => {
@@ -65,10 +94,10 @@ const PriceList: React.FC = () => {
                             </span>
                         </div>
                         <p className="text-[#1a231f] font-serif uppercase tracking-[0.2em] text-2xl font-bold mb-1">
-                            Valentine's Day Price List
+                            {promoData.title ? `${promoData.title} Price List` : 'Price List'}
                         </p>
                         <p className="text-[#C85A5A] font-serif italic text-lg">
-                            February 2026
+                            {promoData.dateLabel}
                         </p>
                     </div>
                 </div>

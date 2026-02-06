@@ -348,7 +348,7 @@ const PromoCarousel: React.FC = () => {
                         )}
                         {/* Text Overlay */}
                         {promo.overlay && (
-                          <div className="absolute inset-x-0 top-0 h-1/2 flex flex-col items-center justify-center bg-gradient-to-b from-white/80 via-white/70 to-transparent text-center px-4 py-1.5">
+                          <div className="absolute inset-x-0 top-0 h-3/4 flex flex-col items-center justify-start bg-gradient-to-b from-white/90 via-white/85 via-60% to-transparent text-center px-4 pt-3">
                             {promo.overlay.map((item, idx) => (
                               <React.Fragment key={idx}>
                                 {idx > 0 && (

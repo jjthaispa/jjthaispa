@@ -28,6 +28,8 @@ interface Service {
 interface Promotion {
     id: string;
     label: string;
+    title: string;
+    dateLabel: string;
     enabled: boolean;
     startDate: string;
     endDate: string;
@@ -875,6 +877,28 @@ export default function AdminPage() {
                                                     >
                                                         {edited.enabled ? 'Enabled' : 'Disabled'}
                                                     </button>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-4 mb-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <label className="text-stone-600 text-sm whitespace-nowrap">Title:</label>
+                                                        <input
+                                                            type="text"
+                                                            value={edited.title || ''}
+                                                            onChange={(e) => handlePromoFieldChange(promo.id, 'title', e.target.value)}
+                                                            className="flex-1 border border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                                            placeholder="e.g. Valentine's"
+                                                        />
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <label className="text-stone-600 text-sm whitespace-nowrap">Date Label:</label>
+                                                        <input
+                                                            type="text"
+                                                            value={edited.dateLabel || ''}
+                                                            onChange={(e) => handlePromoFieldChange(promo.id, 'dateLabel', e.target.value)}
+                                                            className="flex-1 border border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                                            placeholder="e.g. February 2026"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div className="flex items-center gap-4 text-sm">
                                                     <div className="flex items-center gap-2">

@@ -40,7 +40,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                     {/* Overlay Content */}
                     <div className="absolute inset-0 flex flex-col items-center pt-12 md:pt-16 p-6 z-10 text-center">
                         {/* Tagline */}
-                        <span className="text-[#788E6E] font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4 block drop-shadow-sm">
+                        <span className="text-[#788E6E] font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-4 block drop-shadow-sm">
                             Limited Time Offer
                         </span>
 
@@ -77,14 +77,14 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                 ].map((promo, idx) => (
                                     <div key={idx} className="relative group">
                                         <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
-                                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
                                                 Holiday Savings
                                             </span>
                                             <div className="flex items-start">
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -109,14 +109,14 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                 ].map((promo, idx) => (
                                     <div key={idx} className="relative group">
                                         <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
-                                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
                                                 Holiday Savings
                                             </span>
                                             <div className="flex items-start">
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@ const HolidayPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-[10px] md:text-xs text-gray-400 italic mt-12 leading-relaxed max-w-[280px]">
+                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
                             *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
@@ -160,7 +160,7 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                     {/* Overlay Content */}
                     <div className="absolute inset-0 flex flex-col items-center pt-12 md:pt-16 p-6 z-10 text-center">
                         {/* Tagline */}
-                        <span className="text-[#788E6E] font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4 block drop-shadow-sm">
+                        <span className="text-[#788E6E] font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-4 block drop-shadow-sm">
                             Limited Time Offer
                         </span>
 
@@ -197,7 +197,7 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                 ].map((promo, idx) => (
                                     <div key={idx} className="relative group">
                                         <div className="bg-[#788E6E] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
-                                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
                                                 Release Savings
                                             </span>
                                             <div className="flex items-start">
@@ -217,7 +217,7 @@ const ReleasePromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-xs md:text-sm text-gray-400 italic mt-12 leading-relaxed max-w-[280px]">
+                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
                             *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
@@ -249,7 +249,7 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                     {/* Overlay Content */}
                     <div className="absolute inset-0 flex flex-col items-center pt-12 md:pt-16 p-6 z-10 text-center">
                         {/* Tagline */}
-                        <span className="text-[#C85A5A] font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4 block drop-shadow-sm bg-white/80 px-4 py-1 rounded-full">
+                        <span className="text-[#C85A5A] font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-4 block drop-shadow-sm bg-white/80 px-4 py-1 rounded-full">
                             Limited Time Offer
                         </span>
 
@@ -286,14 +286,14 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                 ].map((promo, idx) => (
                                     <div key={idx} className="relative group">
                                         <div className="bg-[#C85A5A] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
-                                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
                                                 Valentine's
                                             </span>
                                             <div className="flex items-start">
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -318,14 +318,14 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                                 ].map((promo, idx) => (
                                     <div key={idx} className="relative group">
                                         <div className="bg-[#C85A5A] text-white p-6 rounded-[2rem] shadow-lg flex flex-col items-center justify-center border border-white/10 print-bg-promo">
-                                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-1 opacity-90 text-center leading-tight">
                                                 Valentine's
                                             </span>
                                             <div className="flex items-start">
                                                 <span className="text-xl md:text-2xl font-serif mt-1 mr-0.5 opacity-90">$</span>
                                                 <span className="text-4xl md:text-5xl font-serif font-bold italic tracking-tighter">{promo.amount} OFF</span>
                                             </div>
-                                            <div className="text-xs md:text-sm font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
+                                            <div className="text-sm md:text-base font-medium opacity-80 mt-3 uppercase tracking-[0.1em] text-center">
                                                 {promo.label}
                                             </div>
                                         </div>
@@ -337,7 +337,7 @@ const ValentinesPromoContent: React.FC<PromoContentProps> = ({ endDate }) => {
                         </div>
 
                         {/* Disclaimer */}
-                        <p className="text-[10px] md:text-xs text-gray-400 italic mt-12 leading-relaxed max-w-[280px]">
+                        <p className="text-sm md:text-base text-gray-400 italic mt-12 leading-relaxed max-w-[360px]">
                             *Offer valid through {formatDate(endDate)}. Cannot be combined. Discount applied at checkout.
                         </p>
                     </div>
