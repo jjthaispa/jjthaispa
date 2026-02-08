@@ -34,6 +34,10 @@ const Hero: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-all duration-150 shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
+              onClick={(e) => {
+                e.preventDefault();
+                (window as any).gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start');
+              }}
             >
               Book Now
             </a>

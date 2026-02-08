@@ -25,6 +25,33 @@
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-PL94J4DT');</script>
     <!-- End Google Tag Manager -->
+    <!-- Event snippet for Booking conversion page -->
+    <script>
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof (url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            // Extract GA Client ID from _ga cookie (format: GA1.1.XXXXXXXXXX.XXXXXXXXXX)
+            var ga_client_id = '';
+            var gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='));
+            if (gaCookie) {
+                var parts = gaCookie.split('=')[1].split('.');
+                if (parts.length >= 4) {
+                    ga_client_id = parts[2] + '.' + parts[3];
+                }
+            }
+            // Generate unique transaction ID: GA Client ID + timestamp + random string
+            var transaction_id = (ga_client_id || 'unknown') + '_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17534347995/-CzICMLwlfQbENvVg6lB',
+                'transaction_id': transaction_id,
+                'event_callback': callback
+            });
+            return false;
+        }
+    </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>J.J Thai Spa - Experience the Art of Thai Massage</title>
@@ -172,7 +199,8 @@
             <p>Experience the Art of Thai Massage</p>
             <div class="static-hero-buttons">
                 <a href="https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start" target="_blank"
-                    rel="noopener noreferrer" class="static-hero-btn static-hero-btn-primary">
+                    rel="noopener noreferrer" class="static-hero-btn static-hero-btn-primary"
+                    onclick="gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start'); return false;">
                     Book Now
                 </a>
                 <a href="https://app.squareup.com/gift/MLW48R10CJHXH/order" target="_blank" rel="noopener noreferrer"

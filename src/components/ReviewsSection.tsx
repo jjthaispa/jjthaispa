@@ -194,7 +194,7 @@ const ReviewsSection: React.FC = () => {
               );
             })}
           </div>
-          <span className="text-lg font-semibold text-accent">{averageRating}</span>
+          <span className="text-lg font-semibold text-accent">{parseFloat(averageRating).toFixed(1)}</span>
           <span className="text-base text-text-light/70 dark:text-text-dark/70">
             ({totalCount} reviews)
           </span>

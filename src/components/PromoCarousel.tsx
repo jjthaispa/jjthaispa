@@ -281,6 +281,10 @@ const PromoCarousel: React.FC = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-colors ${promo.btnColor} shadow-sm`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                (window as any).gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start');
+                              }}
                             >
                               {promo.buttonText}
                               <span className="material-symbols-outlined text-lg">arrow_forward</span>

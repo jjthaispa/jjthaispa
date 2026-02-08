@@ -116,6 +116,10 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full h-10 px-6 rounded bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors leading-10 text-center"
+                onClick={(e) => {
+                  e.preventDefault();
+                  (window as any).gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start');
+                }}
               >
                 Book an Appointment
               </a>

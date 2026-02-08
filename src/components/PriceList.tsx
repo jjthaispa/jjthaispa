@@ -138,7 +138,7 @@ const PriceList: React.FC = () => {
                                     <div className="space-y-1.5">
                                         {service.prices.map((p, pIdx) => (
                                             <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                <span className="text-lg font-medium text-gray-800">{p.durationServices}</span>
+                                                <span className="text-lg font-medium text-gray-800 pl-4">{p.durationServices}</span>
                                                 <span className="flex items-center gap-2">
                                                     {p.promoPrice ? (
                                                         <>
@@ -197,7 +197,7 @@ const PriceList: React.FC = () => {
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1">Swedish</h4>
                                                     {service.prices.filter(p => p.durationServices.includes('Swedish')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Swedish', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800 pl-4">{p.durationServices.replace(' Swedish', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
@@ -219,7 +219,7 @@ const PriceList: React.FC = () => {
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1 mt-3">Thai Combination</h4>
                                                     {service.prices.filter(p => p.durationServices.includes('Combination')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Thai Combination', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800 pl-4">{p.durationServices.replace(' Thai Combination', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
@@ -241,7 +241,7 @@ const PriceList: React.FC = () => {
                                                     <h4 className="font-bold text-xl text-[#1a231f] mb-1 mt-3">Thai Deep Tissue</h4>
                                                     {service.prices.filter(p => p.durationServices.includes('Deep Tissue')).map((p, pIdx) => (
                                                         <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                            <span className="text-lg font-medium text-gray-800">{p.durationServices.replace(' Thai Deep Tissue', '')}</span>
+                                                            <span className="text-lg font-medium text-gray-800 pl-4">{p.durationServices.replace(' Thai Deep Tissue', '')}</span>
                                                             <span className="flex items-center gap-2">
                                                                 {p.promoPrice ? (
                                                                     <>
@@ -263,7 +263,7 @@ const PriceList: React.FC = () => {
                                         ) : (
                                             service.prices.map((p, pIdx) => (
                                                 <div key={pIdx} className="flex items-end justify-between border-b border-dotted border-gray-200 pb-1">
-                                                    <span className="text-lg font-medium text-gray-800">{p.durationServices}</span>
+                                                    <span className="text-lg font-medium text-gray-800 pl-4">{p.durationServices}</span>
                                                     <span className="flex items-center gap-2">
                                                         {p.promoPrice ? (
                                                             <>

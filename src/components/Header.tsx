@@ -75,6 +75,10 @@ const Header: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              (window as any).gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start');
+            }}
           >
             <span className="truncate">Book Now</span>
           </a>

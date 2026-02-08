@@ -222,6 +222,10 @@ const ServicesPage: React.FC = () => {
                                                 target={service.callToBook ? undefined : "_blank"}
                                                 rel={service.callToBook ? undefined : "noopener noreferrer"}
                                                 className={`inline-block ${service.callToBook ? 'bg-[#c0a172] hover:bg-[#a88a5d]' : 'bg-[#788E6E] hover:bg-[#6f876c]'} text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5`}
+                                                onClick={service.callToBook ? undefined : (e) => {
+                                                    e.preventDefault();
+                                                    (window as any).gtag_report_conversion('https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start');
+                                                }}
                                             >
                                                 {service.callToBook ? 'Call for Appointment' : 'Book Appointment'}
                                             </a>
