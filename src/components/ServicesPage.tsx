@@ -218,7 +218,7 @@ const ServicesPage: React.FC = () => {
                                         {/* Button */}
                                         {!service.isAddOn && (
                                             <a
-                                                href={service.callToBook ? "tel:+5088070141" : "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"}
+                                                href={service.callToBook ? "tel:+15088070141" : "https://app.squareup.com/appointments/book/kpgr4fsgm3uhjs/LXYE9K8E6NDSH/start"}
                                                 target={service.callToBook ? undefined : "_blank"}
                                                 rel={service.callToBook ? undefined : "noopener noreferrer"}
                                                 className={`inline-block ${service.callToBook ? 'bg-[#c0a172] hover:bg-[#a88a5d]' : 'bg-[#788E6E] hover:bg-[#6f876c]'} text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5`}

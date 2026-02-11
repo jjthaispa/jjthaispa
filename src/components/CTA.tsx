@@ -50,7 +50,7 @@ const CTA: React.FC = () => {
               {/* Phone */}
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl text-primary shrink-0">call</span>
-                <a href="tel:+5088070141" className="text-text-light/80 dark:text-text-dark/80 text-sm hover:text-primary transition-colors">
+                <a href="tel:+15088070141" className="text-text-light/80 dark:text-text-dark/80 text-sm hover:text-primary transition-colors">
                   (508) 807-0141
                 </a>
               </div>
