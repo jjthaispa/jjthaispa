@@ -58,7 +58,7 @@ const CTA: React.FC = () => {
               {/* Text */}
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl text-primary shrink-0">sms</span>
-                <a href="sms:+8333752584" className="text-text-light/80 dark:text-text-dark/80 text-sm hover:text-primary transition-colors">
+                <a href="sms:+18333752584" className="text-text-light/80 dark:text-text-dark/80 text-sm hover:text-primary transition-colors">
                   Text us: (833) 375-2584
                 </a>
               </div>
