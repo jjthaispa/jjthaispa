@@ -48,7 +48,15 @@ interface Review {
     source?: string;
 }
 
-type TabType = 'promotions' | 'services' | 'reviews' | 'holidayHours';
+interface GiftCard {
+    id: string;
+    label: string;
+    enabled: boolean;
+    startDate: string;
+    endDate: string;
+}
+
+type TabType = 'promotions' | 'services' | 'reviews' | 'holidayHours' | 'giftCards';
 
 export default function AdminPage() {
     const { user, loading, isAuthorized, signOut } = useAuth();
@@ -118,6 +126,14 @@ export default function AdminPage() {
     const [savingHolidayLabels, setSavingHolidayLabels] = useState(false);
     const [holidayLabelsSaveMessage, setHolidayLabelsSaveMessage] = useState<string | null>(null);
     const [previewDate, setPreviewDate] = useState<string>(new Date().toISOString().split('T')[0]);
+
+    // Gift cards state
+    const [giftCards, setGiftCards] = useState<GiftCard[]>([]);
+    const [loadingGiftCards, setLoadingGiftCards] = useState(false);
+    const [savingGiftCard, setSavingGiftCard] = useState<string | null>(null);
+    const [giftCardMessage, setGiftCardMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+    const [editedGiftCardDates, setEditedGiftCardDates] = useState<Record<string, { startDate: string; endDate: string }>>({});
+    const [savingGiftCardDates, setSavingGiftCardDates] = useState(false);
 
     // Manual sync trigger using Express API
     const triggerSync = async () => {
@@ -263,6 +279,8 @@ export default function AdminPage() {
         } else if (activeTab === 'holidayHours') {
             fetchHoursData();
             fetchHolidayLabels();
+        } else if (activeTab === 'giftCards') {
+            fetchGiftCards();
         }
     }, [activeTab, isAuthorized]);
 
@@ -544,6 +562,79 @@ export default function AdminPage() {
         });
     };
 
+    // Fetch gift cards from Firestore
+    const fetchGiftCards = async () => {
+        setLoadingGiftCards(true);
+        try {
+            const giftcardsSnap = await getDocs(collection(db, 'giftcards'));
+            const cardsData = giftcardsSnap.docs.map(d => ({
+                id: d.id,
+                ...d.data()
+            })) as GiftCard[];
+            cardsData.sort((a, b) => a.label.localeCompare(b.label));
+            setGiftCards(cardsData);
+            const dates: Record<string, { startDate: string; endDate: string }> = {};
+            cardsData.forEach(c => { dates[c.id] = { startDate: c.startDate, endDate: c.endDate }; });
+            setEditedGiftCardDates(dates);
+        } catch (error) {
+            console.error('Error fetching gift cards:', error);
+        } finally {
+            setLoadingGiftCards(false);
+        }
+    };
+
+    // Toggle a gift card's enabled state
+    const toggleGiftCard = async (cardId: string) => {
+        const card = giftCards.find(c => c.id === cardId);
+        if (!card) return;
+        setSavingGiftCard(cardId);
+        setGiftCardMessage(null);
+        try {
+            const newEnabled = !card.enabled;
+            await updateDoc(doc(db, 'giftcards', cardId), {
+                enabled: newEnabled
+            });
+            setGiftCardMessage({ type: 'success', text: `${newEnabled ? 'Enabled' : 'Disabled'} "${card.label}".` });
+            await fetchGiftCards();
+        } catch (error) {
+            console.error('Error toggling gift card:', error);
+            setGiftCardMessage({ type: 'error', text: 'Failed to update gift card.' });
+        } finally {
+            setSavingGiftCard(null);
+        }
+    };
+
+    // Update local edited dates
+    const handleGiftCardDateChange = (cardId: string, field: 'startDate' | 'endDate', value: string) => {
+        setEditedGiftCardDates(prev => ({
+            ...prev,
+            [cardId]: { ...prev[cardId], [field]: value }
+        }));
+    };
+
+    // Save all gift card dates to Firestore
+    const saveGiftCardDates = async () => {
+        setSavingGiftCardDates(true);
+        setGiftCardMessage(null);
+        try {
+            for (const card of giftCards) {
+                const edited = editedGiftCardDates[card.id];
+                if (!edited) continue;
+                await updateDoc(doc(db, 'giftcards', card.id), {
+                    startDate: edited.startDate,
+                    endDate: edited.endDate
+                });
+            }
+            setGiftCardMessage({ type: 'success', text: 'Gift card dates saved successfully!' });
+            await fetchGiftCards();
+        } catch (error) {
+            console.error('Error saving gift card dates:', error);
+            setGiftCardMessage({ type: 'error', text: 'Failed to save dates.' });
+        } finally {
+            setSavingGiftCardDates(false);
+        }
+    };
+
     // Auth checks now handled by AdminRestricted wrapper
     if (loading) return null;
 
@@ -593,6 +684,9 @@ export default function AdminPage() {
                         </button>
                         <button onClick={() => setActiveTab('holidayHours')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'holidayHours' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
                             Holiday Hours
+                        </button>
+                        <button onClick={() => setActiveTab('giftCards')} className={`py-4 border-b-2 font-medium text-sm transition-colors ${activeTab === 'giftCards' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-stone-500 hover:text-stone-700'}`}>
+                            Gift Cards
                         </button>
                     </nav>
                 </div>
@@ -1215,6 +1309,91 @@ export default function AdminPage() {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Gift Cards Tab */}
+                {activeTab === 'giftCards' && (
+                    <div className="bg-white rounded-2xl shadow-lg p-8">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-xl font-semibold text-stone-800">Gift Cards</h2>
+                                <p className="text-stone-500 text-sm">Manage gift card themes and date ranges</p>
+                            </div>
+                            <button onClick={saveGiftCardDates} disabled={savingGiftCardDates} className={`px-6 py-2.5 rounded-xl font-medium transition-all ${savingGiftCardDates ? 'bg-stone-200 text-stone-400 cursor-not-allowed' : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm'}`}>
+                                {savingGiftCardDates ? 'Saving...' : 'Save Dates'}
+                            </button>
+                        </div>
+
+                        {giftCardMessage && (
+                            <div className={`mb-6 p-4 rounded-xl ${giftCardMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                                {giftCardMessage.text}
+                            </div>
+                        )}
+
+                        {loadingGiftCards ? (
+                            <div className="text-center py-12">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+                                <p className="text-stone-500">Loading gift cards...</p>
+                            </div>
+                        ) : giftCards.length === 0 ? (
+                            <div className="text-center py-12">
+                                <p className="text-stone-500">No gift cards found.</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                {giftCards.map(card => (
+                                    <div key={card.id} className={`border rounded-xl p-5 flex items-center justify-between transition-colors ${card.enabled ? 'border-emerald-300 bg-emerald-50' : 'border-stone-200'}`}>
+                                        <div>
+                                            <div className="flex items-center gap-3 mb-1">
+                                                <h3 className="font-semibold text-stone-800">{card.label}</h3>
+                                                {card.enabled ? (
+                                                    <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">Active</span>
+                                                ) : (
+                                                    <span className="px-2.5 py-0.5 bg-stone-100 text-stone-500 rounded-full text-xs font-medium">Inactive</span>
+                                                )}
+                                            </div>
+                                            <p className="text-sm text-stone-500 font-mono">{card.id}</p>
+                                            <div className="flex items-center gap-4 mt-2">
+                                                <div className="flex items-center gap-2">
+                                                    <label className="text-xs text-stone-500">Start:</label>
+                                                    <input
+                                                        type="text"
+                                                        value={editedGiftCardDates[card.id]?.startDate || card.startDate}
+                                                        onChange={(e) => handleGiftCardDateChange(card.id, 'startDate', e.target.value)}
+                                                        placeholder="MM-DD"
+                                                        className="w-20 px-2 py-1 text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                                    />
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <label className="text-xs text-stone-500">End:</label>
+                                                    <input
+                                                        type="text"
+                                                        value={editedGiftCardDates[card.id]?.endDate || card.endDate}
+                                                        onChange={(e) => handleGiftCardDateChange(card.id, 'endDate', e.target.value)}
+                                                        placeholder="MM-DD"
+                                                        className="w-20 px-2 py-1 text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => toggleGiftCard(card.id)}
+                                            disabled={savingGiftCard !== null}
+                                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${card.enabled ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700' : 'bg-stone-200 text-stone-500 hover:bg-emerald-100 hover:text-emerald-700'} disabled:opacity-50 disabled:cursor-not-allowed`}
+                                        >
+                                            {savingGiftCard === card.id ? (
+                                                <span className="animate-spin inline-block">↻</span>
+                                            ) : card.enabled ? (
+                                                'Enabled'
+                                            ) : (
+                                                'Disabled'
+                                            )}
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>

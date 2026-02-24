@@ -79,6 +79,18 @@ const PROMOS = [
     enabled: true // Now dynamically controlled
   },
   {
+    id: 6,
+    category: "E-GIFT CARDS",
+    title: "Give the Gift of Relaxation",
+    description: "Instant eGift Cards. The perfect present for any occasion. Physical cards available in store.",
+    buttonText: "Buy eGift Card",
+    image: "/promos/giftcard_box_standard.webp",
+    bgColor: "bg-[#F0EFF4] dark:bg-[#1F1E24]", // Light Lavender / Dark Slate
+    btnColor: "bg-[#6B5B8D] hover:bg-[#574a73] text-white",
+    requiredGiftCardId: 'default-giftcard',
+    enabled: true // Now dynamically controlled
+  },
+  {
     id: 3,
     category: "AROMATHERAPY",
     title: "Complimentary Aromatherapy",

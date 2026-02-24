@@ -85,20 +85,24 @@ const PriceList: React.FC = () => {
                         </p>
                     </div>
                     <div className="text-right flex flex-col items-end">
-                        <div className="flex items-center gap-3 mb-2">
-                            <span className="text-[#C85A5A] text-xs uppercase font-bold tracking-[0.2em]">
-                                Limited Time
-                            </span>
-                            <span className="bg-[#C85A5A] text-white text-xs uppercase font-bold px-4 py-1.5 rounded-full tracking-[0.2em] shadow-sm">
-                                Promotion
-                            </span>
-                        </div>
+                        {promoData.title && (
+                            <div className="flex items-center gap-3 mb-2">
+                                <span className="text-[#C85A5A] text-xs uppercase font-bold tracking-[0.2em]">
+                                    Limited Time
+                                </span>
+                                <span className="bg-[#C85A5A] text-white text-xs uppercase font-bold px-4 py-1.5 rounded-full tracking-[0.2em] shadow-sm">
+                                    Promotion
+                                </span>
+                            </div>
+                        )}
                         <p className="text-[#1a231f] font-serif uppercase tracking-[0.2em] text-2xl font-bold mb-1">
                             {promoData.title ? `${promoData.title} Price List` : 'Price List'}
                         </p>
-                        <p className="text-[#C85A5A] font-serif italic text-lg">
-                            {promoData.dateLabel}
-                        </p>
+                        {promoData.dateLabel && (
+                            <p className="text-[#C85A5A] font-serif italic text-lg">
+                                {promoData.dateLabel}
+                            </p>
+                        )}
                     </div>
                 </div>
 
